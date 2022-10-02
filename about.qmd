@@ -1,0 +1,12 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+I'm Jonas Moss, a statistics post doc at BI Norwegian Business School. I'm interested in programming, the replication crisis in psychology, theoretical statistics, forecasting, [effective altruism](www.centreforeffectivealtruism.org), and rationalism (as in [Lesswrong](https://www.lesserwrong.com/)).

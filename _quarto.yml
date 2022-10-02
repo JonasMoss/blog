@@ -1,0 +1,17 @@
+project:
+  type: website
+
+website:
+  title: "Jonas Moss' blog"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/JonasMoss
+format:
+  html:
+    theme: litera
+    css: styles.css
+
+editor: visual
+

@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonas Moss">
+
+<title>Jonas Moss’ blog - Estimating value from pairwise comparisons</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Jonas Moss’ blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonasMoss"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Estimating value from pairwise comparisons</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">effective altruism</div>
+                <div class="quarto-category">statistics</div>
+                <div class="quarto-category">psychometrics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jonas Moss </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Oct 2, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="cell">
+
+</div>
+<p>How can you estimate the value of research output? One way is to do pairwise comparisons, e.g., to ask specialists how much more valuable Darwin’s <em>The Original of Species</em> is than Dembski’s <a href="https://en.wikipedia.org/wiki/Intelligent_Design_(book)"><em>Intelligent Design</em></a>. You can use these relative valuations to estimate absolute valuations.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ol type="1">
+<li><p>Estimating values is hard. One way to elicit value estimates is ask researchers to compare to different items <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, asking how much better <span class="math inline">\(A\)</span> is than <span class="math inline">\(B\)</span>. This makes the problem more concrete than just asking “what is the value of <span class="math inline">\(A\)</span>?”. The Quantified Uncertainty Institute has made an app for doing this kind of thing, described <a href="https://forum.effectivealtruism.org/posts/9hQFfmbEiAoodstDA/simple-comparison-polling-to-create-utility-functions">here</a>.</p></li>
+<li><p>Nuño Sempere had a <a href="https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea">post</a> about eliciting comparisons of research value from <span class="math inline">\(6\)</span> effective altruism researchers.</p></li>
+<li><p>This post proposes some technical solutions to problems introduced to me in Nuño’s post. In particular, it includes principled ways to</p>
+<ol type="1">
+<li><p>Estimate subjective values,</p></li>
+<li><p>Measure consistency in pairwise value judgments,</p></li>
+<li><p>Measure agreement between the raters,</p></li>
+<li><p>Aggregate subjective values.</p></li>
+</ol></li>
+<li><p>I use these methods on the <a href="https://github.com/quantified-uncertainty/utility-function-extractor/blob/8ce1a4a8572ec692bc82d39a1bd983216fb0f136/data/">data from Nuño’s post</a>.</p></li>
+</ol>
+<p>I’m assuming you have read Nuño’s post recently. I think this post will be hard to read if you haven’t.</p>
+<p><strong><em>This is written as a self-contained Quarto file. I’ve hidden most of the <code>R</code> code to make it readable, but it’s available in <a href="https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/value-estimation.qmd">source</a>.</em></strong></p>
+<section id="whats-this-about" class="level3">
+<h3 class="anchored" data-anchor-id="whats-this-about">What’s this about</h3>
+<p>This table contains the <span class="math inline">\(36\)</span> responses from Gavin Leech. As you can see, he values Superintelligence <span class="math inline">\(100\)</span> more than the <a href="https://globalprioritiesinstitute.org/research-agenda-web-version/">Global Priorities Institute’s Research Agenda</a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 47%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">source</th>
+<th style="text-align: left;">target</th>
+<th style="text-align: left;">distance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">The Mathematical Theory of Communication</td>
+<td style="text-align: left;">1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Superintelligence</td>
+<td style="text-align: left;">The Mathematical Theory of Communication</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">The Vulnerable World Hypothesis</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Vulnerable World Hypothesis</td>
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A comment on setting up a charity</td>
+<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A comment on setting up a charity</td>
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A comment on setting up a charity</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reversals in Psychology</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">The Mathematical Theory of Communication</td>
+<td style="text-align: left;">1e+05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">1000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+<td style="text-align: left;">10000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thinking Fast and Slow</td>
+<td style="text-align: left;">The Mathematical Theory of Communication</td>
+<td style="text-align: left;">1e+05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+<td style="text-align: left;">Superintelligence</td>
+<td style="text-align: left;">100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>My first goal is to take relative value judgments such these and use them to estimate the true subjective values. In this case, I want to estimate the value that Gavin Leech places on every item in the table above, i.e.,</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 97%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">levels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">A comment on setting up a charity</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Reversals in Psychology</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Superintelligence</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">The Mathematical Theory of Communication</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">The Vulnerable World Hypothesis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">Thinking Fast and Slow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>where <em>Categorizing Variants of Goodhart’s Law</em> has value fixed to <span class="math inline">\(1\)</span>. I will use the number scheme above throughout the post.</p>
+</section>
+</section>
+<section id="a-model-with-multiplicative-error-terms" class="level2">
+<h2 class="anchored" data-anchor-id="a-model-with-multiplicative-error-terms">A model with multiplicative error terms</h2>
+<section id="motivation-and-setup" class="level3">
+<h3 class="anchored" data-anchor-id="motivation-and-setup">Motivation and setup</h3>
+<p>Let <span class="math inline">\(\eta_i\)</span> be the true subjective value of item <span class="math inline">\(i\)</span>, counting starting from <span class="math inline">\(1\)</span>. We will let <span class="math inline">\(\eta_3=1\)</span> in our setup, as Manheim and Garabrant’s <a href="https://arxiv.org/abs/1803.04585"><em>Categorizing Variants of Goodhart’s Law</em></a> was fixed to <span class="math inline">\(1\)</span> in Nuño’s study, but we could have fixed any other item if we wanted to. Ideally, we would have observed the “distances” <span class="math inline">\(d_{ij}=\eta_i/\eta_j\)</span> directly, but we don’t. Instead, we observe the distances with noise, <span class="math inline">\(\hat{d}_{ij}\)</span>. We’ll assume a multiplicative model for these noise measurements:</p>
+<p><span class="math display">\[
+\hat{d}_{ij} = \frac{\eta_i}{\eta_j}\cdot e^{\sigma \epsilon_{ij}},
+\]</span> where <span class="math inline">\(e^{\sigma \epsilon_{ij}}\)</span> is a positive noise term with standard deviation <span class="math inline">\(\sigma\)</span> on the log-scale. Now define <span class="math inline">\(Y_{ij} = \log \hat{d}_{ij}\)</span> and <span class="math inline">\(\beta_i = \log \eta_i\)</span>. Observe that <span class="math inline">\(\beta_3 = 0\)</span> by assumption. Now take logarimths on both sides of the equation above to get</p>
+<p><span class="math display">\[
+Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
+\]</span></p>
+<p>which is a linear regression model. It looks like a <a href="https://en.wikipedia.org/wiki/Two-way_analysis_of_variance">two-way analysis of variance</a>, but isn’t quite that, as we are only dealing with one factor here (the evaluated research) which appears twice in each equation. That said, the only difficulty in estimating this model is to make a model matrix for the regression coefficients.</p>
+</section>
+<section id="incidence-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="incidence-matrices">Incidence matrices</h3>
+<p>The questions Gavin answered in the table above can be understood as a directed graph; I’ll call it the <em>question graph</em>. Gavin’s question graph can be seen below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Directed graphs can be defined by their <a href="https://en.wikipedia.org/wiki/Incidence_matrix#Undirected_and_directed_graphs">incidence matrices</a>. If <span class="math inline">\(G\)</span> is a directed graph with <span class="math inline">\(k\)</span> nodes and <span class="math inline">\(n\)</span> edges its incidence matrix <span class="math inline">\(B\)</span> is the <span class="math inline">\(n\times k\)</span> matrix with elements <span class="math display">\[B_{ij}=\begin{cases}
+-1 &amp; \text{if edge }e_{j}\text{ leaves vertex }v_{i},\\
+1 &amp; \text{if edge }e_{j}\text{ enters vertex }v_{i},\\
+0 &amp; \text{otherwise.}
+\end{cases}\]</span></p>
+<p>For instance, Gavin’s incidence matrix is</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now we can verify that <span class="math display">\[Y = B^T\beta + \sigma \epsilon.\]</span> But there is one more thing to handle: We need to remove the fixed <span class="math inline">\(\beta\)</span>, in our case <span class="math inline">\(\beta_3\)</span>, to estimate the model. Define <span class="math inline">\(B_\star\)</span> and <span class="math inline">\(\beta_\star\)</span> as the incidence matrix and coefficient vector with the fixed item removed. Then <span class="math inline">\(Y = B_\star^T\beta_\star + \sigma \epsilon\)</span> is ready to be estimated using linear regression.</p>
+</section>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>We fit a linear regression to Gavin’s data. Here are the resulting estimates on the log-scale, rounded to the nearest whole number.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+<th style="text-align: right;">6</th>
+<th style="text-align: right;">7</th>
+<th style="text-align: right;">8</th>
+<th style="text-align: right;">9</th>
+<th style="text-align: right;">10</th>
+<th style="text-align: right;">11</th>
+<th style="text-align: right;">12</th>
+<th style="text-align: right;">13</th>
+<th style="text-align: right;">14</th>
+<th style="text-align: right;">15</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-10</td>
+<td style="text-align: right;">-8</td>
+<td style="text-align: right;">-5</td>
+<td style="text-align: right;">-7</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">-6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can also make confidence intervals for the questions using the <code>confint</code> function. Here’s a plot showing confidence intervals for all the <span class="math inline">\(\beta\)</span>s along with their estimates <span class="math inline">\(\hat{\beta}\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <span class="math inline">\(95\%\)</span> confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to <span class="math inline">\(1\)</span>. Let’s take a look at question 11, that of <a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication">Shannon’s A Mathematical Theory of Communication</a>. The confidence interval is <code>(135, 15022)</code> – that’s wide!</p>
+</section>
+<section id="all-the-raters" class="level3">
+<h3 class="anchored" data-anchor-id="all-the-raters">All the raters</h3>
+<p>The raters have IDs given in this table.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>linch  finn gavin jamie misha ozzie 
+    1     2     3     4     5     6 </code></pre>
+</div>
+</div>
+<p>We fit the model for all the raters and plot the resulting estimates.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It seems that the raters agree quite a bit.</p>
+</section>
+</section>
+<section id="measuring-agreement" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-agreement">Measuring agreement</h2>
+<p>One of the easiest and most popular ways to measure agreement among two raters is Lin’s concordance coefficient (aka quadratically weighted Cohen’s kappa). It has an unpublished multirater generalization <span class="math display">\[\frac{1^{T}\Sigma1-\text{tr}\Sigma}{(R-1)\text{tr}\Sigma+R^{2}\left(\overline{\mu^{2}}-\overline{\mu}^{2}\right)}\]</span> Where <span class="math inline">\(\Sigma\)</span> is the covariance matrix of the estimated log rating, <span class="math inline">\(\mu_i\)</span> is the mean log rating by the <span class="math inline">\(i\)</span>th rater, and <span class="math inline">\(R\)</span> is the number of raters. I can explain the reasoning behind this measure in more detail if you want, but it’s the essentially unique extension of Lin’s concordance coefficient to multiple raters, as several generalizations yield the same formula. It’s bounded above by <span class="math inline">\(1\)</span>, which signifies perfect agreement. It’s defined in a way that’s very similar to the <span class="math inline">\(R^2\)</span>, so it’s OK to interpret the numbers as you would have interpreted an <span class="math inline">\(R^2\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>concordance <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">nrow</span>(x)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">=</span> <span class="fu">ncol</span>(x)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">=</span> <span class="fu">cov</span>(x) <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">colMeans</span>(x)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  trace <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">diag</span>(sigma))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">=</span> <span class="fu">sum</span>(sigma) <span class="sc">-</span> trace</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  bottom <span class="ot">=</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> trace <span class="sc">+</span> r <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">mean</span>(mu<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(mu)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  top <span class="sc">/</span> bottom</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(<span class="fu">log</span>(parameters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.698547</code></pre>
+</div>
+</div>
+<p>I’m impressed by the level of agreement among the raters.</p>
+<p>We can also construct a matrix of pairwise agreements.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>concordances <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">Vectorize</span>(\(i,j) <span class="fu">concordance</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">log</span>(parameters)[, i], <span class="fu">log</span>(parameters)[, j]))))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>concordances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          linch      finn     gavin     jamie     misha     ozzie
+linch 1.0000000 0.5442018 0.7562977 0.7705449 0.7779404 0.7016672
+finn  0.5442018 1.0000000 0.4031429 0.5385316 0.4685602 0.5985986
+gavin 0.7562977 0.4031429 1.0000000 0.7237382 0.9106108 0.5996458
+jamie 0.7705449 0.5385316 0.7237382 1.0000000 0.8253265 0.8926464
+misha 0.7779404 0.4685602 0.9106108 0.8253265 1.0000000 0.7804517
+ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
+</div>
+</div>
+<p>Now we notice, e.g., that (i) Gavin agrees with Misha, (ii) Finn doesn’t agree much with anyone, (iii) Ozzie agrees with Jamie.</p>
+</section>
+<section id="identification-of-the-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="identification-of-the-parameters">Identification of the parameters</h2>
+<p>The parameters <span class="math inline">\(\beta_\star\)</span> are identified if and only if the question graph is connected. This has the practical consequence that the estimation is guaranteed to work whenever you design the question graph <em>well enough</em>. For instance, you do not need to think about avoiding cycles, having only one question per pair, etc.</p>
+<p>Now, it should be intuitively clear that <span class="math inline">\(\beta_\star\)</span> cannot be identified when the graph fails to be connected, as there is no point(s) anchoring the scale of every <span class="math inline">\(\beta\)</span>. Think about it this way. Suppose <span class="math inline">\(\beta_{1},\beta_{2},\beta_{4}\)</span> form a connected component disconnected from <span class="math inline">\(\beta_{3}\)</span>. If <span class="math inline">\(\beta_{1},\beta_{2},\beta_{4}\)</span> satisfy <span class="math inline">\(Y=B_{[1,2,4]}^{T}\beta_{[1,2,4]}+\sigma\epsilon\)</span>, where <span class="math inline">\([1,2,3]\)</span> denotes the appropriate indexing, then surely <span class="math inline">\(\gamma_{i}=\beta_{i}+c\)</span> does so too for any <span class="math inline">\(c\)</span>, as every row of <span class="math inline">\(B_\star^{T}\beta\)</span> is a difference <span class="math inline">\(\beta_{i}-\beta_{j}\)</span>, hence <span class="math inline">\(\gamma_{i}-\gamma_{j}=\beta_{i}+c-(\beta_{j}+c)=\beta_{i}-\beta_{j}\)</span>. The other way around is slightly trickier. It’s a theorem of algebraic graph theory that the rank of <span class="math inline">\(B\)</span> equals <span class="math inline">\(k-c\)</span>, where <span class="math inline">\(c\)</span> is the number of connected components. Suppose the graph is connected, so that the rank of <span class="math inline">\(B\)</span> is <span class="math inline">\(k-1\)</span>. Since <span class="math inline">\(B\)</span> does not have full rank (i.e., <span class="math inline">\(k\)</span>), every row can be written as a linear combination of two other rows. In particular, the row associated with the fixed element can be removed without affecting the rank, hence the rank of <span class="math inline">\(B_\star\)</span> is <span class="math inline">\(k-1\)</span> too. But there are <span class="math inline">\(k-1\)</span> rows in <span class="math inline">\(B_\star\)</span>, hence <span class="math inline">\(B_\star\)</span> has full rank. It follows that the parameters are identified.</p>
+</section>
+<section id="measuring-inconsistency" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-inconsistency">Measuring inconsistency</h2>
+<p>Recall the multiplicative equation for the reported distance: <span class="math display">\[D_{ij} = \frac{X_i}{X_j}\cdot e^{\sigma \epsilon_{ij}}\]</span> It’s clear that the distance will be noise-free if and only if <span class="math inline">\(\sigma = 0\)</span>. Moreover, the distances will behave more and more erratically the larger <span class="math inline">\(\sigma\)</span> gets. If the distances tend to have erratically, the valuations will be inconsistent. Thus it’s natural to consider inconsistency estimators that are strictly increasing functions of <span class="math inline">\(\sigma\)</span>. We’ll just use <span class="math inline">\(\sigma\)</span> for simplicity’s sake.</p>
+<p>The consistencies of our 6 player are</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">linch</th>
+<th style="text-align: right;">finn</th>
+<th style="text-align: right;">gavin</th>
+<th style="text-align: right;">jamie</th>
+<th style="text-align: right;">misha</th>
+<th style="text-align: right;">ozzie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">1.04</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">0.93</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>All of these are roughly the same, except Gavin’s. That might be surprising since Nuño claimed Gavin is the most consistent of the raters. His inconsistency score is probably unfavourable since he has some serious outliers in his ratings, not because he’s inconsistent across the board. Ratings <span class="math inline">\(33\)</span> and <span class="math inline">\(36\)</span> appear to be especially inconsistent.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Compared it to the same plot for Jaime Sevilla.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s see what happens if we remove the observations <span class="math inline">\(31, 33, 34, 36\)</span> from Gavin’s data then.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The residual plot looks better now, and the inconsistency score becomes <span class="math inline">\(\sigma \approx 0.87\)</span>, in line with the other participants.</p>
+<p>My take-away is that it would be beneficial to use robust linear regressions when estimating <span class="math inline">\(\beta\)</span>. I’m not prioritizing studying this right now, but if someone were to invest serious amount of time in studying and applying statistical methods for this problem, I would strongly suggest taking a look at e.g.&nbsp;<code>rlm</code>.</p>
+<section id="you-shouldnt-strive-for-consistency" class="level3">
+<h3 class="anchored" data-anchor-id="you-shouldnt-strive-for-consistency">You shouldn’t strive for consistency</h3>
+<p>Striving for consistency requires you to follow a method. For instance, you can write down or try hard to remember what you have answered on previous questions, then use the right formula to deduce a consistent answer. I would advice against doing this though. When you compare two items against each other, just follow the priming of the shown items and let the statistical method do its work! If you’re trying hard to be consistent you’ll probably introduce some sort of bias, as you’ll essentially make the ratings dependent on their ordering. Also see <a href="https://en.wikipedia.org/wiki/Wisdom_of_the_crowd#Analogues_with_individual_cognition:_the_%22crowd_within%22">the crowd within</a>. The value-elicitation framework is similar to psychometrics, where you want every measurement to be as independent of every other measurement as possible when you condition on the latent variables.</p>
+<p>I also see little reason to use algorithms that prohibits cyclical comparisons, as there is no statistical reason to avoid them. (Only a psychological one, if you feel like you have to be consistent.) It’s also fine the ask the same question more than once – at least if you add some addition correlation term into the model. And have some time distance between the questions.</p>
+</section>
+</section>
+<section id="aggregation" class="level2">
+<h2 class="anchored" data-anchor-id="aggregation">Aggregation</h2>
+<p>Suppose the vectors <span class="math inline">\(\beta_{j}\sim N(\beta,\tau I)\)</span> for some variance parameter <span class="math inline">\(\tau\)</span>. We wish to estimate the global mean <span class="math inline">\(\beta\)</span>. This can be done using mixed effects models. <span class="math display">\[\begin{eqnarray*}
+Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
+\beta_{j} &amp; = &amp; \beta+\tau\delta.
+\end{eqnarray*}\]</span></p>
+<p>Conceptually, this model implies that there is a true underlying <span class="math inline">\(\beta\)</span> for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of <span class="math inline">\(\beta\)</span>, which we call <span class="math inline">\(\beta_j\)</span>. Second, we only observe noisy measurements of <span class="math inline">\(\beta_j\)</span>s through our pairwise comparisons model.</p>
+<p>Using <code>lme4</code> I fit a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I’ve done.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
+Model failed to converge with max|grad| = 0.00216372 (tol = 0.002, component 1)</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The confidence intervals in the plot are reasonably sized, but remember the <span class="math inline">\(y\)</span>-axis is on the log-scale. Let’s take a look at the confidence interval for <em>A Mathematical Theory of Communication</em> again:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> 2.5 % 97.5 % 
+   198  57567 </code></pre>
+</div>
+</div>
+<p>The uncertainty of the aggregate value is smaller than that of Gavin’s subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
