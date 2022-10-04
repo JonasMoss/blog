@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/monolithic-education/monolithic-education.html",
       "/posts/alpha-and-omega/alpha-and-omega.html",
       "/posts/value-estimation/value-estimation.html"
     ]

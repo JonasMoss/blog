@@ -2,7 +2,7 @@
 title: "No one would have invented coefficient alpha today"
 author: "Jonas Moss"
 editor: visual
-date: "10/2/2022"
+date: "10/3/2022"
 date-format: "MMM D, YYYY"
 crossref:
   eq-prefix: eq.
@@ -10,7 +10,7 @@ categories: [statistics, psychometrics]
 bibliography: alpha-and-omega.bib
 ---
 
-Coefficient alpha is the most famous coefficient in psychometrics -- Cronbach's paper *[Coefficient alpha and the internal structure of tests](https://scholar.google.no/scholar?hl=en&as_sdt=0%2C5&q=Coefficient+alpha+and+the+internal+structure+of+tests&btnG=)* has been cited around $60,00$ times after all. It's supposed to measure *reliability*. What does that mean? Intuitively, a psychometric scale is supposed to measure some kind of psychological construct, such as intelligence, in a reliable way. You don't want it to be noisy. You don't want two intelligence tests administered at slightly different times to give widely different results. You also want the test to actually measure intelligence, and not something else, such emotionality. But that's validity, not reliability.
+Coefficient alpha is the most famous coefficient in psychometrics -- Cronbach's paper [*Coefficient alpha and the internal structure of tests*](https://scholar.google.no/scholar?hl=en&as_sdt=0%2C5&q=Coefficient+alpha+and+the+internal+structure+of+tests&btnG=) has been cited around $60,00$ times after all. It's supposed to measure *reliability*. What does that mean? Intuitively, a psychometric scale is supposed to measure some kind of psychological construct, such as intelligence, in a reliable way. You don't want it to be noisy. You don't want two intelligence tests administered at slightly different times to give widely different results. You also want the test to actually measure intelligence, and not something else, such emotionality. But that's validity, not reliability.
 
 In classical test theory they think about psychometric tests in the context of a true score $T$ and observed score $X$. Then they write $X = T +\epsilon$ for some error term $\epsilon$. (This is always possible). For instance, if $X$ is the observed score on an IQ test, $T$ is the true, underlying intelligence.
 
@@ -77,4 +77,3 @@ To sum up:
 I doubt anyone would have wanted to investigate alternatives to this 100% reasonable, simple, and efficient estimator. For why would they? It's like finding an alternative estimator of the $R^2$ that requires a little less computation power but is only consistent for the $R^2$ under extraordinarily unlikely assumptions.
 
 Maybe someone would have uncovered coefficient alpha today, but its discovery would be treated as a novelty, not something of widespread importance, worth $60,000$ citations.
-

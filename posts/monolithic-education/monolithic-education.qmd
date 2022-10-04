@@ -1,0 +1,38 @@
+---
+title: "Monolithic education"
+author: "Jonas Moss"
+editor: visual
+date: "10/4/2022"
+date-format: "MMM D, YYYY"
+crossref:
+  eq-prefix: eq.
+categories: [teaching, academia]
+---
+
+A course coordinator at the university has too many responsibilities. Instead of doing one thing, hopefully well, he must do four.
+
+1.  **Curriculum.** What should you teach the students? It's not possible for a non-expert to know what's important for him to learn; so an expert or group of expert is necessary here. But that person is not typically the same as the one who's best suited to teach.
+
+2.  **Teaching system.** How should the students learn whatever it is you want to teach? With lectures, guided exercise solution, class discussion, or something else? Maybe you should go for something along the lines [Bikini Calculus](https://www.amazon.com/How-Do-Girls-Bikini-Calculus/dp/B0006U6KIK).
+
+3.  **Teaching material.** Someone has to make the teaching material. And what should that look like? No matter what format you choose, this is a whole lot of work.
+
+4.  **Evaluation.** How should it be tested? All year round or just at a certain time and place? Should the students pay a fee for the exam? Can SRS be used somehow? Multiple choice?
+
+These four pillars are not separated enough in practice. Even though they are clearly distinct and require different talents and different interests.
+
+In high schools these components are, at least partly, at least in Norway, handled by different people. The curriculum is designed by the government. The teaching material is usually books, perhaps 2-3 to choose from for each subject. Evaluation is handled by the government. So you can, as a teacher, spend all your time teaching.
+
+In universities, on the other hand, one professor is often tasked with doing *everything*. Design the curriculum. Figure out the teaching system. Perhaps even develop his own teaching materials -- at the very least his own slides. And, of course, he must make his own exams.
+
+### On curriculum development
+
+I'm placing curriculum at the top of the list as it is both the most important and the most neglected. How often do you see students call for better curricula? If you ignore calls for anti-colonialization, probably never. But this is where you find the greatest potential for improvement. You'll often find that introductory math and engineering courses, for instance, follow a pattern that was well-established even back in the 80s. They involve giving lip service to intuitions and proofs, focussing the entirety of the curriculum on gaining enough practice with a couple of calculation techniques required to pass the exam. And why is that? Probably because someone has to make the exam, and the more "examy" stuff the students know, the easier it is to make one.
+
+Let's take a classical calculus course for example. A calculus course will often teach you how to solve integrals using partial fraction expansions. That is probably because it is a simple technique that does help you solve, by hand, a larger class of integrals than what you would have been able to had you not knowm it, thus expanding the pool of possible exercises to give the students at the exam. But does it actually help the student?
+
+Partial fraction expansion is not a "deep" part of integration, such as substitution and integration by parts. You need to learn these as they are essential both for conceptual understanding and most proofs. But partical fraction expansion is not. The student can use WolframAlpha when he's calculating integrals on his own.
+
+Designing a curriculum should involve carefully picking out the parts of a subject that are most important to understand and master in order to achieve a set of goals. The goals of calculus are, roughly, (i) to build mathematical maturity, (ii) to be comfortable with what limits, derivatives and integrals are, e.g., develop an inuitive understanding of why they are linear, (iii) understand their basic applications in optimization problems and physics, and then, (iv) to gain an intuition of what integrals are easy to calculate and when that matters.
+
+I've only spend 5 minutes thinking about these goals, and I'm open to counters. But calculus should not be about doing the maximal amount of integral calculations, competing in how fast you can use the chain rule, and so on.
