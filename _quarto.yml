@@ -3,6 +3,10 @@ project:
 
 website:
   title: "Jonas Moss' blog"
+  comments: 
+    hypothesis:
+      theme: clean
+      openSidebar: false
   navbar:
     right:
       - about.qmd
