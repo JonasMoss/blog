@@ -188,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">Oct 2, 2022</p>
+        <p class="date">Oct 5, 2022</p>
       </div>
     </div>
       
@@ -205,36 +205,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-1_57bd583d89e2074d2a1c37a5ab70589d">
 
 </div>
-<p>How can you estimate the value of research output? One way is to do pairwise comparisons, e.g., to ask specialists how much more valuable Darwin’s <em>The Original of Species</em> is than Dembski’s <a href="https://en.wikipedia.org/wiki/Intelligent_Design_(book)"><em>Intelligent Design</em></a>. You can use these relative valuations to estimate absolute valuations.</p>
+<p>How can you estimate the value of research output? You could use pairwise comparisons, e.g., to ask specialists how much more valuable Darwin’s <em>The Original of Species</em> is than Dembski’s <a href="https://en.wikipedia.org/wiki/Intelligent_Design_(book)"><em>Intelligent Design</em></a>. Then you can use these relative valuations to estimate absolute valuations.</p>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ol type="1">
-<li><p>Estimating values is hard. One way to elicit value estimates is ask researchers to compare to different items <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, asking how much better <span class="math inline">\(A\)</span> is than <span class="math inline">\(B\)</span>. This makes the problem more concrete than just asking “what is the value of <span class="math inline">\(A\)</span>?”. The Quantified Uncertainty Institute has made an app for doing this kind of thing, described <a href="https://forum.effectivealtruism.org/posts/9hQFfmbEiAoodstDA/simple-comparison-polling-to-create-utility-functions">here</a>.</p></li>
-<li><p>Nuño Sempere had a <a href="https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea">post</a> about eliciting comparisons of research value from <span class="math inline">\(6\)</span> effective altruism researchers.</p></li>
+<li><p>Estimating values is hard. One way to elicit value estimates is ask researchers to compare two different items <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, asking how much better <span class="math inline">\(A\)</span> is than <span class="math inline">\(B\)</span>. This makes the problem more concrete than just asking “what is the value of <span class="math inline">\(A\)</span>?”. The Quantified Uncertainty Institute has made an app for doing this kind of thing, described <a href="https://forum.effectivealtruism.org/posts/9hQFfmbEiAoodstDA/simple-comparison-polling-to-create-utility-functions">here</a>.</p></li>
+<li><p>Nuño Sempere had a <a href="https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea">post</a> about eliciting comparisons of research value from <span class="math inline">\(6\)</span> effective altruism researchers. <a href="https://forum.effectivealtruism.org/posts/EPhDMkovGquHtFq3h/an-experiment-eliciting-relative-estimates-for-open">This is</a> a more recent post about AI risk, but it uses distributions instead of point estimates.</p></li>
 <li><p>This post proposes some technical solutions to problems introduced to me in Nuño’s post. In particular, it includes principled ways to</p>
 <ol type="1">
 <li><p>Estimate subjective values,</p></li>
 <li><p>Measure consistency in pairwise value judgments,</p></li>
 <li><p>Measure agreement between the raters,</p></li>
 <li><p>Aggregate subjective values.</p></li>
+<li><p>Propose weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.</p></li>
 </ol></li>
 <li><p>I use these methods on the <a href="https://github.com/quantified-uncertainty/utility-function-extractor/blob/8ce1a4a8572ec692bc82d39a1bd983216fb0f136/data/">data from Nuño’s post</a>.</p></li>
 </ol>
 <p>I’m assuming you have read Nuño’s post recently. I think this post will be hard to read if you haven’t.</p>
-<p><strong><em>This is written as a self-contained Quarto file. I’ve hidden most of the <code>R</code> code to make it readable, but it’s available in <a href="https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/value-estimation.qmd">source</a>.</em></strong></p>
+<p><strong><em>Note:</em></strong> This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the <a href="https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/">source folder</a> for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!</p>
 <section id="whats-this-about" class="level3">
 <h3 class="anchored" data-anchor-id="whats-this-about">What’s this about</h3>
-<p>This table contains the <span class="math inline">\(36\)</span> responses from Gavin Leech. As you can see, he values Superintelligence <span class="math inline">\(100\)</span> more than the <a href="https://globalprioritiesinstitute.org/research-agenda-web-version/">Global Priorities Institute’s Research Agenda</a>.</p>
-<div class="cell">
+<p><a href="#tbl-gavin-6">Table&nbsp;1</a> contains the first <span class="math inline">\(6\)</span> out of <span class="math inline">\(36\)</span> responses from Gavin Leech. As you can see, he values Superintelligence <span class="math inline">\(100\)</span> more than the <a href="https://globalprioritiesinstitute.org/research-agenda-web-version/">Global Priorities Institute’s Research Agenda</a>.</p>
+<div class="cell" data-hash="value-estimation_cache/html/tbl-gavin-6_c389f29b6e2f9bb112c24fdea3d77370">
+<details>
+<summary>A list of questions in the data set.</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(gavin[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
+<div id="tbl-gavin-6" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table 1: First 6 questions Gavin answered.</caption>
 <colgroup>
-<col style="width: 47%">
-<col style="width: 47%">
-<col style="width: 4%">
+<col style="width: 43%">
+<col style="width: 48%">
+<col style="width: 7%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -274,174 +281,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
 <td style="text-align: left;">100</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
-<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">Thinking Fast and Slow</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Thinking Fast and Slow</td>
-<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
-<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
-<td style="text-align: left;">1000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
-<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
-<td style="text-align: left;">100</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">The Vulnerable World Hypothesis</td>
-<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
-<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
-<td style="text-align: left;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">1000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A comment on setting up a charity</td>
-<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A comment on setting up a charity</td>
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">200</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">20</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">50</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">50</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A comment on setting up a charity</td>
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">1000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Center for Election Science EA Wiki stub</td>
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">100</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Reversals in Psychology</td>
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">100</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Database of orgs relevant to longtermist/x-risk work</td>
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">100</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Thinking Fast and Slow</td>
-<td style="text-align: left;">The Mathematical Theory of Communication</td>
-<td style="text-align: left;">1e+05</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">What are some low-information priors that you find practically useful for thinking about the world?</td>
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">100</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Shallow evaluations of longtermist organizations</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Thinking Fast and Slow</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">1000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">The motivated reasoning critique of effective altruism</td>
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A Model of Patient Spending and Movement Building</td>
-<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Extinguishing or preventing coal seam fires is a potential cause area</td>
-<td style="text-align: left;">Categorizing Variants of Goodhart’s Law</td>
-<td style="text-align: left;">10000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Thinking Fast and Slow</td>
-<td style="text-align: left;">The Mathematical Theory of Communication</td>
-<td style="text-align: left;">1e+05</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">The Global Priorities Institute’s Research Agenda</td>
-<td style="text-align: left;">Superintelligence</td>
-<td style="text-align: left;">100</td>
-</tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>My first goal is to take relative value judgments such these and use them to estimate the true subjective values. In this case, I want to estimate the value that Gavin Leech places on every item in the table above, i.e.,</p>
-<div class="cell">
+</div>
+<p>My first goal is to take relative value judgments such these and use them to estimate the true subjective values. In this case, I want to estimate the value that Gavin Leech places on every article in the data set, as contained in <a href="#tbl-questions">Table&nbsp;2</a>.</p>
+<div class="cell" data-hash="value-estimation_cache/html/tbl-questions_0df214575ce124f25707fca4e6e5e92b">
+<details>
+<summary>A list of questions in the data set.</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(<span class="fu">c</span>(gavin<span class="sc">$</span>source, gavin<span class="sc">$</span>target)))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, levels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
+<div id="tbl-questions" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table 2: All <span class="math inline">\(15\)</span> articles valuated in the data set. Question <span class="math inline">\(3\)</span> is fixed to <span class="math inline">\(1\)</span>.</caption>
 <colgroup>
 <col style="width: 2%">
 <col style="width: 97%">
@@ -517,7 +372,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>where <em>Categorizing Variants of Goodhart’s Law</em> has value fixed to <span class="math inline">\(1\)</span>. I will use the number scheme above throughout the post.</p>
+</div>
+<p>The article <em>Categorizing Variants of Goodhart’s Law</em> has value fixed to <span class="math inline">\(1\)</span>. I will use the numbering above throughout this post.</p>
 </section>
 </section>
 <section id="a-model-with-multiplicative-error-terms" class="level2">
@@ -531,14 +387,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[
 Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 \]</span></p>
-<p>which is a linear regression model. It looks like a <a href="https://en.wikipedia.org/wiki/Two-way_analysis_of_variance">two-way analysis of variance</a>, but isn’t quite that, as we are only dealing with one factor here (the evaluated research) which appears twice in each equation. That said, the only difficulty in estimating this model is to make a model matrix for the regression coefficients.</p>
+<p>which is a linear regression model. It looks like a <a href="https://en.wikipedia.org/wiki/Two-way_analysis_of_variance">two-way analysis of variance</a>, but isn’t quite that, as we are only dealing with one factor here (the evaluated research) which appears twice in each equation. That said, the only difficulty in estimating this model is to make a model matrix for the regression coefficients. Observe that the residual standard deviation is fixed across items. We’ll take a look at how to reasonably relax this later on.</p>
 </section>
 <section id="incidence-matrices" class="level3">
 <h3 class="anchored" data-anchor-id="incidence-matrices">Incidence matrices</h3>
-<p>The questions Gavin answered in the table above can be understood as a directed graph; I’ll call it the <em>question graph</em>. Gavin’s question graph can be seen below.</p>
-<div class="cell">
+<p>The questions Gavin answered in the table above can be understood as a directed graph; I’ll call it the <em>question graph</em>. <a href="#fig-graph">Figure&nbsp;1</a> below contains Gavin’s question graph.</p>
+<div class="cell" data-hash="value-estimation_cache/html/fig-graph_f6139e4492100c40d1b975b6a4929b82">
+<details>
+<summary>Plotting question graph for Gavin.</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(<span class="fu">c</span>(gavin<span class="sc">$</span>source, gavin<span class="sc">$</span>target)))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>source <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(gavin<span class="sc">$</span>source, <span class="at">levels =</span> levels))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>target <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(gavin<span class="sc">$</span>target, <span class="at">levels =</span> levels))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_edgelist</span>(<span class="fu">cbind</span>(source, target))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(graph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="value-estimation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div id="fig-graph" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="value-estimation_files/figure-html/fig-graph-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 1: Question graph for Gavin.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Directed graphs can be defined by their <a href="https://en.wikipedia.org/wiki/Incidence_matrix#Undirected_and_directed_graphs">incidence matrices</a>. If <span class="math inline">\(G\)</span> is a directed graph with <span class="math inline">\(k\)</span> nodes and <span class="math inline">\(n\)</span> edges its incidence matrix <span class="math inline">\(B\)</span> is the <span class="math inline">\(n\times k\)</span> matrix with elements <span class="math display">\[B_{ij}=\begin{cases}
@@ -546,10 +415,25 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 1 &amp; \text{if edge }e_{j}\text{ enters vertex }v_{i},\\
 0 &amp; \text{otherwise.}
 \end{cases}\]</span></p>
-<p>For instance, Gavin’s incidence matrix is</p>
-<div class="cell">
+<p><a href="#tbl-incidence">Table&nbsp;3</a> contains Gavin’s incidence matrix.</p>
+<div class="cell" data-hash="value-estimation_cache/html/tbl-incidence_8c24310843db5c07f97ed5c07945e030">
+<details>
+<summary>Calculation of incidence matrix for Gavin.</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(gavin)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> k)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(n)) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  b[i, source[i]] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  b[i, target[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
+<div id="tbl-incidence" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table 3: Incidence matrix for Gavin.</caption>
 <colgroup>
 <col style="width: 2%">
 <col style="width: 2%">
@@ -1195,31 +1079,40 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 </table>
 </div>
 </div>
+</div>
 <p>Now we can verify that <span class="math display">\[Y = B^T\beta + \sigma \epsilon.\]</span> But there is one more thing to handle: We need to remove the fixed <span class="math inline">\(\beta\)</span>, in our case <span class="math inline">\(\beta_3\)</span>, to estimate the model. Define <span class="math inline">\(B_\star\)</span> and <span class="math inline">\(\beta_\star\)</span> as the incidence matrix and coefficient vector with the fixed item removed. Then <span class="math inline">\(Y = B_\star^T\beta_\star + \sigma \epsilon\)</span> is ready to be estimated using linear regression.</p>
 </section>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
-<p>We fit a linear regression to Gavin’s data. Here are the resulting estimates on the log-scale, rounded to the nearest whole number.</p>
-<div class="cell">
+<p>We fit a linear regression to Gavin’s data. <a href="#tbl-gavin-params">Table&nbsp;4</a> contains the resulting estimates on the log-scale, rounded to the nearest whole number.</p>
+<div class="cell" data-hash="value-estimation_cache/html/tbl-gavin-params_ff580e0132f2def4595f5e3c2586dac5">
+<details>
+<summary>Parameter estimates for Gavin.</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_model</span>(gavin, <span class="at">fixed =</span> <span class="dv">3</span>, <span class="at">keep_names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">coef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">q3 =</span> <span class="dv">0</span>, <span class="fu">coef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>]))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(vals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
+<div id="tbl-gavin-params" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table 4: Parameter estimates for Gavin.</caption>
 <thead>
 <tr class="header">
-<th style="text-align: right;">1</th>
-<th style="text-align: right;">2</th>
-<th style="text-align: right;">3</th>
-<th style="text-align: right;">4</th>
-<th style="text-align: right;">5</th>
-<th style="text-align: right;">6</th>
-<th style="text-align: right;">7</th>
-<th style="text-align: right;">8</th>
-<th style="text-align: right;">9</th>
-<th style="text-align: right;">10</th>
-<th style="text-align: right;">11</th>
-<th style="text-align: right;">12</th>
-<th style="text-align: right;">13</th>
-<th style="text-align: right;">14</th>
-<th style="text-align: right;">15</th>
+<th style="text-align: right;">q1</th>
+<th style="text-align: right;">q2</th>
+<th style="text-align: right;">q3</th>
+<th style="text-align: right;">q4</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q6</th>
+<th style="text-align: right;">q7</th>
+<th style="text-align: right;">q8</th>
+<th style="text-align: right;">q9</th>
+<th style="text-align: right;">q10</th>
+<th style="text-align: right;">q11</th>
+<th style="text-align: right;">q12</th>
+<th style="text-align: right;">q13</th>
+<th style="text-align: right;">q14</th>
+<th style="text-align: right;">q15</th>
 </tr>
 </thead>
 <tbody>
@@ -1244,10 +1137,29 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 </table>
 </div>
 </div>
-<p>We can also make confidence intervals for the questions using the <code>confint</code> function. Here’s a plot showing confidence intervals for all the <span class="math inline">\(\beta\)</span>s along with their estimates <span class="math inline">\(\hat{\beta}\)</span>.</p>
-<div class="cell">
+</div>
+<p>We can also make confidence intervals for the questions using the <code>confint</code> function. <a href="#fig-gavin-confint">Figure&nbsp;2</a> plots confidence intervals for all the <span class="math inline">\(\beta\)</span>s along with their estimates <span class="math inline">\(\hat{\beta}\)</span>.</p>
+<div class="cell" data-hash="value-estimation_cache/html/fig-gavin-confint_2f7ee180f931ae1f2067bc92f76a4fd4">
+<details>
+<summary>Plot of parametes and error bars.</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">confint</span>(mod))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>confints <span class="ot">=</span> <span class="fu">rbind</span>(exped[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), exped[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(confints) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">coef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>, <span class="fu">coef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>]), <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> confints[, <span class="dv">2</span>], <span class="at">yminus =</span> confints[, <span class="dv">1</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> confints[, <span class="dv">2</span>], <span class="at">yminus =</span> confints[, <span class="dv">1</span>],</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="value-estimation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div id="fig-gavin-confint" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="value-estimation_files/figure-html/fig-gavin-confint-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 2: Plot of parametes and error bars for Gavin.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The <span class="math inline">\(95\%\)</span> confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to <span class="math inline">\(1\)</span>. Let’s take a look at question 11, that of <a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication">Shannon’s A Mathematical Theory of Communication</a>. The confidence interval is <code>(135, 15022)</code> – that’s wide!</p>
@@ -1255,16 +1167,53 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 <section id="all-the-raters" class="level3">
 <h3 class="anchored" data-anchor-id="all-the-raters">All the raters</h3>
 <p>The raters have IDs given in this table.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>linch  finn gavin jamie misha ozzie 
-    1     2     3     4     5     6 </code></pre>
-</div>
-</div>
-<p>We fit the model for all the raters and plot the resulting estimates.</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-8_05bafe3fecdfc548444efdc5a3ed4b5d">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">names</span>(data_list))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="value-estimation_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">linch</th>
+<th style="text-align: right;">finn</th>
+<th style="text-align: right;">gavin</th>
+<th style="text-align: right;">jamie</th>
+<th style="text-align: right;">misha</th>
+<th style="text-align: right;">ozzie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We fit the model for all the raters and plot the resulting estimates in <a href="#fig-estimates">Figure&nbsp;3</a>. Notice the log-scale.</p>
+<div class="cell" data-hash="value-estimation_cache/html/fig-estimates_00571793e186746f191147433261cbb7">
+<details>
+<summary>Function for plotting results for all raters.</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">=</span> <span class="fu">sapply</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  data_list,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  \(data) {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    coefs <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(<span class="fu">pairwise_model</span>(data)))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(coefs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>, coefs[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(parameters, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">ylab =</span> <span class="st">"Values"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-estimates" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="value-estimation_files/figure-html/fig-estimates-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 3: Plot of parametes estimates for all raters.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>It seems that the raters agree quite a bit.</p>
@@ -1273,30 +1222,36 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 <section id="measuring-agreement" class="level2">
 <h2 class="anchored" data-anchor-id="measuring-agreement">Measuring agreement</h2>
 <p>One of the easiest and most popular ways to measure agreement among two raters is Lin’s concordance coefficient (aka quadratically weighted Cohen’s kappa). It has an unpublished multirater generalization <span class="math display">\[\frac{1^{T}\Sigma1-\text{tr}\Sigma}{(R-1)\text{tr}\Sigma+R^{2}\left(\overline{\mu^{2}}-\overline{\mu}^{2}\right)}\]</span> Where <span class="math inline">\(\Sigma\)</span> is the covariance matrix of the estimated log rating, <span class="math inline">\(\mu_i\)</span> is the mean log rating by the <span class="math inline">\(i\)</span>th rater, and <span class="math inline">\(R\)</span> is the number of raters. I can explain the reasoning behind this measure in more detail if you want, but it’s the essentially unique extension of Lin’s concordance coefficient to multiple raters, as several generalizations yield the same formula. It’s bounded above by <span class="math inline">\(1\)</span>, which signifies perfect agreement. It’s defined in a way that’s very similar to the <span class="math inline">\(R^2\)</span>, so it’s OK to interpret the numbers as you would have interpreted an <span class="math inline">\(R^2\)</span>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>concordance <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">nrow</span>(x)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">=</span> <span class="fu">ncol</span>(x)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">=</span> <span class="fu">cov</span>(x) <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">colMeans</span>(x)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  trace <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">diag</span>(sigma))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">=</span> <span class="fu">sum</span>(sigma) <span class="sc">-</span> trace</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  bottom <span class="ot">=</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> trace <span class="sc">+</span> r <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">mean</span>(mu<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(mu)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  top <span class="sc">/</span> bottom</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(<span class="fu">log</span>(parameters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-10_99a3c2c04d9998191fbe80270f840abb">
+<details>
+<summary>Calculate concordance of the parameters.</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>concordance <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">nrow</span>(x)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">=</span> <span class="fu">ncol</span>(x)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">=</span> <span class="fu">cov</span>(x) <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">colMeans</span>(x)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  trace <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">diag</span>(sigma))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">=</span> <span class="fu">sum</span>(sigma) <span class="sc">-</span> trace</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  bottom <span class="ot">=</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> trace <span class="sc">+</span> r <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">mean</span>(mu<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(mu)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  top <span class="sc">/</span> bottom</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(<span class="fu">log</span>(parameters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.698547</code></pre>
 </div>
 </div>
 <p>I’m impressed by the level of agreement among the raters.</p>
 <p>We can also construct a matrix of pairwise agreements.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>concordances <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">Vectorize</span>(\(i,j) <span class="fu">concordance</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">log</span>(parameters)[, i], <span class="fu">log</span>(parameters)[, j]))))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>concordances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-11_12fb7e0cbebfffc7c7fd3df199997277">
+<details>
+<summary>Defines the concordanc matrix using Lin’s coefficient.</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>concordances <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">Vectorize</span>(\(i,j) <span class="fu">concordance</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">log</span>(parameters)[, i], <span class="fu">log</span>(parameters)[, j]))))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>concordances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>          linch      finn     gavin     jamie     misha     ozzie
 linch 1.0000000 0.5442018 0.7562977 0.7705449 0.7779404 0.7016672
@@ -1318,7 +1273,12 @@ ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
 <h2 class="anchored" data-anchor-id="measuring-inconsistency">Measuring inconsistency</h2>
 <p>Recall the multiplicative equation for the reported distance: <span class="math display">\[D_{ij} = \frac{X_i}{X_j}\cdot e^{\sigma \epsilon_{ij}}\]</span> It’s clear that the distance will be noise-free if and only if <span class="math inline">\(\sigma = 0\)</span>. Moreover, the distances will behave more and more erratically the larger <span class="math inline">\(\sigma\)</span> gets. If the distances tend to have erratically, the valuations will be inconsistent. Thus it’s natural to consider inconsistency estimators that are strictly increasing functions of <span class="math inline">\(\sigma\)</span>. We’ll just use <span class="math inline">\(\sigma\)</span> for simplicity’s sake.</p>
 <p>The consistencies of our 6 player are</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-12_d6476fb8353488b35dc38016ed5b70d0">
+<details>
+<summary>Defines the consistencies of all raters.</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>consistencies <span class="ot">=</span> <span class="fu">lapply</span>(data_list, \(data) <span class="fu">summary</span>(<span class="fu">pairwise_model</span>(data))<span class="sc">$</span>sigma)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tibble<span class="sc">::</span><span class="fu">as_tibble</span>(consistencies), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
@@ -1345,19 +1305,23 @@ ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
 </div>
 </div>
 <p>All of these are roughly the same, except Gavin’s. That might be surprising since Nuño claimed Gavin is the most consistent of the raters. His inconsistency score is probably unfavourable since he has some serious outliers in his ratings, not because he’s inconsistent across the board. Ratings <span class="math inline">\(33\)</span> and <span class="math inline">\(36\)</span> appear to be especially inconsistent.</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-13_27320c0745915eada9d1bc4c1f15a74e">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod, <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="value-estimation_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Compared it to the same plot for Jaime Sevilla.</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-14_91db77df51d7185d50f1f971212855fc">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(jamie), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Jaime"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="value-estimation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Let’s see what happens if we remove the observations <span class="math inline">\(31, 33, 34, 36\)</span> from Gavin’s data then.</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-15_ac68e75f24a49ba18e79e668903b796b">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gavin_ <span class="ot">&lt;-</span> gavin[<span class="fu">setdiff</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(gavin)), <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)), ]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(gavin_), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin with outliers removed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="value-estimation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1372,29 +1336,115 @@ ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
 </section>
 <section id="aggregation" class="level2">
 <h2 class="anchored" data-anchor-id="aggregation">Aggregation</h2>
-<p>Suppose the vectors <span class="math inline">\(\beta_{j}\sim N(\beta,\tau I)\)</span> for some variance parameter <span class="math inline">\(\tau\)</span>. We wish to estimate the global mean <span class="math inline">\(\beta\)</span>. This can be done using mixed effects models. <span class="math display">\[\begin{eqnarray*}
+<p>We estimate <span class="math inline">\(\beta\)</span> using a mixed effect model. <span class="math display">\[\begin{eqnarray*}
 Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
-\beta_{j} &amp; = &amp; \beta+\tau\delta.
+\beta_{j} &amp; \sim &amp; N(\beta,\Sigma).
 \end{eqnarray*}\]</span></p>
-<p>Conceptually, this model implies that there is a true underlying <span class="math inline">\(\beta\)</span> for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of <span class="math inline">\(\beta\)</span>, which we call <span class="math inline">\(\beta_j\)</span>. Second, we only observe noisy measurements of <span class="math inline">\(\beta_j\)</span>s through our pairwise comparisons model.</p>
-<p>Using <code>lme4</code> I fit a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I’ve done.</p>
-<div class="cell">
+<p>Conceptually, this model implies that there is a true underlying <span class="math inline">\(\beta\)</span> for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of <span class="math inline">\(\beta\)</span>, which we call <span class="math inline">\(\beta_j\)</span>. Second, we only observe noisy measurements of <span class="math inline">\(\beta_j\)</span>s through our pairwise comparisons model. The matrix <span class="math inline">\(\Sigma\)</span> can be constrained to be diagonal, which makes estimation go faster.</p>
+<p>Using <code>lme4</code>, I made a function <code>pairwise_mixed_model</code> that fits a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I’ve done.</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-16_480885219afb68bfd437a3b1ab6319e6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
-Model failed to converge with max|grad| = 0.00216372 (tol = 0.002, component 1)</code></pre>
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
+</div>
+<p>Using the <code>mod</code> object, we can plot (<a href="#fig-conf-uncorrelated">Figure&nbsp;4</a>) confidence intervals and estimates for the aggregate ratings.</p>
+<div class="cell" data-hash="value-estimation_cache/html/fig-conf-uncorrelated_663f8da79edf0de2d6fdb0bde15c3fa2">
+<details>
+<summary>Defines confidence intervals and estimates used for plotting.</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="value-estimation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div id="fig-conf-uncorrelated" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="value-estimation_files/figure-html/fig-conf-uncorrelated-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 4: Confidence bars mixed effects model with uncorrelated random effects.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The confidence intervals in the plot are reasonably sized, but remember the <span class="math inline">\(y\)</span>-axis is on the log-scale. Let’s take a look at the confidence interval for <em>A Mathematical Theory of Communication</em> again:</p>
-<div class="cell">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-18_2c94d3f5eaa39aa8a3bacae67e774734">
+<details>
+<summary>Confidence interval for Mathematical Theory of Communication with uncorrelated random effects.</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ])[<span class="dv">10</span>, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code> 2.5 % 97.5 % 
-   198  57567 </code></pre>
+    44  10740 </code></pre>
 </div>
 </div>
-<p>The uncertainty of the aggregate value is smaller than that of Gavin’s subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure.</p>
+<p>The uncertainty of the aggregate value is smaller than that of Gavin’s subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure. But there is also a counterfactual aspect here. It’s hard to say how quickly someone else would’ve invented information theory weren’t it for <em>A Mathematical Theory</em>. Different “concepts” about counterfactuals could potentially lead to different true <span class="math inline">\(\beta\)</span>s, as some readers consider them and some don’t. (See <a href="https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea">Linch’s comment</a>)</p>
+<section id="using-correlated-random-effects" class="level3">
+<h3 class="anchored" data-anchor-id="using-correlated-random-effects">Using correlated random effects</h3>
+<p>We can run a model with correlated random effects too.</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-19_07f9dda6ffb5b55d827bd5dd638a1dd2">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>, <span class="at">uncorrelated =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+</div>
+<p>The corresponding plot (<a href="#fig-conf-correlated">Figure&nbsp;5</a>) is similar but not indistinguishable from <a href="#fig-conf-uncorrelated">Figure&nbsp;4</a>. The confidence intervals appear to smaller, but I don’t know if this is an estimation artifact or not. I also don’t know which model is better. Or if it will ever matter in practice which you use, but the uncorrelated model is faster to fit, as the correlated takes a couple of seconds. And that might matter in a production setting.</p>
+<div class="cell" data-hash="value-estimation_cache/html/fig-conf-correlated_3f88a2b26f557ba9907135927d989965">
+<details>
+<summary>Defines confidence intervals and estimates used for plotting.</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[(<span class="dv">120</span> <span class="sc">-</span> <span class="dv">13</span>)<span class="sc">:</span><span class="dv">120</span>, ]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span>  <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-conf-correlated" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="value-estimation_files/figure-html/fig-conf-correlated-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 5: Confidence bars mixed effects model with correlated random effects.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The resulting confidence interval for <em>A Mathematical Theory of Communication</em> gets smaller now.</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-21_4ac1c78e6876bc3d42771707856b58c4">
+<details>
+<summary>Confidence interval for Mathematical Theory of Communication with correlated random effects.</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">116</span>, ]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> 2.5 % 97.5 % 
+    68   9602 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="incorporating-uncertainty" class="level2">
+<h2 class="anchored" data-anchor-id="incorporating-uncertainty">Incorporating uncertainty</h2>
+<p>Instead of rating the ratio <span class="math inline">\(\eta_i/\eta_j\)</span> with a number, you might want give a distribution over <span class="math inline">\(\eta_i/\eta_j\)</span>, indicating your uncertainty, as done in e.g.&nbsp;<a href="https://forum.effectivealtruism.org/posts/EPhDMkovGquHtFq3h/an-experiment-eliciting-relative-estimates-for-open">this post</a>. How could we work with such uncertain measurements? One possibility is to extract a log-mean and log-standard deviation from the distributions and then use the same method as I’ve described, but with weighted least squares instead of least squares. The weights will be <span class="math inline">\(1/\sigma_{ij}\)</span>, where <span class="math inline">\(\sigma_{ij}\)</span> are the log-standard deviations of the distributions.</p>
+<p>The formal reasoning behind this proposal goes as follows. If <span class="math inline">\(\eta_i/\eta_j\)</span> is log-normal with some log-mean <span class="math inline">\(\mu_{ij}\)</span> and standard deviation <span class="math inline">\(\sigma_{ij}\)</span>, its logarithm is normal with mean <span class="math inline">\(\mu_{ij}\)</span> and standard deviation <span class="math inline">\(\sigma_{ij}\)</span>. This model implies that</p>
+<p><span class="math display">\[
+\frac{\eta_i}{\eta_j} = e^{\mu_{ij}}e^{\sigma_{ij}\cdot\epsilon_{ij}},
+\]</span></p>
+<p>for some normally distributed <span class="math inline">\(\epsilon_{ij}\)</span>. Taking logarithms on both sides, we obtain</p>
+<p><span class="math display">\[
+\beta_i - \beta_j = \mu_{ij} + \sigma_{ij}\epsilon_{ij}.
+\]</span></p>
+<p>Since <span class="math inline">\(\epsilon_{ij}\)</span> is symmetric around <span class="math inline">\(0\)</span>, we have <span class="math inline">\(\mu_{ij} = \beta_i - \beta_j + \sigma_{ij}\epsilon_{ij}\)</span>. If we add the “safety measure constant” <span class="math inline">\(\psi\)</span>, with</p>
+<p><span id="eq-modelsigma_ij"><span class="math display">\[\mu_{ij} = \beta_i - \beta_j  + \psi\sigma_{ij}\epsilon_{ij}, \tag{1}\]</span></span> this is a <a href="https://en.wikipedia.org/wiki/Weighted_least_squares">weighted least squares problem</a>, with weights equal to <span class="math inline">\(1/\sigma_{ij}\)</span> and residual standard deviation <span class="math inline">\(\psi\)</span>. It’s not clear to me if distributions are worth it.</p>
+<p>In the summary I wrote that it’s not clear to me that it’s worth it to ask for distributions in pairwise comparisons, as your uncertainty level can be modeled implicitly by comparing different pairwise comparisons. What does this mean? Let’s simplify the model in <a href="#eq-modelsigma_ij">Equation&nbsp;1</a> so it contains two error terms, <span class="math inline">\(\sigma_i\)</span> and <span class="math inline">\(\sigma_j\)</span>, one belonging to each question.</p>
+<p><span id="eq-modelsigma_isigma_j"><span class="math display">\[\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}. \tag{2}\]</span></span></p>
+<p>This models allows you to have different uncertainties for different items, but doesn’t allow for idiosyncratic errors depending on interactions between the <span class="math inline">\(i\)</span>th and <span class="math inline">\(j\)</span>th items. Estimation of the model in <a href="#eq-modelsigma_isigma_j">Equation&nbsp;2</a> easy to do efficiently, but I haven’t looked at the details. An idea would be to use the equation <span class="math inline">\(\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}\)</span> and iteratively refit weighted least squares models.</p>
 
 
 </section>

@@ -3,79 +3,15 @@ title: "Estimating value from pairwise comparisons"
 author: "Jonas Moss"
 format: html
 editor: visual
-date: "10/2/2022"
+date: "10/5/2022"
+freeze: auto  # re-render only when source changes
+cache: true
 date-format: "MMM D, YYYY"
 categories: [effective altruism, statistics, psychometrics]
 ---
 
 ```{r}
 #| echo: false
-make_frame <- function(data, fixed = 3, keep_names = FALSE) {
-  levels <- levels(as.factor(c(data$source, data$target)))
-  data$source <- factor(data$source, levels = levels)
-  data$target <- factor(data$target, levels = levels)
-  data$distance <- as.numeric(data$distance)
-  source <- as.numeric(data$source)
-  target <- as.numeric(data$target)
-
-  k <- length(levels)
-  n <- nrow(data)
-  d <- matrix(data = 0, nrow = n, ncol = k)
-
-  for (i in seq(n)) {
-    d[i, source[i]] <- -1
-    d[i, target[i]] <- 1
-  }
-
-  selection <- setdiff(seq(k), fixed)
-  d_star <- d[, selection]
-  y <- log(as.numeric(data$distance))
-  data_frame <- data.frame(y, d_star)
-  if (keep_names) {
-    colnames(data_frame) <- c("distance", levels[selection])
-  } else {
-    colnames(data_frame) <- c("distance", seq(k)[selection])
-  }
-  data_frame
-}
-
-pairwise_mixed_model <- function(data, fixed = 3) {
-  names <- names(data_list)
-  model_list <- lapply(seq_along(data_list), \(i) {
-    frame <- make_frame(data_list[[i]], fixed)
-    cbind(frame, subject = names[i])
-  })
-  big_frame <- do.call(rbind, model_list)
-  colnames(big_frame) <- c(
-    "distance",
-    c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"),
-    "subject")
-  mod <- lme4::lmer(distance ~ a + b + c + d + e + f + g +h +i + j + k + l + m + n + 0 +
-               (0 + a|subject) +
-               (0 + b|subject) +
-               (0 + c|subject) +
-               (0 + d|subject) +
-               (0 + e|subject) +
-               (0 + f|subject) +
-               (0 + g|subject) +
-               (0 + h|subject) +
-               (0 + i|subject) +
-               (0 + j|subject) +
-               (0 + k|subject) +
-               (0 + l|subject) +
-               (0 + m|subject) +
-               (0 + n|subject)
-               , data = big_frame, REML = TRUE)
-  mod
-
-}
-
-
-pairwise_model <- function(data, fixed = 3, keep_names = FALSE, estimator = lm) {
-  data_frame <- make_frame(data, fixed = fixed, keep_names = keep_names)
-  estimator(distance ~ . - 1, data = data_frame)
-}
-
 data_list <- list(
   linch = jsonlite::fromJSON("raw_data/linch-zhang.json"),
   finn = jsonlite::fromJSON("raw_data/finn-moorhouse.json"),
@@ -85,15 +21,20 @@ data_list <- list(
   ozzie = jsonlite::fromJSON("raw_data/ozzie-gooen.json")
 )
 
+gavin <- data_list$gavin
+jamie <- data_list$jamie
+
+source("value-estimation-functions.R")
+
 ```
 
-How can you estimate the value of research output? One way is to do pairwise comparisons, e.g., to ask specialists how much more valuable Darwin's *The Original of Species* is than Dembski's [*Intelligent Design*](https://en.wikipedia.org/wiki/Intelligent_Design_(book)). You can use these relative valuations to estimate absolute valuations.
+How can you estimate the value of research output? You could use pairwise comparisons, e.g., to ask specialists how much more valuable Darwin's *The Original of Species* is than Dembski's [*Intelligent Design*](https://en.wikipedia.org/wiki/Intelligent_Design_(book)). Then you can use these relative valuations to estimate absolute valuations.
 
 ## Summary
 
-1.  Estimating values is hard. One way to elicit value estimates is ask researchers to compare to different items $A$ and $B$, asking how much better $A$ is than $B$. This makes the problem more concrete than just asking "what is the value of $A$?". The Quantified Uncertainty Institute has made an app for doing this kind of thing, described [here](https://forum.effectivealtruism.org/posts/9hQFfmbEiAoodstDA/simple-comparison-polling-to-create-utility-functions).
+1.  Estimating values is hard. One way to elicit value estimates is ask researchers to compare two different items $A$ and $B$, asking how much better $A$ is than $B$. This makes the problem more concrete than just asking "what is the value of $A$?". The Quantified Uncertainty Institute has made an app for doing this kind of thing, described [here](https://forum.effectivealtruism.org/posts/9hQFfmbEiAoodstDA/simple-comparison-polling-to-create-utility-functions).
 
-2.  Nuño Sempere had a [post](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea) about eliciting comparisons of research value from $6$ effective altruism researchers.
+2.  Nuño Sempere had a [post](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea) about eliciting comparisons of research value from $6$ effective altruism researchers. [This is](https://forum.effectivealtruism.org/posts/EPhDMkovGquHtFq3h/an-experiment-eliciting-relative-estimates-for-open) a more recent post about AI risk, but it uses distributions instead of point estimates.
 
 3.  This post proposes some technical solutions to problems introduced to me in Nuño's post. In particular, it includes principled ways to
 
@@ -104,33 +45,39 @@ How can you estimate the value of research output? One way is to do pairwise com
     3.  Measure agreement between the raters,
 
     4.  Aggregate subjective values.
+    
+    5.  Propose weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.
 
 4.  I use these methods on the [data from Nuño's post](https://github.com/quantified-uncertainty/utility-function-extractor/blob/8ce1a4a8572ec692bc82d39a1bd983216fb0f136/data/).
 
 I'm assuming you have read Nuño's post recently. I think this post will be hard to read if you haven't.
 
-***This is written as a self-contained Quarto file. I've hidden most of the `R` code to make it readable, but it's available in [source](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/value-estimation.qmd).***
+***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!
 
 ### What's this about
 
-This table contains the $36$ responses from Gavin Leech. As you can see, he values Superintelligence $100$ more than the [Global Priorities Institute's Research Agenda](https://globalprioritiesinstitute.org/research-agenda-web-version/).
+[@tbl-gavin-6] contains the first $6$ out of $36$ responses from Gavin Leech. As you can see, he values Superintelligence $100$ more than the [Global Priorities Institute's Research Agenda](https://globalprioritiesinstitute.org/research-agenda-web-version/).
 
 ```{r}
-#| echo: false
-gavin <- data_list$gavin
-knitr::kable(gavin[, 1:3])
+#| code-fold: true
+#| label: tbl-gavin-6
+#| tbl-cap: First 6 questions Gavin answered.
+#| code-summary: "A list of questions in the data set."
+knitr::kable(head(gavin[, 1:3]))
 ```
 
-My first goal is to take relative value judgments such these and use them to estimate the true subjective values. In this case, I want to estimate the value that Gavin Leech places on every item in the table above, i.e.,
+My first goal is to take relative value judgments such these and use them to estimate the true subjective values. In this case, I want to estimate the value that Gavin Leech places on every article in the data set, as contained in [@tbl-questions].
 
 ```{r}
-#| echo: false
-gavin <- data_list$gavin
+#| code-fold: true
+#| label: tbl-questions
+#| tbl-cap: All $15$ articles valuated in the data set. Question $3$ is fixed to $1$.
+#| code-summary: "A list of questions in the data set."
 levels <- levels(as.factor(c(gavin$source, gavin$target)))
 knitr::kable(cbind(1:15, levels))
 ```
 
-where *Categorizing Variants of Goodhart's Law* has value fixed to $1$. I will use the number scheme above throughout the post.
+The article *Categorizing Variants of Goodhart's Law* has value fixed to $1$. I will use the numbering above throughout this post.
 
 ## A model with multiplicative error terms
 
@@ -146,24 +93,21 @@ $$
 Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 $$
 
-which is a linear regression model. It looks like a [two-way analysis of variance](https://en.wikipedia.org/wiki/Two-way_analysis_of_variance), but isn't quite that, as we are only dealing with one factor here (the evaluated research) which appears twice in each equation. That said, the only difficulty in estimating this model is to make a model matrix for the regression coefficients.
+which is a linear regression model. It looks like a [two-way analysis of variance](https://en.wikipedia.org/wiki/Two-way_analysis_of_variance), but isn't quite that, as we are only dealing with one factor here (the evaluated research) which appears twice in each equation. That said, the only difficulty in estimating this model is to make a model matrix for the regression coefficients. Observe that the residual standard deviation is fixed across items. We'll take a look at how to reasonably relax this later on.
 
 ### Incidence matrices
 
-The questions Gavin answered in the table above can be understood as a directed graph; I'll call it the *question graph*. Gavin's question graph can be seen below.
+The questions Gavin answered in the table above can be understood as a directed graph; I'll call it the *question graph*. [@fig-graph] below contains Gavin's question graph.
 
 ```{r}
-#| echo: false
-suppressMessages(suppressWarnings(library("igraph")))
-
+#| code-fold: true
+#| code-summary: "Plotting question graph for Gavin."
+#| label: fig-graph
+#| fig-cap: "Question graph for Gavin." 
 levels <- levels(as.factor(c(gavin$source, gavin$target)))
-gavin$source <- factor(gavin$source, levels = levels)
-gavin$target <- factor(gavin$target, levels = levels)
-gavin$distance <- as.numeric(gavin$distance)
-source <- as.numeric(gavin$source)
-target <- as.numeric(gavin$target)
-
-graph <- graph_from_edgelist(cbind(source, target))
+source <- as.numeric(factor(gavin$source, levels = levels))
+target <- as.numeric(factor(gavin$target, levels = levels))
+graph <- igraph::graph_from_edgelist(cbind(source, target))
 plot(graph)
 ```
 
@@ -173,10 +117,13 @@ Directed graphs can be defined by their [incidence matrices](https://en.wikipedi
 0 & \text{otherwise.}
 \end{cases}$$
 
-For instance, Gavin's incidence matrix is
+[@tbl-incidence] contains Gavin's incidence matrix.
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Calculation of incidence matrix for Gavin."
+#| label: tbl-incidence
+#| tbl-cap: Incidence matrix for Gavin.
 
 n <- nrow(gavin)
 k <- 15
@@ -194,22 +141,25 @@ Now we can verify that $$Y = B^T\beta + \sigma \epsilon.$$ But there is one more
 
 ### Example
 
-We fit a linear regression to Gavin's data. Here are the resulting estimates on the log-scale, rounded to the nearest whole number.
+We fit a linear regression to Gavin's data. [@tbl-gavin-params] contains the resulting estimates on the log-scale, rounded to the nearest whole number.
 
 ```{r}
-#| echo: false
-mod <- pairwise_model(gavin, fixed = 3, keep_names = TRUE)
-vals <- round(t(unname(c(coef(mod)[1:2], 
-                     c("Categorizing Variants of Goodhart's Law" = 0),
-                     coef(mod)[3:14]))))
-colnames(vals) <- 1:15
-knitr::kable(vals)
+#| code-fold: true
+#| code-summary: "Parameter estimates for Gavin."
+#| label: tbl-gavin-params
+#| tbl-cap: Parameter estimates for Gavin.
+mod <- pairwise_model(gavin, fixed = 3, keep_names = FALSE)
+vals <- round(c(coef(mod)[1:2], q3 = 0, coef(mod)[3:14]))
+knitr::kable(t(vals))
 ```
 
-We can also make confidence intervals for the questions using the `confint` function. Here's a plot showing confidence intervals for all the $\beta$s along with their estimates $\hat{\beta}$.
+We can also make confidence intervals for the questions using the `confint` function. [@fig-gavin-confint] plots confidence intervals for all the $\beta$s along with their estimates $\hat{\beta}$.
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Plot of parametes and error bars."
+#| label: fig-gavin-confint
+#| fig-cap: "Plot of parametes and error bars for Gavin." 
 exped = exp(confint(mod))
 confints = rbind(exped[1:2, ], c(1, 1), exped[3:14, ])
 rownames(confints) <- 1:15
@@ -229,16 +179,17 @@ The $95\%$ confidence intervals are approximately equally wide on the log-scale,
 The raters have IDs given in this table.
 
 ```{r}
-#| echo: false
-x <- 1:6
-names(x) = names(data_list)
-x
+x <- setNames(1:6, names(data_list))
+knitr::kable(t(x))
 ```
 
-We fit the model for all the raters and plot the resulting estimates.
+We fit the model for all the raters and plot the resulting estimates in [@fig-estimates]. Notice the log-scale. 
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Function for plotting results for all raters."
+#| label: fig-estimates
+#| fig-cap: "Plot of parametes estimates for all raters." 
 parameters = sapply(
   data_list,
   \(data) {
@@ -255,6 +206,8 @@ It seems that the raters agree quite a bit.
 One of the easiest and most popular ways to measure agreement among two raters is Lin's concordance coefficient (aka quadratically weighted Cohen's kappa). It has an unpublished multirater generalization $$\frac{1^{T}\Sigma1-\text{tr}\Sigma}{(R-1)\text{tr}\Sigma+R^{2}\left(\overline{\mu^{2}}-\overline{\mu}^{2}\right)}$$ Where $\Sigma$ is the covariance matrix of the estimated log rating, $\mu_i$ is the mean log rating by the $i$th rater, and $R$ is the number of raters. I can explain the reasoning behind this measure in more detail if you want, but it's the essentially unique extension of Lin's concordance coefficient to multiple raters, as several generalizations yield the same formula. It's bounded above by $1$, which signifies perfect agreement. It's defined in a way that's very similar to the $R^2$, so it's OK to interpret the numbers as you would have interpreted an $R^2$.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Calculate concordance of the parameters."
 concordance = function(x) {
   n = nrow(x)
   r = ncol(x)
@@ -273,6 +226,8 @@ I'm impressed by the level of agreement among the raters.
 We can also construct a matrix of pairwise agreements.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Defines the concordanc matrix using Lin's coefficient."
 concordances <- outer(seq(6), seq(6), Vectorize(\(i,j) concordance(
   cbind(log(parameters)[, i], log(parameters)[, j]))))
 colnames(concordances) <- names(x)
@@ -295,7 +250,8 @@ Recall the multiplicative equation for the reported distance: $$D_{ij} = \frac{X
 The consistencies of our 6 player are
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Defines the consistencies of all raters."
 consistencies = lapply(data_list, \(data) summary(pairwise_model(data))$sigma)
 knitr::kable(tibble::as_tibble(consistencies), digits = 2)
 ```
@@ -303,27 +259,20 @@ knitr::kable(tibble::as_tibble(consistencies), digits = 2)
 All of these are roughly the same, except Gavin's. That might be surprising since Nuño claimed Gavin is the most consistent of the raters. His inconsistency score is probably unfavourable since he has some serious outliers in his ratings, not because he's inconsistent across the board. Ratings $33$ and $36$ appear to be especially inconsistent.
 
 ```{r}
-#| echo: false
 plot(mod, which = 1, main = "Plot for Gavin")
 ```
 
 Compared it to the same plot for Jaime Sevilla.
 
 ```{r}
-#| echo: false
-sevilla <- data_list$jamie
-mod_sevilla <- pairwise_model(sevilla) 
-plot(mod_sevilla, which = 1, main = "Plot for Jaime")
+plot(pairwise_model(jamie), which = 1, main = "Plot for Jaime")
 ```
 
 Let's see what happens if we remove the observations $31, 33, 34, 36$ from Gavin's data then.
 
 ```{r}
-#| echo: false
-gavin2 <- data_list$gavin
-gavin2 <- gavin2[setdiff(seq(nrow(gavin2)), c(31, 33, 34, 36)), ]
-mod_gavin2 <- pairwise_model(gavin2) 
-plot(mod_gavin2, which = 1, main = "Plot for Gavin with outliers removed")
+gavin_ <- gavin[setdiff(seq(nrow(gavin)), c(31, 33, 34, 36)), ]
+plot(pairwise_model(gavin_), which = 1, main = "Plot for Gavin with outliers removed")
 ```
 
 The residual plot looks better now, and the inconsistency score becomes $\sigma \approx 0.87$, in line with the other participants.
@@ -338,34 +287,92 @@ I also see little reason to use algorithms that prohibits cyclical comparisons, 
 
 ## Aggregation
 
-Suppose the vectors $\beta_{j}\sim N(\beta,\tau I)$ for some variance parameter $\tau$. We wish to estimate the global mean $\beta$. This can be done using mixed effects models. \begin{eqnarray*}
+We estimate $\beta$ using a mixed effect model. \begin{eqnarray*}
 Y_{j} & = & D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
-\beta_{j} & = & \beta+\tau\delta.
+\beta_{j} & \sim & N(\beta,\Sigma).
 \end{eqnarray*}
 
-Conceptually, this model implies that there is a true underlying $\beta$ for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of $\beta$, which we call $\beta_j$. Second, we only observe noisy measurements of $\beta_j$s through our pairwise comparisons model.
+Conceptually, this model implies that there is a true underlying $\beta$ for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of $\beta$, which we call $\beta_j$. Second, we only observe noisy measurements of $\beta_j$s through our pairwise comparisons model. The matrix $\Sigma$ can be constrained to be diagonal, which makes estimation go faster.
 
-Using `lme4` I fit a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I've done.
+Using `lme4`, I made a function `pairwise_mixed_model` that fits a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I've done.
 
 ```{r}
-#| echo: false
-mod <- pairwise_mixed_model(data, fixed = 2)
-conf <- confint(mod, method = "Wald")[16:29, ]
-params <- lme4::fixef(mod)
-exped <- exp(conf)
+mod <- pairwise_mixed_model(data_list, fixed = 3)
+```
 
-Hmisc::errbar(x = 1:14, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
+Using the `mod` object, we can plot ([@fig-conf-uncorrelated]) confidence intervals and estimates for the aggregate ratings.
+```{r}
+#| code-fold: true
+#| code-summary: "Defines confidence intervals and estimates used for plotting."
+#| fig-cap: "Confidence bars mixed effects model with uncorrelated random effects."
+#| label: fig-conf-uncorrelated
+conf <- confint(mod, method = "Wald")[16:29, ]
+params <- c(lme4::fixef(mod)[1:2], 0, lme4::fixef(mod)[3:14])
+exped <- rbind(exp(conf)[1:2, ], c(1,1), exp(conf)[3:14, ])
+
+
+Hmisc::errbar(x = 1:15, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
               log = "y", ylab = "Value", xlab = "Question index", type = "b")
 grid()
-Hmisc::errbar(x = 1:14, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
+Hmisc::errbar(x = 1:15, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
               add = TRUE)
 ```
 
 The confidence intervals in the plot are reasonably sized, but remember the $y$-axis is on the log-scale. Let's take a look at the confidence interval for *A Mathematical Theory of Communication* again:
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Confidence interval for Mathematical Theory of Communication with uncorrelated random effects."
 round(exp(confint(mod, method = "Wald")[16:29, ])[10, ])
 ```
 
-The uncertainty of the aggregate value is smaller than that of Gavin's subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure.
+The uncertainty of the aggregate value is smaller than that of Gavin's subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure. But there is also a counterfactual aspect here. It's hard to say how quickly someone else would've invented information theory weren't it for *A Mathematical Theory*. Different "concepts" about counterfactuals could potentially lead to different true $\beta$s, as some readers consider them and some don't. (See [Linch's comment ](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea))
+
+### Using correlated random effects
+We can run a model with correlated random effects too. 
+```{r}
+mod <- pairwise_mixed_model(data_list, fixed = 3, uncorrelated = FALSE)
+```
+The corresponding plot ([@fig-conf-correlated]) is similar but not indistinguishable from [@fig-conf-uncorrelated]. The confidence intervals appear to smaller, but I don't know if this is an estimation artifact or not. I also don't know which model is better. Or if it will ever matter in practice which you use, but the uncorrelated model is faster to fit, as the correlated takes a couple of seconds. And that might matter in a production setting.
+```{r}
+#| code-fold: true
+#| code-summary: "Defines confidence intervals and estimates used for plotting."
+#| fig-cap: "Confidence bars mixed effects model with correlated random effects."
+#| label: fig-conf-correlated
+conf <- confint(mod, method = "Wald")[(120 - 13):120, ]
+params <- c(lme4::fixef(mod)[1:2], 0, lme4::fixef(mod)[3:14])
+exped <- rbind(exp(conf)[1:2, ], c(1,1), exp(conf)[3:14, ])
+
+Hmisc::errbar(x = 1:15, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
+              log = "y", ylab = "Value", xlab = "Question index", type = "b")
+grid()
+Hmisc::errbar(x =  1:15, y = exp(params), yplus = exped[, 2], yminus = exped[, 1],
+              add = TRUE)
+```
+
+The resulting confidence interval for *A Mathematical Theory of Communication* gets smaller now.
+```{r}
+#| code-fold: true
+#| code-summary: "Confidence interval for Mathematical Theory of Communication with correlated random effects."
+round(exp(confint(mod, method = "Wald")[116, ]))
+```
+
+## Incorporating uncertainty
+Instead of rating the ratio $\eta_i/\eta_j$ with a number, you might want give a distribution over $\eta_i/\eta_j$, indicating your uncertainty, as done in e.g. [this post](https://forum.effectivealtruism.org/posts/EPhDMkovGquHtFq3h/an-experiment-eliciting-relative-estimates-for-open). How could we work with such uncertain measurements? One possibility is to extract a log-mean and log-standard deviation from the distributions and then use the same method as I've described, but with weighted least squares instead of least squares. The weights will be $1/\sigma_{ij}$, where $\sigma_{ij}$ are the log-standard deviations of the distributions.
+
+The formal reasoning behind this proposal goes as follows. If $\eta_i/\eta_j$ is log-normal with some log-mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$, its logarithm is normal with mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$. This model implies that
+$$
+\frac{\eta_i}{\eta_j} = e^{\mu_{ij}}e^{\sigma_{ij}\cdot\epsilon_{ij}},
+$$
+for some normally distributed $\epsilon_{ij}$. Taking logarithms on both sides, we obtain
+$$
+\beta_i - \beta_j = \mu_{ij} + \sigma_{ij}\epsilon_{ij}.
+$$
+Since $\epsilon_{ij}$ is symmetric around $0$, we have $\mu_{ij} = \beta_i - \beta_j  + \sigma_{ij}\epsilon_{ij}$. If we add the "safety measure constant" $\psi$, with 
+$$\mu_{ij} = \beta_i - \beta_j  + \psi\sigma_{ij}\epsilon_{ij},$${#eq-modelsigma_ij} this is a [weighted least squares problem](https://en.wikipedia.org/wiki/Weighted_least_squares), with weights equal to $1/\sigma_{ij}$ and residual standard deviation $\psi$. It's not clear to me if distributions are worth it.
+
+In the summary I wrote that it's not clear to me that it's worth it to ask for distributions in pairwise comparisons, as your uncertainty level can be modeled implicitly by comparing different pairwise comparisons. What does this mean? Let's simplify the model in @eq-modelsigma_ij so it contains two error terms, $\sigma_i$ and $\sigma_j$, one belonging to each question.
+
+$$\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}.$${#eq-modelsigma_isigma_j}
+
+This models allows you to have different uncertainties for different items, but doesn't allow for idiosyncratic errors depending on interactions between the $i$th and $j$th items. Estimation of the model in @{eq-modelsigma_isigma_j} easy to do efficiently, but I haven't looked at the details. An idea would be to use the equation $\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}$ and iteratively refit weighted least squares models.
