@@ -88,27 +88,5 @@ In other words, the estimator of the correlation is a mean of two independently
  They do not mention
 \end_layout
 
-\begin_layout Standard
-\begin_inset Formula 
-\[
-Y=X\beta+\Sigma\epsilon
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\Var(\epsilon_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}
-\]
-
-\end_inset
-
-
-\end_layout
-
 \end_body
 \end_document
