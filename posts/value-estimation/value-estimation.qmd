@@ -38,15 +38,15 @@ How can you estimate the value of research output? You could use pairwise compar
 
 3.  This post proposes some technical solutions to problems introduced to me in Nuño's post. In particular, it includes principled ways to
 
-    1.  Estimate subjective values,
+    1.  estimate subjective values,
 
-    2.  Measure consistency in pairwise value judgments,
+    2.  measure consistency in pairwise value judgments,
 
-    3.  Measure agreement between the raters,
+    3.  measure agreement between the raters,
 
-    4.  Aggregate subjective values.
+    4.  aggregate subjective values.
     
-    5.  Propose weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.
+    5.  I also propose to use weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.
 
 4.  I use these methods on the [data from Nuño's post](https://github.com/quantified-uncertainty/utility-function-extractor/blob/8ce1a4a8572ec692bc82d39a1bd983216fb0f136/data/).
 
