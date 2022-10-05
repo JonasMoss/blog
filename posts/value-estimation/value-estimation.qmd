@@ -48,9 +48,9 @@ How can you estimate the value of research output? You could use pairwise compar
     
     5.  I also propose to use weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.
 
-4.  I use these methods on the [data from Nuño's post](https://github.com/quantified-uncertainty/utility-function-extractor/blob/8ce1a4a8572ec692bc82d39a1bd983216fb0f136/data/).
+4.  I use these methods on the [data from the 6 researchers post](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea).
 
-I'm assuming you have read Nuño's post recently. I think this post will be hard to read if you haven't.
+I'm assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven't.
 
 ***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!
 
