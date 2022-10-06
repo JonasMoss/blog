@@ -6,6 +6,7 @@ editor: visual
 date: "10/5/2022"
 freeze: auto  # re-render only when source changes
 cache: true
+draft: true
 date-format: "MMM D, YYYY"
 categories: [effective altruism, statistics, psychometrics]
 ---

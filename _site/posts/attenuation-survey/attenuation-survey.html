@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jonas Moss">
 
-<title>Jonas Moss’ blog - Inference for correlations corrected for attenuation: A short survey</title>
+<title>Jonas Moss’ blog - Inference for correlations corrected for attenuation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,7 +122,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Inference for correlations corrected for attenuation: A short survey</h1>
+      <h1 class="title">Inference for correlations corrected for attenuation</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">statistics</div>
                 <div class="quarto-category">psychometrics</div>
@@ -143,7 +143,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">Oct 3, 2022</p>
+        <p class="date">Oct 6, 2022</p>
       </div>
     </div>
       
@@ -160,13 +160,13 @@ div.csl-indent {
 
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>You have to psychometric instruments, <span class="math inline">\(\hat{Z_1}\)</span> and <span class="math inline">\(\hat{Z_2}\)</span>, measuring the true scores <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> with error. The estimators are linear in <span class="math inline">\(Z_1,Z_2\)</span> with independent error terms, i.e.&nbsp;<span class="math inline">\(\hat{Z_1} = Z_1 + \epsilon_1\)</span> and <span class="math inline">\(\hat{Z_2} = Z_2 + \epsilon_2\)</span>. You only observe the correlation between the measurements <span class="math inline">\(\hat{Z_1}\)</span> and <span class="math inline">\(\hat{Z_2}\)</span>, but you’re interested in the correlation between the true scores <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>. What should you do? The Spearman <span class="citation" data-cites="Spearman1904-zu">(<a href="#ref-Spearman1904-zu" role="doc-biblioref">Spearman 1904</a>)</span> attenuation formula states that <span id="eq-spearman"><span class="math display">\[\operatorname{Cor}(Z_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_1,\hat{Z_1})\operatorname{Cor}(Z_2,\hat{Z_2})} \tag{1}\]</span></span></p>
+<section id="correction-for-attenuation" class="level2">
+<h2 class="anchored" data-anchor-id="correction-for-attenuation">Correction for attenuation</h2>
+<p>You have two psychometric instruments, <span class="math inline">\(\hat{Z_1}\)</span> and <span class="math inline">\(\hat{Z_2}\)</span>, measuring the true scores <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> with error. The estimators are linear in <span class="math inline">\(Z_1,Z_2\)</span> with independent error terms, i.e.&nbsp;<span class="math inline">\(\hat{Z_1} = Z_1 + \epsilon_1\)</span> and <span class="math inline">\(\hat{Z_2} = Z_2 + \epsilon_2\)</span>. You only observe the correlation between the measurements <span class="math inline">\(\hat{Z_1}\)</span> and <span class="math inline">\(\hat{Z_2}\)</span>, but you’re interested in the correlation between the true scores <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>. What should you do? The Spearman <span class="citation" data-cites="Spearman1904-zu">(<a href="#ref-Spearman1904-zu" role="doc-biblioref">Spearman 1904</a>)</span> attenuation formula states that <span class="math display">\[\operatorname{Cor}(Z_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_1,\hat{Z_1})\operatorname{Cor}(Z_2,\hat{Z_2})}\]</span>A lot has been written about correction for attenuation. For instance, many people care about the easily verifiable and veritable <em>horror</em> that the sample disattenuated correlationmay be greater than <span class="math inline">\(1\)</span>! But there’s not a lot written much about inference. This is a very short review of what I’ve read.</p>
 <section id="single-and-double-corrections" class="level3">
 <h3 class="anchored" data-anchor-id="single-and-double-corrections">Single and double corrections</h3>
-<p>The Spearman attenuation formula does a *double correction* as it’s a formula for the correlation between both true scores <span class="math inline">\(Z_1\)</span> and $Z_2$. But it’s also possible to calculate the correlation between and estimator <span class="math inline">\(\hat{Z}_1\)</span> and the true score <span class="math inline">\(Z_2\)</span>. Then the single correction formula states</p>
-<p><span id="eq-spearman-single"><span class="math display">\[\operatorname{Cor}(\hat{Z}_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_2,\hat{Z_2}).} \tag{2}\]</span></span> The motivation for using the single correction is simple enough. The correlation between two variables quantifies how well you can predict one from the other. If you want to predict the true score, say intelligence, from an estimated score of openness, the single prediction formula should be used <span class="citation" data-cites="Guilford1954-si Muchinsky1996-zr">(<a href="#ref-Guilford1954-si" role="doc-biblioref">Guilford 1954, 401</a>; cited in <a href="#ref-Muchinsky1996-zr" role="doc-biblioref">Muchinsky 1996</a>)</span>.</p>
+<p>The Spearman attenuation formula does a *double correction* as it’s a formula for the correlation between both true scores <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>. But it’s also possible to calculate the correlation between an estimator <span class="math inline">\(\hat{Z}_1\)</span> and the true score <span class="math inline">\(Z_2\)</span>. Then the single correction formula states</p>
+<p><span id="eq-spearman-single"><span class="math display">\[\operatorname{Cor}(\hat{Z}_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_2,\hat{Z_2}).} \tag{1}\]</span></span> motivation for using the single correction is simple enough. The correlation between two variables quantifies how well you can predict one from the other. If you want to predict the true score, say intelligence, from an estimated score of openness, the single prediction formula should be used <span class="citation" data-cites="Guilford1954-si Muchinsky1996-zr">(<a href="#ref-Guilford1954-si" role="doc-biblioref">Guilford 1954, 401</a>; cited in <a href="#ref-Muchinsky1996-zr" role="doc-biblioref">Muchinsky 1996</a>)</span>.</p>
 </section>
 </section>
 <section id="inference" class="level2">
@@ -174,20 +174,32 @@ div.csl-indent {
 <p>There are some factors that make inference difficult:</p>
 <ol type="1">
 <li><strong>Different sample sizes.</strong> The sample sizes <span class="math inline">\(n_1,n_2,n_3\)</span> for the two reliabilities and the correlation in the numerator can be different. This should be taken into account when constructing confidence intervals.</li>
-<li><strong>Which reliability method was used?</strong> Different reliability methods will not have the same asymptotic variance.<br>
-</li>
-<li><strong>What kind of model assumptions can we make?</strong> Simple asymptotics for the most commonly used reliability coefficient, coefficient alpha, is only available for pseudo-elliptically distributed variables under the parallel model. But in order to use that, we must know the common kurtosis coefficient in addition to the value of alpha, and the that is never reported. The asymptotically distribution-free interval is consistent in general, but is almost never used. If we assume multivariate normality and the parallel model, the asymptotics of coefficient alpha is simple though, depending only on the value of coefficient alpha itself.</li>
+<li><strong>Which reliability method was used?</strong> Different reliability methods will not have the same asymptotic variance. This becomes clear when reading the ancient literature on this topic, as people still used split-half reliabilities at the time of writing of, e.g., <span class="citation" data-cites="Forsyth1969-tt">Forsyth and Feldt (<a href="#ref-Forsyth1969-tt" role="doc-biblioref">1969</a>)</span>.</li>
+<li><strong>What kind of model assumptions can we make?</strong> Simple asymptotics for the most commonly used reliability coefficient, coefficient alpha, is only available for pseudo-elliptically distributed variables under the parallel model <span class="citation" data-cites="Yuan2002-oy">(<a href="#ref-Yuan2002-oy" role="doc-biblioref">Yuan and Bentler 2002</a>)</span>. But in order to use that, we must know the common kurtosis coefficient in addition to the value of alpha, and that is <em>never</em> reported. The asymptotically distribution-free interval is consistent in general, but is almost never used, but we could in principle deduce the asymptotic variance of the reliability estimator from a common asymptotic normality based interval if we wanted to. If we assume multivariate normality and the parallel model, the asymptotics of coefficient alpha is really simple though, depending only on the value of coefficient alpha itself <span class="citation" data-cites="Van_Zyl2000-si">(<a href="#ref-Van_Zyl2000-si" role="doc-biblioref">Zyl, Neudecker, and Nel 2000</a>)</span>, and that’s probably the most reasonable thing to do in practice.</li>
 </ol>
+<p>The most widely used inference method is the Hunter–Schmidt method <span class="citation" data-cites="Schmidt1999-wv">(<a href="#ref-Schmidt1999-wv" role="doc-biblioref">Schmidt and Hunter 1999</a>)</span>, which ignores the errors in the reliability estimates, i.e., the estimators of <span class="math inline">\(\operatorname{Cor}(Z_1,\hat{Z_1})\)</span> and <span class="math inline">\(\operatorname{Cor}(Z_2,\hat{Z_2})\)</span>. This method performs pretty well, at least when the sample size is sufficiently large. But it’s very crude. And come on – this is not such a hard problem that it can’t be properly solved, taking the variability of the reliabilities into account!</p>
 </section>
 <section id="the-hakstian1988-gz-paper" class="level2">
 <h2 class="anchored" data-anchor-id="the-hakstian1988-gz-paper">The <span class="citation" data-cites="Hakstian1988-gz">Hakstian, Schroeder, and Rogers (<a href="#ref-Hakstian1988-gz" role="doc-biblioref">1988</a>)</span> paper</h2>
 <p>The authors take a look at an estimator that looks slightly different from what I am used to. Citing <span class="citation" data-cites="Rogers1976-rc">Rogers (<a href="#ref-Rogers1976-rc" role="doc-biblioref">1976</a>)</span>, they employ the formula</p>
-<p><span id="eq-hakstian1988"><span class="math display">\[\hat{\rho}(Z_{1},Z_{2})=\frac{\frac{1}{2}\left[\hat{\rho}(\hat{Z}_{1}^{1},\hat{Z}_{2}^{1})+\hat{\rho}(\hat{Z}_{1}^{2},\hat{Z}_{2}^{2})\right]}{\hat{\rho}(Z_{1},\hat{Z}_{1})\hat{\rho}(Z_{2},\hat{Z}_{2})} \tag{3}\]</span></span></p>
-<p>where <span class="math inline">\(\hat{\rho}\)</span> denotes an estimator of the correlation. The correlations in the denominator can’t be estimated directly, but the correlations in the numerator can.</p>
-<p>In other words, the estimator of the correlation is a mean of two independently obtained estimators of the correlation. They do not mention the problem of different <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span>.</p>
+<p><span id="eq-hakstian1988"><span class="math display">\[\hat{\rho}(Z_{1},Z_{2})=\frac{\frac{1}{2}\left[\hat{\rho}(\hat{Z}_{1}^{1},\hat{Z}_{2}^{1})+\hat{\rho}(\hat{Z}_{1}^{2},\hat{Z}_{2}^{2})\right]}{\hat{\rho}(Z_{1},\hat{Z}_{1})\hat{\rho}(Z_{2},\hat{Z}_{2})} \tag{2}\]</span></span> where <span class="math inline">\(\hat{\rho}\)</span> denotes an estimator of the correlation. As before, the correlations in the denominator (i.e., the roots of the reliabilities) can’t be estimated directly, but the correlations in the numerator can.</p>
+<p>The estimator of the correlation is a mean of two independently obtained estimators of the correlation. Which is fair enough, provided one has two samples with equally many participants in both… Which never happens! They do not mention the problem of different <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span>. Honestly, I don’t think there is much to gain from this paper. The paper of <span class="citation" data-cites="Rogers1976-rc">Rogers (<a href="#ref-Rogers1976-rc" role="doc-biblioref">1976</a>)</span> is similar; not much to pick up.</p>
 </section>
 <section id="the-charles2005-ze-paper" class="level2">
 <h2 class="anchored" data-anchor-id="the-charles2005-ze-paper">The <span class="citation" data-cites="Charles2005-ze">Charles (<a href="#ref-Charles2005-ze" role="doc-biblioref">2005</a>)</span> paper</h2>
+<p>This paper has a decent literature overview, but its technical contributions are not very strong, It’s founded on a misconception:</p>
+<blockquote class="blockquote">
+<p>By their original conception, confidence intervals give bounds for sample values likely to be produced by a population with known parameters (Neyman, 1934/1967), and I believe this is what past attempts at creating confidence intervals for [correction for attenuation due to measurement error] have been.</p>
+</blockquote>
+<p>Now this is just wrong. A confidence interval for a parameter <span class="math inline">\(\theta\)</span> is a random set <span class="math inline">\(C\)</span> so that <span class="math inline">\(P_\theta(\theta\in C)\geq 1-\alpha\)</span>. It’s not a bound for sample value likely to produced by population with known parameters.</p>
+</section>
+<section id="the-moss2019-kb-preprint" class="level2">
+<h2 class="anchored" data-anchor-id="the-moss2019-kb-preprint">The <span class="citation" data-cites="Moss2019-kb">(<a href="#ref-Moss2019-kb" role="doc-biblioref">Moss 2019</a>)</span> preprint</h2>
+<p>I wrote a note about correcting for attenuation in 2017. It uses an unconventional method to construct the confidence sets which is guaranteed to have coverage larger than the nominal (modulo uniformity requirements), but it’s extremely conservative and basically useless.</p>
+</section>
+<section id="what-now" class="level2">
+<h2 class="anchored" data-anchor-id="what-now">What now?</h2>
+<p>We can use the multivariate central limit theorem to deduce the limiting distribution of three independent measurements, the correlation, reliability 1, and reliability 2, even when their sample sizes are different. (I didn’t realize that when I wrote my preprint above.) Then we can use the delta method along with desired transformations, such as the Fisher transform, to make reasonable confidence sets.</p>
 </section>
 <section id="references" class="level2">
 
@@ -200,11 +212,17 @@ div.csl-indent {
 <div id="ref-Charles2005-ze" class="csl-entry" role="doc-biblioentry">
 Charles, Eric P. 2005. <span>“The Correction for Attenuation Due to Measurement Error: Clarifying Concepts and Creating Confidence Sets.”</span> <em>Psychological Methods</em> 10 (2): 206–26. <a href="https://doi.org/10.1037/1082-989X.10.2.206">https://doi.org/10.1037/1082-989X.10.2.206</a>.
 </div>
+<div id="ref-Forsyth1969-tt" class="csl-entry" role="doc-biblioentry">
+Forsyth, Robert A, and Leonard S Feldt. 1969. <span>“An Investigation of Empirical Sampling Distributions of Correlation Coefficients Corrected for Attenuation.”</span> <em>Educational and Psychological Measurement</em> 29 (1): 61–71. <a href="https://doi.org/10.1177/001316446902900104">https://doi.org/10.1177/001316446902900104</a>.
+</div>
 <div id="ref-Guilford1954-si" class="csl-entry" role="doc-biblioentry">
 Guilford, J P. 1954. <em>Psychometric Methods (2nd Ed.)</em>. New York, NY, US: McGraw-Hill.
 </div>
 <div id="ref-Hakstian1988-gz" class="csl-entry" role="doc-biblioentry">
 Hakstian, A Ralph, Marsha L Schroeder, and W Todd Rogers. 1988. <span>“Inferential Procedures for Correlation Coefficients Corrected for Attenuation.”</span> <em>Psychometrika</em> 53 (1): 27–43. <a href="https://doi.org/10.1007/bf02294192">https://doi.org/10.1007/bf02294192</a>.
+</div>
+<div id="ref-Moss2019-kb" class="csl-entry" role="doc-biblioentry">
+Moss, Jonas. 2019. <span>“Correcting for Attenuation Due to Measurement Error,”</span> November. <a href="http://arxiv.org/abs/1911.01576">http://arxiv.org/abs/1911.01576</a>.
 </div>
 <div id="ref-Muchinsky1996-zr" class="csl-entry" role="doc-biblioentry">
 Muchinsky, Paul M. 1996. <span>“The Correction for Attenuation.”</span> <em>Educational and Psychological Easurement</em> 56 (1): 63–75. <a href="https://doi.org/10.1177/0013164496056001004">https://doi.org/10.1177/0013164496056001004</a>.
@@ -212,8 +230,17 @@ Muchinsky, Paul M. 1996. <span>“The Correction for Attenuation.”</span> <em>
 <div id="ref-Rogers1976-rc" class="csl-entry" role="doc-biblioentry">
 Rogers, W Todd. 1976. <span>“Jackknifing Disattenuated Correlations.”</span> <em>Psychometrika</em> 41 (1): 121–33. <a href="https://doi.org/10.1007/bf02291702">https://doi.org/10.1007/bf02291702</a>.
 </div>
+<div id="ref-Schmidt1999-wv" class="csl-entry" role="doc-biblioentry">
+Schmidt, Frank L, and John E Hunter. 1999. <span>“Theory Testing and Measurement Error.”</span> <em>Intelligence</em> 27 (3): 183–98. <a href="https://doi.org/10.1016/S0160-2896(99)00024-0">https://doi.org/10.1016/S0160-2896(99)00024-0</a>.
+</div>
 <div id="ref-Spearman1904-zu" class="csl-entry" role="doc-biblioentry">
 Spearman, Charles. 1904. <span>“The Proof and Measurement of Association Between Two Things.”</span> <em>The American Journal of Psychology</em> 15 (1): 72–101. <a href="https://doi.org/10.2307/1412159">https://doi.org/10.2307/1412159</a>.
+</div>
+<div id="ref-Yuan2002-oy" class="csl-entry" role="doc-biblioentry">
+Yuan, Ke-Hai, and Peter M Bentler. 2002. <span>“On Robustness of the Normal-Theory Based Asymptotic Distributions of Three Reliability Coefficient Estimates.”</span> <em>Psychometrika</em> 67 (2): 251–59. <a href="https://doi.org/10.1007/BF02294845">https://doi.org/10.1007/BF02294845</a>.
+</div>
+<div id="ref-Van_Zyl2000-si" class="csl-entry" role="doc-biblioentry">
+Zyl, J M van, H Neudecker, and D G Nel. 2000. <span>“On the Distribution of the Maximum Likelihood Estimator of Cronbach’s Alpha.”</span> <em>Psychometrika</em> 65 (3): 271–80. <a href="https://doi.org/10.1007/BF02296146">https://doi.org/10.1007/BF02296146</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

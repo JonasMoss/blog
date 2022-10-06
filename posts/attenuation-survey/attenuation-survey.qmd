@@ -1,9 +1,8 @@
 ---
-title: "Inference for correlations corrected for attenuation: A short survey"
+title: "Inference for correlations corrected for attenuation"
 author: "Jonas Moss"
 editor: visual
-date: "10/3/2022"
-draft: true
+date: "10/6/2022"
 date-format: "MMM D, YYYY"
 crossref:
   eq-prefix: eq.
@@ -11,32 +10,48 @@ categories: [statistics, psychometrics]
 bibliography: attenuation-survey.bib
 ---
 
-## Introduction
+## Correction for attenuation
 
-You have to psychometric instruments, $\hat{Z_1}$ and $\hat{Z_2}$, measuring the true scores $Z_1$ and $Z_2$ with error. The estimators are linear in $Z_1,Z_2$ with independent error terms, i.e. $\hat{Z_1} = Z_1 + \epsilon_1$ and $\hat{Z_2} = Z_2 + \epsilon_2$. You only observe the correlation between the measurements $\hat{Z_1}$ and $\hat{Z_2}$, but you're interested in the correlation between the true scores $Z_1$ and $Z_2$. What should you do? The Spearman [@Spearman1904-zu] attenuation formula states that $$\operatorname{Cor}(Z_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_1,\hat{Z_1})\operatorname{Cor}(Z_2,\hat{Z_2})}$$ {#eq-spearman}
+You have two psychometric instruments, $\hat{Z_1}$ and $\hat{Z_2}$, measuring the true scores $Z_1$ and $Z_2$ with error. The estimators are linear in $Z_1,Z_2$ with independent error terms, i.e. $\hat{Z_1} = Z_1 + \epsilon_1$ and $\hat{Z_2} = Z_2 + \epsilon_2$. You only observe the correlation between the measurements $\hat{Z_1}$ and $\hat{Z_2}$, but you're interested in the correlation between the true scores $Z_1$ and $Z_2$. What should you do? The Spearman [@Spearman1904-zu] attenuation formula states that $$\operatorname{Cor}(Z_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_1,\hat{Z_1})\operatorname{Cor}(Z_2,\hat{Z_2})}$$A lot has been written about correction for attenuation. For instance, many people care about the easily verifiable and veritable *horror* that the sample disattenuated correlationmay be greater than $1$! But there's not a lot written much about inference. This is a very short review of what I've read.
 
 ### Single and double corrections
 
-The Spearman attenuation formula does a \*double correction\* as it's a formula for the correlation between both true scores $Z_1$ and \$Z_2\$. But it's also possible to calculate the correlation between and estimator $\hat{Z}_1$ and the true score $Z_2$. Then the single correction formula states
+The Spearman attenuation formula does a \*double correction\* as it's a formula for the correlation between both true scores $Z_1$ and $Z_2$. But it's also possible to calculate the correlation between an estimator $\hat{Z}_1$ and the true score $Z_2$. Then the single correction formula states
 
-$$\operatorname{Cor}(\hat{Z}_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_2,\hat{Z_2}).}$$ {#eq-spearman-single} The motivation for using the single correction is simple enough. The correlation between two variables quantifies how well you can predict one from the other. If you want to predict the true score, say intelligence, from an estimated score of openness, the single prediction formula should be used [@Guilford1954-si, p. 401; cited in @Muchinsky1996-zr].
+$$\operatorname{Cor}(\hat{Z}_1, Z_2) = \frac{\operatorname{Cor}(\hat{Z_1}, \hat{Z_2})}{\operatorname{Cor}(Z_2,\hat{Z_2}).}$$ {#eq-spearman-single} motivation for using the single correction is simple enough. The correlation between two variables quantifies how well you can predict one from the other. If you want to predict the true score, say intelligence, from an estimated score of openness, the single prediction formula should be used [@Guilford1954-si, p. 401; cited in @Muchinsky1996-zr].
 
 ## Inference
+
 There are some factors that make inference difficult:
 
-1. **Different sample sizes.** The sample sizes $n_1,n_2,n_3$ for the two reliabilities and the correlation in the numerator can be different. This should be taken into account when constructing confidence intervals.
-2. **Which reliability method was used?** Different reliability methods will not have the same asymptotic variance.  
-3. **What kind of model assumptions can we make?** Simple asymptotics for the most commonly used reliability coefficient, coefficient alpha, is only available for pseudo-elliptically distributed variables under the parallel model. But in order to use that, we must know the common kurtosis coefficient in addition to the value of alpha, and the that is never reported. The asymptotically distribution-free interval is consistent in general, but is almost never used. If we assume multivariate normality and the parallel model, the asymptotics of coefficient alpha is simple though, depending only on the value of coefficient alpha itself.
+1.  **Different sample sizes.** The sample sizes $n_1,n_2,n_3$ for the two reliabilities and the correlation in the numerator can be different. This should be taken into account when constructing confidence intervals.
+2.  **Which reliability method was used?** Different reliability methods will not have the same asymptotic variance. This becomes clear when reading the ancient literature on this topic, as people still used split-half reliabilities at the time of writing of, e.g., @Forsyth1969-tt.
+3.  **What kind of model assumptions can we make?** Simple asymptotics for the most commonly used reliability coefficient, coefficient alpha, is only available for pseudo-elliptically distributed variables under the parallel model [@Yuan2002-oy]. But in order to use that, we must know the common kurtosis coefficient in addition to the value of alpha, and that is *never* reported. The asymptotically distribution-free interval is consistent in general, but is almost never used, but we could in principle deduce the asymptotic variance of the reliability estimator from a common asymptotic normality based interval if we wanted to. If we assume multivariate normality and the parallel model, the asymptotics of coefficient alpha is really simple though, depending only on the value of coefficient alpha itself [@Van_Zyl2000-si], and that's probably the most reasonable thing to do in practice.
+
+The most widely used inference method is the Hunter--Schmidt method [@Schmidt1999-wv], which ignores the errors in the reliability estimates, i.e., the estimators of $\operatorname{Cor}(Z_1,\hat{Z_1})$ and $\operatorname{Cor}(Z_2,\hat{Z_2})$. This method performs pretty well, at least when the sample size is sufficiently large. But it's very crude. And come on -- this is not such a hard problem that it can't be properly solved, taking the variability of the reliabilities into account!
 
 ## The @Hakstian1988-gz paper
 
 The authors take a look at an estimator that looks slightly different from what I am used to. Citing @Rogers1976-rc, they employ the formula
 
-$$\hat{\rho}(Z_{1},Z_{2})=\frac{\frac{1}{2}\left[\hat{\rho}(\hat{Z}_{1}^{1},\hat{Z}_{2}^{1})+\hat{\rho}(\hat{Z}_{1}^{2},\hat{Z}_{2}^{2})\right]}{\hat{\rho}(Z_{1},\hat{Z}_{1})\hat{\rho}(Z_{2},\hat{Z}_{2})}$${#eq-hakstian1988}
-where $\hat{\rho}$ denotes an estimator of the correlation. The correlations in the denominator can't be estimated directly, but the correlations in the numerator can.
+$$\hat{\rho}(Z_{1},Z_{2})=\frac{\frac{1}{2}\left[\hat{\rho}(\hat{Z}_{1}^{1},\hat{Z}_{2}^{1})+\hat{\rho}(\hat{Z}_{1}^{2},\hat{Z}_{2}^{2})\right]}{\hat{\rho}(Z_{1},\hat{Z}_{1})\hat{\rho}(Z_{2},\hat{Z}_{2})}$$ {#eq-hakstian1988} where $\hat{\rho}$ denotes an estimator of the correlation. As before, the correlations in the denominator (i.e., the roots of the reliabilities) can't be estimated directly, but the correlations in the numerator can.
 
-In other words, the estimator of the correlation is a mean of two independently obtained estimators of the correlation. They do not mention the problem of different $n_1$ and $n_2$.
+The estimator of the correlation is a mean of two independently obtained estimators of the correlation. Which is fair enough, provided one has two samples with equally many participants in both... Which never happens! They do not mention the problem of different $n_1$ and $n_2$. Honestly, I don't think there is much to gain from this paper. The paper of @Rogers1976-rc is similar; not much to pick up.
 
 ## The @Charles2005-ze paper
+
+This paper has a decent literature overview, but its technical contributions are not very strong, It's founded on a misconception:
+
+> By their original conception, confidence intervals give bounds for sample values likely to be produced by a population with known parameters (Neyman, 1934/1967), and I believe this is what past attempts at creating confidence intervals for \[correction for attenuation due to measurement error\] have been.
+
+Now this is just wrong. A confidence interval for a parameter $\theta$ is a random set $C$ so that $P_\theta(\theta\in C)\geq 1-\alpha$. It's not a bound for sample value likely to produced by population with known parameters.
+
+## The [@Moss2019-kb] preprint
+
+I wrote a note about correcting for attenuation in 2017. It uses an unconventional method to construct the confidence sets which is guaranteed to have coverage larger than the nominal (modulo uniformity requirements), but it's extremely conservative and basically useless.
+
+## What now?
+
+We can use the multivariate central limit theorem to deduce the limiting distribution of three independent measurements, the correlation, reliability 1, and reliability 2, even when their sample sizes are different. (I didn't realize that when I wrote my preprint above.) Then we can use the delta method along with desired transformations, such as the Fisher transform, to make reasonable confidence sets.
 
 ## References
