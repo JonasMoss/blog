@@ -3,9 +3,9 @@ title: "Estimating value from pairwise comparisons"
 author: "Jonas Moss"
 format: html
 editor: visual
+cache: true
 date: "10/5/2022"
 freeze: auto  # re-render only when source changes
-cache: true
 date-format: "MMM D, YYYY"
 categories: [effective altruism, statistics, psychometrics]
 ---
@@ -24,7 +24,7 @@ data_list <- list(
 gavin <- data_list$gavin
 jamie <- data_list$jamie
 
-source("value-estimation-functions.R")
+source("functions.R")
 
 ```
 
@@ -53,7 +53,7 @@ How can you estimate the value of research output? You could use pairwise compar
 I'm assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven't.
 
 ***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!
-
+*Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number.
 ### What's this about
 
 [@tbl-gavin-6] contains the first $6$ out of $36$ responses from Gavin Leech. As you can see, he values Superintelligence $100$ more than the [Global Priorities Institute's Research Agenda](https://globalprioritiesinstitute.org/research-agenda-web-version/).
@@ -172,7 +172,12 @@ Hmisc::errbar(x = 1:15, y = exp(params), yplus = confints[, 2], yminus = confint
               add = TRUE)
 ```
 
-The $95\%$ confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to $1$. Let's take a look at question 11, that of [Shannon's A Mathematical Theory of Communication](https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication). The confidence interval is `(135, 15022)` -- that's wide!
+The $95\%$ confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to $1$. Let's take a look at question 11, that of [Shannon's A Mathematical Theory of Communication](https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication). The confidence interval is 
+```{r}
+confints[11, ]
+```
+
+That's *really* wide!
 
 ### All the raters
 

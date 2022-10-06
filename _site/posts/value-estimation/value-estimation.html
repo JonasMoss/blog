@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-1_57bd583d89e2074d2a1c37a5ab70589d">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-1_28f9ca0a4a67aa3389df1365719dd6bf">
 
 </div>
 <p>How can you estimate the value of research output? You could use pairwise comparisons, e.g., to ask specialists how much more valuable Darwin’s <em>The Original of Species</em> is than Dembski’s <a href="https://en.wikipedia.org/wiki/Intelligent_Design_(book)"><em>Intelligent Design</em></a>. Then you can use these relative valuations to estimate absolute valuations.</p>
@@ -225,9 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>I use these methods on the <a href="https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea">data from the 6 researchers post</a>.</p></li>
 </ol>
 <p>I’m assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven’t.</p>
-<p><strong><em>Note:</em></strong> This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the <a href="https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/">source folder</a> for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!</p>
-<section id="whats-this-about" class="level3">
-<h3 class="anchored" data-anchor-id="whats-this-about">What’s this about</h3>
+<p><strong><em>Note:</em></strong> This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the <a href="https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/">source folder</a> for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! <em>Update 6/10/2022.</em> Modified Gavin’s confidence interval for <em>A Mathematical Theory</em> to show the correct number. ### What’s this about</p>
 <p><a href="#tbl-gavin-6">Table&nbsp;1</a> contains the first <span class="math inline">\(6\)</span> out of <span class="math inline">\(36\)</span> responses from Gavin Leech. As you can see, he values Superintelligence <span class="math inline">\(100\)</span> more than the <a href="https://globalprioritiesinstitute.org/research-agenda-web-version/">Global Priorities Institute’s Research Agenda</a>.</p>
 <div class="cell" data-hash="value-estimation_cache/html/tbl-gavin-6_c389f29b6e2f9bb112c24fdea3d77370">
 <details>
@@ -374,7 +372,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>The article <em>Categorizing Variants of Goodhart’s Law</em> has value fixed to <span class="math inline">\(1\)</span>. I will use the numbering above throughout this post.</p>
-</section>
 </section>
 <section id="a-model-with-multiplicative-error-terms" class="level2">
 <h2 class="anchored" data-anchor-id="a-model-with-multiplicative-error-terms">A model with multiplicative error terms</h2>
@@ -1162,14 +1159,22 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 </div>
 </div>
 </div>
-<p>The <span class="math inline">\(95\%\)</span> confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to <span class="math inline">\(1\)</span>. Let’s take a look at question 11, that of <a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication">Shannon’s A Mathematical Theory of Communication</a>. The confidence interval is <code>(135, 15022)</code> – that’s wide!</p>
+<p>The <span class="math inline">\(95\%\)</span> confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to <span class="math inline">\(1\)</span>. Let’s take a look at question 11, that of <a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication">Shannon’s A Mathematical Theory of Communication</a>. The confidence interval is</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-8_8ac09cac2ae22e19bcb2272ba4ef796c">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>confints[<span class="dv">11</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      2.5 %      97.5 % 
+   135.4981 150222.4654 </code></pre>
+</div>
+</div>
+<p>That’s <em>really</em> wide!</p>
 </section>
 <section id="all-the-raters" class="level3">
 <h3 class="anchored" data-anchor-id="all-the-raters">All the raters</h3>
 <p>The raters have IDs given in this table.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-8_05bafe3fecdfc548444efdc5a3ed4b5d">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">names</span>(data_list))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-9_07150c122c893a1cea1d331b491e4846">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">names</span>(data_list))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
@@ -1199,13 +1204,13 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 <div class="cell" data-hash="value-estimation_cache/html/fig-estimates_00571793e186746f191147433261cbb7">
 <details>
 <summary>Function for plotting results for all raters.</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">=</span> <span class="fu">sapply</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  data_list,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  \(data) {</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    coefs <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(<span class="fu">pairwise_model</span>(data)))</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(coefs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>, coefs[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(parameters, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">ylab =</span> <span class="st">"Values"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">=</span> <span class="fu">sapply</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  data_list,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  \(data) {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    coefs <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(<span class="fu">pairwise_model</span>(data)))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(coefs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>, coefs[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(parameters, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">ylab =</span> <span class="st">"Values"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-estimates" class="quarto-figure quarto-figure-center anchored">
@@ -1222,20 +1227,20 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 <section id="measuring-agreement" class="level2">
 <h2 class="anchored" data-anchor-id="measuring-agreement">Measuring agreement</h2>
 <p>One of the easiest and most popular ways to measure agreement among two raters is Lin’s concordance coefficient (aka quadratically weighted Cohen’s kappa). It has an unpublished multirater generalization <span class="math display">\[\frac{1^{T}\Sigma1-\text{tr}\Sigma}{(R-1)\text{tr}\Sigma+R^{2}\left(\overline{\mu^{2}}-\overline{\mu}^{2}\right)}\]</span> Where <span class="math inline">\(\Sigma\)</span> is the covariance matrix of the estimated log rating, <span class="math inline">\(\mu_i\)</span> is the mean log rating by the <span class="math inline">\(i\)</span>th rater, and <span class="math inline">\(R\)</span> is the number of raters. I can explain the reasoning behind this measure in more detail if you want, but it’s the essentially unique extension of Lin’s concordance coefficient to multiple raters, as several generalizations yield the same formula. It’s bounded above by <span class="math inline">\(1\)</span>, which signifies perfect agreement. It’s defined in a way that’s very similar to the <span class="math inline">\(R^2\)</span>, so it’s OK to interpret the numbers as you would have interpreted an <span class="math inline">\(R^2\)</span>.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-10_99a3c2c04d9998191fbe80270f840abb">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-11_a1a4c6d7a704858201530f64c13939c7">
 <details>
 <summary>Calculate concordance of the parameters.</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>concordance <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">nrow</span>(x)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">=</span> <span class="fu">ncol</span>(x)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">=</span> <span class="fu">cov</span>(x) <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">colMeans</span>(x)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  trace <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">diag</span>(sigma))</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">=</span> <span class="fu">sum</span>(sigma) <span class="sc">-</span> trace</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  bottom <span class="ot">=</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> trace <span class="sc">+</span> r <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">mean</span>(mu<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(mu)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  top <span class="sc">/</span> bottom</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(<span class="fu">log</span>(parameters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>concordance <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">nrow</span>(x)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">=</span> <span class="fu">ncol</span>(x)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">=</span> <span class="fu">cov</span>(x) <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">colMeans</span>(x)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  trace <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">diag</span>(sigma))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">=</span> <span class="fu">sum</span>(sigma) <span class="sc">-</span> trace</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  bottom <span class="ot">=</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> trace <span class="sc">+</span> r <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">mean</span>(mu<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(mu)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  top <span class="sc">/</span> bottom</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(<span class="fu">log</span>(parameters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.698547</code></pre>
@@ -1243,14 +1248,14 @@ Y_{ij} = \beta_i - \beta_j + \sigma\epsilon_{ij},
 </div>
 <p>I’m impressed by the level of agreement among the raters.</p>
 <p>We can also construct a matrix of pairwise agreements.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-11_12fb7e0cbebfffc7c7fd3df199997277">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-12_c34ccda0369c20b8d51868c11c240a70">
 <details>
 <summary>Defines the concordanc matrix using Lin’s coefficient.</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>concordances <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">Vectorize</span>(\(i,j) <span class="fu">concordance</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">log</span>(parameters)[, i], <span class="fu">log</span>(parameters)[, j]))))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>concordances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>concordances <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">seq</span>(<span class="dv">6</span>), <span class="fu">Vectorize</span>(\(i,j) <span class="fu">concordance</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">log</span>(parameters)[, i], <span class="fu">log</span>(parameters)[, j]))))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(concordances) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>concordances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>          linch      finn     gavin     jamie     misha     ozzie
@@ -1273,11 +1278,11 @@ ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
 <h2 class="anchored" data-anchor-id="measuring-inconsistency">Measuring inconsistency</h2>
 <p>Recall the multiplicative equation for the reported distance: <span class="math display">\[D_{ij} = \frac{X_i}{X_j}\cdot e^{\sigma \epsilon_{ij}}\]</span> It’s clear that the distance will be noise-free if and only if <span class="math inline">\(\sigma = 0\)</span>. Moreover, the distances will behave more and more erratically the larger <span class="math inline">\(\sigma\)</span> gets. If the distances tend to have erratically, the valuations will be inconsistent. Thus it’s natural to consider inconsistency estimators that are strictly increasing functions of <span class="math inline">\(\sigma\)</span>. We’ll just use <span class="math inline">\(\sigma\)</span> for simplicity’s sake.</p>
 <p>The consistencies of our 6 player are</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-12_d6476fb8353488b35dc38016ed5b70d0">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-13_437db9c14226e7e6569381b238ab6a34">
 <details>
 <summary>Defines the consistencies of all raters.</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>consistencies <span class="ot">=</span> <span class="fu">lapply</span>(data_list, \(data) <span class="fu">summary</span>(<span class="fu">pairwise_model</span>(data))<span class="sc">$</span>sigma)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tibble<span class="sc">::</span><span class="fu">as_tibble</span>(consistencies), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>consistencies <span class="ot">=</span> <span class="fu">lapply</span>(data_list, \(data) <span class="fu">summary</span>(<span class="fu">pairwise_model</span>(data))<span class="sc">$</span>sigma)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tibble<span class="sc">::</span><span class="fu">as_tibble</span>(consistencies), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1305,25 +1310,25 @@ ozzie 0.7016672 0.5985986 0.5996458 0.8926464 0.7804517 1.0000000</code></pre>
 </div>
 </div>
 <p>All of these are roughly the same, except Gavin’s. That might be surprising since Nuño claimed Gavin is the most consistent of the raters. His inconsistency score is probably unfavourable since he has some serious outliers in his ratings, not because he’s inconsistent across the board. Ratings <span class="math inline">\(33\)</span> and <span class="math inline">\(36\)</span> appear to be especially inconsistent.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-13_27320c0745915eada9d1bc4c1f15a74e">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod, <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="value-estimation_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Compared it to the same plot for Jaime Sevilla.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-14_91db77df51d7185d50f1f971212855fc">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(jamie), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Jaime"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-14_c642301fc5c1b0bf15058cbbc32becfb">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod, <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="value-estimation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Let’s see what happens if we remove the observations <span class="math inline">\(31, 33, 34, 36\)</span> from Gavin’s data then.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-15_ac68e75f24a49ba18e79e668903b796b">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gavin_ <span class="ot">&lt;-</span> gavin[<span class="fu">setdiff</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(gavin)), <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)), ]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(gavin_), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin with outliers removed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compared it to the same plot for Jaime Sevilla.</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-15_e73cf23c09e5c11ab88d2753ae64ecab">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(jamie), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Jaime"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="value-estimation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s see what happens if we remove the observations <span class="math inline">\(31, 33, 34, 36\)</span> from Gavin’s data then.</p>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-16_bf79cc012bf67417e77f8a847f992a72">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gavin_ <span class="ot">&lt;-</span> gavin[<span class="fu">setdiff</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(gavin)), <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)), ]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pairwise_model</span>(gavin_), <span class="at">which =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Plot for Gavin with outliers removed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="value-estimation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The residual plot looks better now, and the inconsistency score becomes <span class="math inline">\(\sigma \approx 0.87\)</span>, in line with the other participants.</p>
@@ -1342,8 +1347,8 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 \end{eqnarray*}\]</span></p>
 <p>Conceptually, this model implies that there is a true underlying <span class="math inline">\(\beta\)</span> for each question, but the raters only have incomplete access to it when they form their subjective valuation. So we have two sources of noise: First, the raters have a latent, noisy and subjective estimate of <span class="math inline">\(\beta\)</span>, which we call <span class="math inline">\(\beta_j\)</span>. Second, we only observe noisy measurements of <span class="math inline">\(\beta_j\)</span>s through our pairwise comparisons model. The matrix <span class="math inline">\(\Sigma\)</span> can be constrained to be diagonal, which makes estimation go faster.</p>
 <p>Using <code>lme4</code>, I made a function <code>pairwise_mixed_model</code> that fits a mixed effects model to the data without an intercept. Check out the source if you want to know exactly what I’ve done.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-16_480885219afb68bfd437a3b1ab6319e6">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-17_8cd92ae6c917035bcf4243c9c48227c8">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
@@ -1352,16 +1357,16 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 <div class="cell" data-hash="value-estimation_cache/html/fig-conf-uncorrelated_663f8da79edf0de2d6fdb0bde15c3fa2">
 <details>
 <summary>Defines confidence intervals and estimates used for plotting.</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-conf-uncorrelated" class="quarto-figure quarto-figure-center anchored">
@@ -1373,10 +1378,10 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 </div>
 </div>
 <p>The confidence intervals in the plot are reasonably sized, but remember the <span class="math inline">\(y\)</span>-axis is on the log-scale. Let’s take a look at the confidence interval for <em>A Mathematical Theory of Communication</em> again:</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-18_2c94d3f5eaa39aa8a3bacae67e774734">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-19_3091cfb6c2a76e076331edd0ab7e7398">
 <details>
 <summary>Confidence interval for Mathematical Theory of Communication with uncorrelated random effects.</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ])[<span class="dv">10</span>, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">16</span><span class="sc">:</span><span class="dv">29</span>, ])[<span class="dv">10</span>, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> 2.5 % 97.5 % 
@@ -1387,8 +1392,8 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 <section id="using-correlated-random-effects" class="level3">
 <h3 class="anchored" data-anchor-id="using-correlated-random-effects">Using correlated random effects</h3>
 <p>We can run a model with correlated random effects too.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-19_07f9dda6ffb5b55d827bd5dd638a1dd2">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>, <span class="at">uncorrelated =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-20_3891a1b2392798e03cdd74bbcbe387f3">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">pairwise_mixed_model</span>(data_list, <span class="at">fixed =</span> <span class="dv">3</span>, <span class="at">uncorrelated =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
@@ -1397,15 +1402,15 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 <div class="cell" data-hash="value-estimation_cache/html/fig-conf-correlated_3f88a2b26f557ba9907135927d989965">
 <details>
 <summary>Defines confidence intervals and estimates used for plotting.</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[(<span class="dv">120</span> <span class="sc">-</span> <span class="dv">13</span>)<span class="sc">:</span><span class="dv">120</span>, ]</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span>  <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[(<span class="dv">120</span> <span class="sc">-</span> <span class="dv">13</span>)<span class="sc">:</span><span class="dv">120</span>, ]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, lme4<span class="sc">::</span><span class="fu">fixef</span>(mod)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>])</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>exped <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">exp</span>(conf)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">exp</span>(conf)[<span class="dv">3</span><span class="sc">:</span><span class="dv">14</span>, ])</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Value"</span>, <span class="at">xlab =</span> <span class="st">"Question index"</span>, <span class="at">type =</span> <span class="st">"b"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">errbar</span>(<span class="at">x =</span>  <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">y =</span> <span class="fu">exp</span>(params), <span class="at">yplus =</span> exped[, <span class="dv">2</span>], <span class="at">yminus =</span> exped[, <span class="dv">1</span>],</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-conf-correlated" class="quarto-figure quarto-figure-center anchored">
@@ -1417,10 +1422,10 @@ Y_{j} &amp; = &amp; D_{j}^{T}\beta_{j}+\sigma\epsilon,\\
 </div>
 </div>
 <p>The resulting confidence interval for <em>A Mathematical Theory of Communication</em> gets smaller now.</p>
-<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-21_4ac1c78e6876bc3d42771707856b58c4">
+<div class="cell" data-hash="value-estimation_cache/html/unnamed-chunk-22_bf1eab7adede68238e2a639aa2ad57df">
 <details>
 <summary>Confidence interval for Mathematical Theory of Communication with correlated random effects.</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">116</span>, ]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(mod, <span class="at">method =</span> <span class="st">"Wald"</span>)[<span class="dv">116</span>, ]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> 2.5 % 97.5 % 
