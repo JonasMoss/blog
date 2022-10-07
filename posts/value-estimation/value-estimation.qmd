@@ -28,6 +28,8 @@ source("functions.R")
 
 ```
 
+*Also posted at the [EA Forum](https://forum.effectivealtruism.org/posts/mydChSMSM4JyEtx5C/estimating-value-from-pairwise-comparisons).*
+
 How can you estimate the value of research output? You could use pairwise comparisons, e.g., to ask specialists how much more valuable Darwin's *The Original of Species* is than Dembski's [*Intelligent Design*](https://en.wikipedia.org/wiki/Intelligent_Design_(book)). Then you can use these relative valuations to estimate absolute valuations.
 
 ## Summary
@@ -52,7 +54,9 @@ How can you estimate the value of research output? You could use pairwise compar
 
 I'm assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven't.
 
-***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! *Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number. \### What's this about
+***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! *Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number.
+
+### What's this about
 
 [@tbl-gavin-6] contains the first $6$ out of $36$ responses from Gavin Leech. As you can see, he values Superintelligence $100$ more than the [Global Priorities Institute's Research Agenda](https://globalprioritiesinstitute.org/research-agenda-web-version/).
 
