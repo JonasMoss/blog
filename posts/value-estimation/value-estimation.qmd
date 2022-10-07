@@ -45,16 +45,14 @@ How can you estimate the value of research output? You could use pairwise compar
     3.  measure agreement between the raters,
 
     4.  aggregate subjective values.
-    
+
     5.  I also propose to use weighted least squares when the raters supply distributions instead of numbers. It is not clear to me it is worth it to ask for distributions in these kinds of questions though, as your uncertainty level can be modelled implicitly by comparing different pairwise comparisons.
 
 4.  I use these methods on the [data from the 6 researchers post](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea).
 
 I'm assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven't.
 
-***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post!
-*Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number.
-### What's this about
+***Note:*** This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! *Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number. \### What's this about
 
 [@tbl-gavin-6] contains the first $6$ out of $36$ responses from Gavin Leech. As you can see, he values Superintelligence $100$ more than the [Global Priorities Institute's Research Agenda](https://globalprioritiesinstitute.org/research-agenda-web-version/).
 
@@ -172,7 +170,8 @@ Hmisc::errbar(x = 1:15, y = exp(params), yplus = confints[, 2], yminus = confint
               add = TRUE)
 ```
 
-The $95\%$ confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to $1$. Let's take a look at question 11, that of [Shannon's A Mathematical Theory of Communication](https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication). The confidence interval is 
+The $95\%$ confidence intervals are approximately equally wide on the log-scale, with the exception of question 3, which is fixed to $1$. Let's take a look at question 11, that of [Shannon's A Mathematical Theory of Communication](https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication). The confidence interval is
+
 ```{r}
 confints[11, ]
 ```
@@ -188,7 +187,7 @@ x <- setNames(1:6, names(data_list))
 knitr::kable(t(x))
 ```
 
-We fit the model for all the raters and plot the resulting estimates in [@fig-estimates]. Notice the log-scale. 
+We fit the model for all the raters and plot the resulting estimates in [@fig-estimates]. Notice the log-scale.
 
 ```{r}
 #| code-fold: true
@@ -306,6 +305,7 @@ mod <- pairwise_mixed_model(data_list, fixed = 3)
 ```
 
 Using the `mod` object, we can plot ([@fig-conf-uncorrelated]) confidence intervals and estimates for the aggregate ratings.
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Defines confidence intervals and estimates used for plotting."
@@ -331,14 +331,18 @@ The confidence intervals in the plot are reasonably sized, but remember the $y$-
 round(exp(confint(mod, method = "Wald")[16:29, ])[10, ])
 ```
 
-The uncertainty of the aggregate value is smaller than that of Gavin's subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure. But there is also a counterfactual aspect here. It's hard to say how quickly someone else would've invented information theory weren't it for *A Mathematical Theory*. Different "concepts" about counterfactuals could potentially lead to different true $\beta$s, as some readers consider them and some don't. (See [Linch's comment ](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea))
+The uncertainty of the aggregate value is smaller than that of Gavin's subjective value. But the uncertainty is still very, very large. I think the level of uncertainty is wrong though. Fixing it would probably require a modification of the model to allow for items of different difficulty, or maybe a non-multiplicative error structure. But there is also a counterfactual aspect here. It's hard to say how quickly someone else would've invented information theory weren't it for *A Mathematical Theory*. Different "concepts" about counterfactuals could potentially lead to different true $\beta$s, as some readers consider them and some don't. (See [Linch's comment](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea))
 
 ### Using correlated random effects
-We can run a model with correlated random effects too. 
+
+We can run a model with correlated random effects too.
+
 ```{r}
 mod <- pairwise_mixed_model(data_list, fixed = 3, uncorrelated = FALSE)
 ```
+
 The corresponding plot ([@fig-conf-correlated]) is similar but not indistinguishable from [@fig-conf-uncorrelated]. The confidence intervals appear to smaller, but I don't know if this is an estimation artifact or not. I also don't know which model is better. Or if it will ever matter in practice which you use, but the uncorrelated model is faster to fit, as the correlated takes a couple of seconds. And that might matter in a production setting.
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Defines confidence intervals and estimates used for plotting."
@@ -356,6 +360,7 @@ Hmisc::errbar(x =  1:15, y = exp(params), yplus = exped[, 2], yminus = exped[, 1
 ```
 
 The resulting confidence interval for *A Mathematical Theory of Communication* gets smaller now.
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Confidence interval for Mathematical Theory of Communication with correlated random effects."
@@ -363,21 +368,17 @@ round(exp(confint(mod, method = "Wald")[116, ]))
 ```
 
 ## Incorporating uncertainty
+
 Instead of rating the ratio $\eta_i/\eta_j$ with a number, you might want give a distribution over $\eta_i/\eta_j$, indicating your uncertainty, as done in e.g. [this post](https://forum.effectivealtruism.org/posts/EPhDMkovGquHtFq3h/an-experiment-eliciting-relative-estimates-for-open). How could we work with such uncertain measurements? One possibility is to extract a log-mean and log-standard deviation from the distributions and then use the same method as I've described, but with weighted least squares instead of least squares. The weights will be $1/\sigma_{ij}$, where $\sigma_{ij}$ are the log-standard deviations of the distributions.
 
-The formal reasoning behind this proposal goes as follows. If $\eta_i/\eta_j$ is log-normal with some log-mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$, its logarithm is normal with mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$. This model implies that
-$$
+The formal reasoning behind this proposal goes as follows. If $\eta_i/\eta_j$ is log-normal with some log-mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$, its logarithm is normal with mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$. This model implies that $$
 \frac{\eta_i}{\eta_j} = e^{\mu_{ij}}e^{\sigma_{ij}\cdot\epsilon_{ij}},
-$$
-for some normally distributed $\epsilon_{ij}$. Taking logarithms on both sides, we obtain
-$$
+$$ for some normally distributed $\epsilon_{ij}$. Taking logarithms on both sides, we obtain $$
 \beta_i - \beta_j = \mu_{ij} + \sigma_{ij}\epsilon_{ij}.
-$$
-Since $\epsilon_{ij}$ is symmetric around $0$, we have $\mu_{ij} = \beta_i - \beta_j  + \sigma_{ij}\epsilon_{ij}$. If we add the "safety measure constant" $\psi$, with 
-$$\mu_{ij} = \beta_i - \beta_j  + \psi\sigma_{ij}\epsilon_{ij},$${#eq-modelsigma_ij} this is a [weighted least squares problem](https://en.wikipedia.org/wiki/Weighted_least_squares), with weights equal to $1/\sigma_{ij}$ and residual standard deviation $\psi$. It's not clear to me if distributions are worth it.
+$$ Since $\epsilon_{ij}$ is symmetric around $0$, we have $\mu_{ij} = \beta_i - \beta_j + \sigma_{ij}\epsilon_{ij}$. If we add the "safety measure constant" $\psi$, with $$\mu_{ij} = \beta_i - \beta_j  + \psi\sigma_{ij}\epsilon_{ij},$$ {#eq-modelsigma_ij} this is a [weighted least squares problem](https://en.wikipedia.org/wiki/Weighted_least_squares), with weights equal to $1/\sigma_{ij}$ and residual standard deviation $\psi$. It's not clear to me if distributions are worth it.
 
 In the summary I wrote that it's not clear to me that it's worth it to ask for distributions in pairwise comparisons, as your uncertainty level can be modeled implicitly by comparing different pairwise comparisons. What does this mean? Let's simplify the model in @eq-modelsigma_ij so it contains two error terms, $\sigma_i$ and $\sigma_j$, one belonging to each question.
 
-$$\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}.$${#eq-modelsigma_isigma_j}
+$$\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}.$$ {#eq-modelsigma_isigma_j}
 
-This models allows you to have different uncertainties for different items, but doesn't allow for idiosyncratic errors depending on interactions between the $i$th and $j$th items. Estimation of the model in @{eq-modelsigma_isigma_j} easy to do efficiently, but I haven't looked at the details. An idea would be to use the equation $\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}$ and iteratively refit weighted least squares models.
+This models allows you to have different uncertainties for different items, but doesn't allow for idiosyncratic errors depending on interactions between the $i$th and $j$th items. Estimation of the model in @eq-modelsigma_isigma_j easy to do efficiently, but I haven't looked at the details. An idea would be to use the equation $\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}$ and iteratively refit weighted least squares models.
