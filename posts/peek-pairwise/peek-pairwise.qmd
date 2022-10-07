@@ -8,14 +8,14 @@ date: "10/7/2022"
 freeze: auto  # re-render only when source changes
 date-format: "MMM D, YYYY"
 categories: [effective altruism, statistics, psychometrics, economics, marketing]
-bibliography: qaly-health-research.bib
+bibliography: peek-pairwise.bib
 ---
 
 1.  I had a peek at value estimation in economics and marketing. There is a sizable literature here, and more work is needed to figure out what exactly is relevant for effective altruists. *Discrete choice models* are applied a lot in economics. Marketing researchers seem to prefer graded pairwise comparisons, which is equivalent to the pairwise method used [here](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea), but with limits on how much you can prefer one choice to another.
 
 2.  I'm enthusiastic about the prospects of doing larger-scale paired comparison studies on EA topics. The first step would be to finish the statistical framework I started on [here](https://forum.effectivealtruism.org/posts/mydChSMSM4JyEtx5C/estimating-value-from-pairwise-comparisons), then do a small-scale study suitable for a methodological journal in e.g. psychology or economics. Then we could run a study on a larger scale.
 
-3.  Most examples I've seen in health economics, environmental economics, and marketing are only tangentially related to effective altruism. (I don't claim they don't exist -- there's probably many studies in health economics relevant to EA). But the topics of cognitive burden, experimental design, and experience of researchers when preparing experiments is relevant for anyone who's involved with value estimation. It would probably be good to have at least a medium effort report on these topics. (For context, I consider this post to be low effort.) The literature probably contains a good deal of valuable insights for those sufficiently able and motivated to trudge through it. I would highly appreciate a well-written report on the relevant empirical and social science-theoretical findings here.
+3.  Most examples I've seen in health economics, environmental economics, and marketing are only tangentially related to effective altruism. (I don't claim they don't exist -- there's probably many studies in health economics relevant to EA). But the topics of cognitive burden, experimental design, and the experience of researchers when preparing experiments is relevant for anyone who's involved with value estimation. It would probably be good to have at least a medium effort report on these topics -- I would certainly appreciate it. (For context, I consider this post to be low effort.) The literature probably contains a good deal of valuable insights for those sufficiently able and motivated to trudge through it.
 
 4.  There is a reasonable number of statistical papers on the graded comparisons. But mostly from the $50$s - $70$s it seems. These will be very difficult to read unless you're at the level of a capable master student of statistics. But summarizing and extending their research could potentially be an effective thesis!
 
@@ -90,7 +90,7 @@ This long report discusses two kinds of studies.
 
 **Matching studies.** (Chapter 5). You have two options $A$ and $B$, and you're asked which you prefer. If you say $A$ , you'll asked if prefer $\frac{1}{2}A$ to $B$. We continue modifying $A$ and $B$ until you don't prefer one to the other. This seems to be equivalent to graded comparisons, but the report is so verbose I can barely comprehend what they are doing. Their application is a kind of empirical ethics regarding the definition of QALYs.
 
-> To recap, a QALY is 1 year in full health and years spent in less than full health are \'quality adjusted\' in order to take account of the morbidity associated with disability, disease or illness. As QALYs combine morbidity (QoL) and mortality (length of life) on a single scale, they allow comparisons to be made across interventions with different types of health outcomes (e.g. QoL enhancing versus life extending). In the standard \'unweighted\' QALY model, all QALYs are of equal value. For example, the age of recipients does not matter, as long as the QALY gain is the same. Likewise, the standard model assumes that equal QALY gains are of equal value regardless of how severely ill the patients are prior to treatment. The aim of the matching -- and DCE studies -- is then to address the question of whether a QALY is a QALY is a QALY. Or put another way, is the \'standard\' model correct?
+> To recap, a QALY is 1 year in full health and years spent in less than full health are 'quality adjusted' in order to take account of the morbidity associated with disability, disease or illness. As QALYs combine morbidity (QoL) and mortality (length of life) on a single scale, they allow comparisons to be made across interventions with different types of health outcomes (e.g. QoL enhancing versus life extending). In the standard 'unweighted' QALY model, all QALYs are of equal value. For example, the age of recipients does not matter, as long as the QALY gain is the same. Likewise, the standard model assumes that equal QALY gains are of equal value regardless of how severely ill the patients are prior to treatment. The aim of the matching -- and DCE studies -- is then to address the question of whether a QALY is a QALY is a QALY. Or put another way, is the 'standard' model correct?
 
 I haven't read how they actually estimate these modified QALYs though.
 
@@ -100,7 +100,7 @@ I haven't read how they actually estimate these modified QALYs though.
 
 They have a reasonably clear motivation for the use of discrete choice models in medicine.
 
-> In healthcare, decision making may involve careful assessment of the health benefits of an intervention. However, decision makers may wish to go beyond traditional clinical measures and incorporate \'\'non-health\'\' values such as those derived from the process of healthcare delivery. DCEs allow for estimation of an individual\'s preferences for both health benefits and non-health benefits and can explain the relative value of the different sources.
+> In healthcare, decision making may involve careful assessment of the health benefits of an intervention. However, decision makers may wish to go beyond traditional clinical measures and incorporate ''non-health'' values such as those derived from the process of healthcare delivery. DCEs allow for estimation of an individual's preferences for both health benefits and non-health benefits and can explain the relative value of the different sources.
 
 They mention, along with many other authors, the problem of cognitive burden.
 
@@ -143,4 +143,4 @@ In Table 2 they describe four kinds of choice modelling:
 
 They claim that option (1) yields "welfare consistent estimates", but the others probably don't. I don't know if this is important or not, as I don't know what it means.
 
-All of these models are possible to combine, but we won't be able to fix the scale without using graded paired comparisons. Option (2) might *possibly* be worth investigating, especially if the number of rankings are small, where the additional cognitive burden is low. But @Hanley2001-ax states that "choices seem to be unreliable and inconsistent across ranks."
+All of these models are possible to combine, but we won't be able to fix the scale without using graded paired comparisons. Option (2) might *possibly* be worth investigating, especially if the number of rankings are small, where the additional cognitive burden is low. But @Hanley2001-ax states that "choices seem to be unreliable and inconsistent across ranks," making it less likely that this is worth exploring. The [Schulze method](https://en.wikipedia.org/wiki/Schulze_method) is also based on ranks, and could be relevant here.
