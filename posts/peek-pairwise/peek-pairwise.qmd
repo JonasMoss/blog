@@ -11,13 +11,13 @@ categories: [effective altruism, statistics, psychometrics, economics, marketing
 bibliography: peek-pairwise.bib
 ---
 
-1.  I had a peek at value estimation in economics and marketing. There is a sizable literature here, and more work is needed to figure out what exactly is relevant for effective altruists. *Discrete choice models* are applied a lot in economics. Marketing researchers seem to prefer graded pairwise comparisons, which is equivalent to the pairwise method used [here](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea), but with limits on how much you can prefer one choice to another.
+1.  I had a peek at value estimation in economics and marketing. There is a sizable literature here, and more work is needed to figure out what exactly is relevant for effective altruists. Discrete choice models are applied a lot in economics, but these models are not able to estimate the scaling of the values. Marketing researchers prefer graded pairwise comparisons, which is equivalent to the pairwise method used [here](https://forum.effectivealtruism.org/posts/hrdxf5qdKmCZNWTvs/valuing-research-works-by-eliciting-comparisons-from-ea), but with limits on how much you can prefer one choice to another.
 
 2.  I'm enthusiastic about the prospects of doing larger-scale paired comparison studies on EA topics. The first step would be to finish the statistical framework I started on [here](https://forum.effectivealtruism.org/posts/mydChSMSM4JyEtx5C/estimating-value-from-pairwise-comparisons), then do a small-scale study suitable for a methodological journal in e.g. psychology or economics. Then we could run a study on a larger scale.
 
-3.  Most examples I've seen in health economics, environmental economics, and marketing are only tangentially related to effective altruism. (I don't claim they don't exist -- there's probably many studies in health economics relevant to EA). But the topics of cognitive burden, experimental design, and the experience of researchers when preparing experiments is relevant for anyone who's involved with value estimation. It would probably be good to have at least a medium effort report on these topics -- I would certainly appreciate it. (For context, I consider this post to be low effort.) The literature probably contains a good deal of valuable insights for those sufficiently able and motivated to trudge through it.
+3.  Most examples I've seen in health economics, environmental economics, and marketing are only tangentially related to effective altruism. (I don't claim they don't exist -- there's probably many studies in health economics relevant to EA). But the topics of cognitive burden and experimental design is relevant for anyone who's involved with value estimation. It would be good to have at least a medium effort report on these topics -- I would certainly appreciate it! The literature probably contains a good deal of valuable insights for those sufficiently able and motivated to trudge through it.
 
-4.  There is a reasonable number of statistical papers on the graded comparisons. But mostly from the $50$s - $70$s it seems. These will be very difficult to read unless you're at the level of a capable master student of statistics. But summarizing and extending their research could potentially be an effective thesis!
+4.  There is a reasonable number of statistical papers on the graded comparisons. But mostly from the $50$s - $70$s. These will be very difficult to read unless you're at the level of a capable master student of statistics. But summarizing and extending their research could potentially be an effective thesis!
 
 ## Context
 
@@ -80,11 +80,11 @@ Much of the methodological work in marketing appears to be about "complex" produ
 
 Graded paired comparisons are used in psychometrics too. Here they are used to reduce "cheating" in e.g. personality surveys due to social desirability bias, and the fact that you have fixed pool of points to spend matters. @Brown2018-ab and @Burkner2022-su studied the statistical aspects. I can't see any immediate application of these models for effective altruism though.
 
-### Health economics
+### Economics
+I have comments on four papers. @Baker2010-ux, @Vass2017-pi, and @Ryan2009-gz are from health economics and @Hanley2001-ax from environmental economics. 
 
 #### The report of @Baker2010-ux
-
-This long report discusses two kinds of studies.
+I think this report is about using surveying techniques to figure of if a "QALY is a QALY", e.g., are some people's QALYs woth less due to their age? But it's pretty long and I only looked somewhat closely at their methodology. This report discusses two kinds of studies.
 
 **Discrete choice studies.** (Chapter 4). Recall the definition of this kind of model. Here you choose between $A$ and $B$. You don't say "$A$ is ten times as good as $B$!" You just choose one of them. In this paper they use the discrete choice model to estimate the quality of life (QoL) using surveys.
 
@@ -110,7 +110,7 @@ And that's the reason why don't think it's a good idea to ask respondents [distr
 
 #### The paper of @Ryan2009-gz
 
-Let's see what methodology @Ryan2009-gz uses.
+This is a paper about how value elicitation experiments often reveal values incompatible with expected utility theory. They also include a discussion of methodologies used. 
 
 > The four most commonly applied stated preference methods in health economics are contingent valuation (CV), discrete choice experiments (DCEs), standard gamble (SG), and time trade-off (TTO). Researchers have used quantitative tests to investigate whether responses to tasks set within each of these methods are consistent with the axioms of utility theory.
 
@@ -121,8 +121,6 @@ They include some examples of these methods in the context of statistical testin
 3.  **Standard gamble and time trade-off.** "SG and TTO test whether respondents make trade-offs between health status and risk or time".
 
 Statistically speaking, CV, DCE, SG and TTO should be understood as the same thing, the only difference being "what is compared to what", where DCE compares attributes to attributes and CV compares attributes vs money. Perhaps nice to know if you're going to dive into the literature on this topic.
-
-### Environmental economics
 
 #### Paper of @Hanley2001-ax
 
