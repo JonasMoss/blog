@@ -1,0 +1,14 @@
+{
+  "hash": "243000764e56cac2575e7ba77f1f5200",
+  "result": {
+    "markdown": "---\ntitle: \"On imminent nuclear war\"\nauthor: \"Jonas Moss\"\nformat: html\neditor: visual\ncache: true\ndate: \"10/9/2022\"\nfreeze: auto  # re-render only when source changes\ndate-format: \"MMM D, YYYY\"\ncategories: [effective altruism]\nbibliography: nuclear-analysis.bib\n---\n\n\nMax Tegmark recently wrote a post detailing why he believes there is a $1/6$ chance of global nuclear war. \n\nDecision-makers: East and West. \n\n* East.\n  * Putin's belief about \"Putin will be killed if the Ukraine war fails.\".\n  * 4\n\n\n\n\n```{dot}\ndigraph G {\n\tfontname=\"Helvetica,Arial,sans-serif\"\n\tnode [fontname=\"Helvetica,Arial,sans-serif\"]\n\tedge [fontname=\"Helvetica,Arial,sans-serif\"]\n\n\t\n\t\"☭ Start\" -> \"☭ Tactical nuke ordered\"\n\t\"☭ Start\" -> \"☭ No tactical nuke ordered\"\n\t\"☭ No tactical nuke ordered\" -> \"☭🗽 End of war\"\n\t\"☭ Tactical nuke ordered\" -> \"☭ Tactical nuke deployed\"\n\t\"☭ Tactical nuke ordered\" -> \"☭ Tactical nuke not deployed\"\n\t\"☭ Tactical nuke not deployed\" -> \"☭🗽 End of war\"\n\t\"☭ Tactical nuke not deployed\" -> \"☭ Start\" \n\t\"☭ Tactical nuke not deployed\"  -> \"☭🗽 Nuclear holocaust\"\n\t\"☭ Tactical nuke deployed\" -> \"🗽 Economic retaliation\"\n\t\"☭ Tactical nuke deployed\" -> \"🗽 Conventional military response\"\n\t\"☭ Tactical nuke deployed\" -> \"☭🗽 Nuclear holocaust\"\n\t\"🗽 Economic retaliation\" -> \"☭ Start\" \n\t\"🗽 Economic retaliation\" -> \"☭🗽 End of war\"\n\t\"🗽 Economic retaliation\" -> \"☭🗽 Nuclear holocaust\"\n\t\"🗽 Conventional military response\" -> \"☭ Start\" \n\t\"🗽 Conventional military response\" -> \"☭🗽 Nuclear holocaust\"\n\t\"🗽 Conventional military response\" -> \"☭🗽 End of war\"\n\n\t#start [shape=Mdiamond];\n\t#end [shape=Msquare];\n}\n```\n\n\nThe probability of Putin giving orders to employ a tactical nuke. \n* A says \"\"\"\n* B says \"\"\"\nThe common argument against Putin using a tactical nuke is that it won't help\nhim reach his objectives and that he would use it against his own country. I\ndon't think the second argument matters much, as Putin doesn't care about\nanyone, Russian or not. But the first argument depends on the probabilities\nPutin assign to the different responses from the allies.\n\nIn the LessWrong thread \"\"\" states that \n\nThus \n\n## Probability of tactical nuke being deployed\nNATO supposedly keeps track of the movement of tactical nukes on the ground and\nkeeps in touch with its operators. The idea here is that \n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

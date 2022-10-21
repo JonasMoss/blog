@@ -66,3 +66,99 @@ pairwise_mixed_model <- function(data, fixed = 3, uncorrelated = TRUE) {
   formula <- paste0("distance ~ ", fixed_effects, " + ", random_effects)
   mod <- lme4::lmer(formula, data = big_frame, REML = TRUE)
 }
+
+#' Estimates a choice model with both binary and graded responses.
+#' 
+#' The parameters are identified if there is no perfectly separated point and
+#'    the question graph is connected.
+#'   
+#' @data 
+double_est <- function(data, maxit = 1000) {
+  k <- ncol(data) - 2
+  n <- nrow(data)
+  
+  indices <- !is.na(data$distance)
+  y <- data$distance[indices]
+  z <- data$binary[!indices]
+  x <- as.matrix(data[, 3:ncol(data)])
+  x_dist <- x[indices, ]
+  x_bin <- x[!indices, ] * (2*z - 1)
+  theta <- c(rep(0, k), 1)
+  ui <- cbind(matrix(0, 1, k), 1)
+  ci <- 0
+  
+  # fit <- constrOptim(
+  #   theta = theta, 
+  #   f = f,
+  #   grad = \(x) numDeriv::grad(f, x),
+  #   ui = ui,
+  #   ci = ci,
+  #   control = list(maxit = maxit))
+  
+  f <- function(theta) {
+    betas <- theta[seq(k)]
+    sigma <- theta[k + 1]
+    
+    mean <- x_dist %*% betas
+    dist_contrib <- sum(dnorm(y / sigma, x_dist %*% betas, log = TRUE))
+    bin_contrib <- sum(pnorm(x_bin %*% betas, log.p = TRUE))
+    -(dist_contrib + bin_contrib)
+  }
+  
+  # fit <- optim(
+  #   par = theta, 
+  #   fn = f,
+  #   control = list(maxit = maxit),
+  #   hessian = TRUE)
+  
+  fit <- nlm(
+    p = theta, 
+    f = f,
+    iterlim = maxit,
+    hessian = TRUE)
+  
+  names <- colnames(data[, 3:ncol(data)])
+  beta <- stats::setNames(fit$estimate[seq(k)], names)
+  sigma <- unname(fit$estimate[k + 1])
+
+  list(
+    beta_star = beta,
+    beta = beta * sigma,
+    sigma = sigma,
+    likelihood = -fit$minimum,
+    aic = 2 * fit$minimum + 2 * (k + 1),
+    fit = fit,
+    n = n,
+    k = k
+  )
+}
+
+cis <- function(x) {
+  fit <- x$fit
+  beta <- x$beta
+  beta_star <- x$beta_star
+  sigma <- x$beta
+  n <- x$n
+  k <- x$k
+
+  sds <- diag(solve(x$fit$hessian))
+  if(any(sds <= 0)) warning("Hessian contains non-positive elements.")
+  sds <- pmax(sds, 0)
+  ses <- sqrt(head(sds, -1) * sigma^2 + sds[k+1] * beta_star^2) / sqrt(n)
+  
+  matrix(rep(beta, 2), ncol = 2) +
+    matrix(c(ses, ses), ncol = 2) *
+    matrix(c(qt(0.025, n - k), qt(0.975, n - k)), ncol = 2, nrow = k, byrow = TRUE)
+  
+}
+concordance = function(x) {
+  n = nrow(x)
+  r = ncol(x)
+  sigma = cov(x) * (n - 1) / n
+  mu = colMeans(x)
+  trace = sum(diag(sigma))
+  top = sum(sigma) - trace
+  bottom = (r - 1) * trace + r ^ 2 * (mean(mu^2) - mean(mu)^2)
+  top / bottom
+}
+

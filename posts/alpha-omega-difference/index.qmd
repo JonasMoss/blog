@@ -1,0 +1,23 @@
+---
+title: "Equivalence-testing the difference between coefficient and coefficient omega"
+author: "Jonas Moss"
+format: html
+editor: visual
+draft: true
+cache: true
+date: "a/b/2022"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [psychometrics, statistics]
+bibliography: bibliography.bib
+---
+
+### The asymptotic covariance
+
+### An example
+
+### Conclusions
+
+1.  It's easy to do equivalence testing for coefficient alpha and coefficient omega.
+
+2.  The motivation for doing such tests is lacking, and it seems better to just always report coefficient omega.

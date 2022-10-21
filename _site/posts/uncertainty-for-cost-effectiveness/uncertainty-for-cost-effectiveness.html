@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonas Moss">
+
+<title>Jonas Moss’ blog - Why you should \(E[E_{ heta}(B)/E_{ heta}(C)]\) for cost-benefits estimation, not \(E(B/C)\).</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Jonas Moss’ blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonasMoss"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Why you should <span class="math inline">\(E[E_{ heta}(B)/E_{ heta}(C)]\)</span> for cost-benefits estimation, not <span class="math inline">\(E(B/C)\)</span>.</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">effective altruism</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jonas Moss </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Oct 10, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<em>Epistemic status: Highly certain.</em>
+<script src="https://cdn.jsdelivr.net/gh/ncase/nutshell@1.0.2/nutshell.js"></script>
+<p>Suppose you have the opportunity to invest in a project with highly repeatedable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio</p>
+<ol type="1">
+<li>Model the cost and benefits <span class="math inline">\(E_\theta [C],E_\theta[C]\)</span> using a vector parameter <span class="math inline">\(\theta\)</span> that specifies how the world works. Importantly, you don’t have to model the joint distribution of <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>!</li>
+<li>Figure out the appropriate distribution of <span class="math inline">\(\theta\)</span>. This distribution can be subjective, the result of Fermi estimates, it can be estimated using statistical methods, or a combination of these.</li>
+<li>Report the expected value of <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span> along with uncertainty estimates such as credibility intervals or entire distributions.</li>
+</ol>
+<p>What you care about is the <em>epistemic uncertainty</em> in <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>; the <em>aleatoric uncertainty</em> involved in <span class="math inline">\(B/C\)</span> does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstratest that we should care about <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>.</p>
+<p><em>Thanks to Lorenzo for a productive discussion.</em></p>
+<p>As a canonical example we’ll consider bed net distribution. Let <span class="math inline">\(C\)</span> be the random cost of distributing one bednet and <span class="math inline">\(B\)</span> the benefit obtained from that.</p>
+<p>Imagine that, in reality, the cost <span class="math inline">\(C\)</span> and <span class="math inline">\(B\)</span> are random and distributed according to some distribution <span class="math inline">\(F\)</span>. Following this write-up, we may assume tha</p>
+<p><a href="https://forum.effectivealtruism.org/posts/SesLZfeYsqjRxM6gq/probability-distributions-of-cost-effectiveness-can-be">Probability distributions of Cost-Effectiveness can be misleading - EA Forum (effectivealtruism.org)</a></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="468pt" height="116pt" viewbox="0.00 0.00 467.75 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>
+G
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 463.75,-112 463.75,4 -4,4"></polygon> <!-- Cost --> <g id="node1" class="node">
+<title>
+Cost
+</title>
+<ellipse fill="none" stroke="black" cx="104.88" cy="-90" rx="29" ry="18"></ellipse> <text text-anchor="middle" x="104.88" y="-85.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Cost</text> </g> <!-- ☭ Tactical nuke ordered --> <g id="node2" class="node">
+<title>
+☭ Tactical nuke ordered
+</title>
+<ellipse fill="none" stroke="black" cx="104.88" cy="-18" rx="104.75" ry="18"></ellipse> <text text-anchor="middle" x="104.88" y="-13.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">☭ Tactical nuke ordered</text> </g> <!-- Cost&#45;&gt;☭ Tactical nuke ordered --> <g id="edge1" class="edge">
+<title>
+Cost-&gt;☭ Tactical nuke ordered
+</title>
+<path fill="none" stroke="black" d="M104.88,-71.7C104.88,-63.98 104.88,-54.71 104.88,-46.11"></path> <polygon fill="black" stroke="black" points="108.38,-46.1 104.88,-36.1 101.38,-46.1 108.38,-46.1"></polygon> </g> <!-- Benefit --> <g id="node3" class="node">
+<title>
+Benefit
+</title>
+<ellipse fill="none" stroke="black" cx="343.88" cy="-90" rx="39.42" ry="18"></ellipse> <text text-anchor="middle" x="343.88" y="-85.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Benefit</text> </g> <!-- ☭ No tactical nuke ordered --> <g id="node4" class="node">
+<title>
+☭ No tactical nuke ordered
+</title>
+<ellipse fill="none" stroke="black" cx="343.88" cy="-18" rx="115.75" ry="18"></ellipse> <text text-anchor="middle" x="343.88" y="-13.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">☭ No tactical nuke ordered</text> </g> <!-- Benefit&#45;&gt;☭ No tactical nuke ordered --> <g id="edge2" class="edge">
+<title>
+Benefit-&gt;☭ No tactical nuke ordered
+</title>
+<path fill="none" stroke="black" d="M343.88,-71.7C343.88,-63.98 343.88,-54.71 343.88,-46.11"></path> <polygon fill="black" stroke="black" points="347.38,-46.1 343.88,-36.1 340.38,-46.1 347.38,-46.1"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+<p>The probability of Putin giving orders to employ a tactical nuke. * A says ““” * B says ““” The common argument against Putin using a tactical nuke is that it won’t help him reach his objectives and that he would use it against his own country. I don’t think the second argument matters much, as Putin doesn’t care about anyone, Russian or not. But the first argument depends on the probabilities Putin assign to the different responses from the allies.</p>
+<p>In the LessWrong thread ““” states that</p>
+<p>Thus</p>
+<section id="probability-of-tactical-nuke-being-deployed" class="level2">
+<h2 class="anchored" data-anchor-id="probability-of-tactical-nuke-being-deployed">Probability of tactical nuke being deployed</h2>
+<p>NATO supposedly keeps track of the movement of tactical nukes on the ground and keeps in touch with its operators. The idea here is that</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

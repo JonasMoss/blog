@@ -7,27 +7,52 @@ data_list <- list(
   ozzie = jsonlite::fromJSON("posts/value-estimation/raw_data/ozzie-gooen.json")
 )
 
+source("posts/value-estimation/functions.R")
 
-data <- make_frame(data_list[[3]])
-data$x <- data$distance >= 0
+mod1 <- lm(distance ~ . - 1, data = make_frame(data_list$misha))
 
-pairwise_model_logit <- function(data, fixed = 3, keep_names = FALSE) {
-  data_frame <- make_frame(data, fixed = fixed, keep_names = keep_names)
-  data_frame$distance <- data_frame$distance >= 0
-  glm(distance ~ . - 1, data = data_frame, family = binomial(link = "logit"))
-}
+###============================================================================
+### Find perfectly separated points.
+###============================================================================
+
+name <- "linch"
+set.seed(11111) #9 does not work with p = 0.5
+p <- 0.9
+data = make_frame(data_list[[name]])
+data$binary <- 1 * (data$distance >= 0)
+indices <- rbinom(nrow(data), 1, p)
+indices[1] <- 1
+indices[21] <- 1
+indices[10] <- 1
+#indices <- rep(0, nrow(data))
+data$distance[!indices] <- NA
+data <- dplyr::relocate(data, binary, .after = 1)
 
 
+mod2 <- double_est(data, maxit = 10000)
+all = c(mod2$beta, coef(mod1))
+range = c(min(all), max(all))
+plot(coef(mod1), mod2$beta, xlim=range, ylim = range)
+abline(a = 0, b = 1)
 
+library("igraph")
+misha <- data_list[[name]]
+levels <- levels(as.factor(c(misha$source, misha$target)))
+#misha <- misha[which(!!indices), ]
+source <- as.numeric(factor(misha$source, levels = levels))
+target <- as.numeric(factor(misha$target, levels = levels))
+m <- length(source)
+select <- which(!!indices)
+source <- c(source, target[select])
+target <- c(target, source[select])
 
-plotter <- \(i) {
-  x <- coef(pairwise_model(data_list[[i]]))
-  y <- coef(pairwise_model_logit(data_list[[i]]))
-  
-  plot(x, y, xlab = "Scale kept", ylab = "Scale not kept",
-       sub = paste0("Correlation: ", round(cor(x, y), 3)),
-       main = names(data_list)[i])
-  abline(lm(y ~ x))  
-}
+graph <- igraph::graph_from_edgelist(cbind(source, target))
+E(graph)$color <- "red"
+E(graph)$color[which(!!indices)] <- "blue"
+E(graph)$color[(m+1):length(target)] <- "blue"
+plot(graph)
 
-plotter(6)
+cis <- cbind(confint(mod1), cis(mod2))
+apply(cis, 1, \(x) c(x[2] - x[1], x[4] - x[3]))
+
+components(graph)

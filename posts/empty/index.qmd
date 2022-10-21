@@ -1,0 +1,13 @@
+---
+title: "Empty"
+author: "Jonas Moss"
+format: html
+editor: visual
+draft: true
+cache: true
+date: "a/b/2022"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [effective altruism]
+bibliography: bibliography.bib
+---

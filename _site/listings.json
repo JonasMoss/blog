@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/quantiles/quantiles.html",
       "/posts/peek-pairwise/peek-pairwise.html",
       "/posts/attenuation-survey/attenuation-survey.html",
       "/posts/value-estimation/value-estimation.html",

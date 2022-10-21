@@ -1,0 +1,70 @@
+---
+title: "On imminent nuclear war"
+author: "Jonas Moss"
+format: html
+editor: visual
+cache: true
+date: "10/9/2022"
+freeze: auto  # re-render only when source changes
+date-format: "MMM D, YYYY"
+draft: true
+categories: [effective altruism]
+bibliography: nuclear-analysis.bib
+---
+
+Max Tegmark recently wrote a post detailing why he believes there is a $1/6$ chance of global nuclear war. 
+
+Decision-makers: East and West. 
+
+* East.
+  * Putin's belief about "Putin will be killed if the Ukraine war fails.".
+  * `python 2 + 2`
+
+
+
+```{dot}
+digraph G {
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+
+	
+	"☭ Start" -> "☭ Tactical nuke ordered"
+	"☭ Start" -> "☭ No tactical nuke ordered"
+	"☭ No tactical nuke ordered" -> "☭🗽 End of war"
+	"☭ Tactical nuke ordered" -> "☭ Tactical nuke deployed"
+	"☭ Tactical nuke ordered" -> "☭ Tactical nuke not deployed"
+	"☭ Tactical nuke not deployed" -> "☭🗽 End of war"
+	"☭ Tactical nuke not deployed" -> "☭ Start" 
+	"☭ Tactical nuke not deployed"  -> "☭🗽 Nuclear holocaust"
+	"☭ Tactical nuke deployed" -> "🗽 Economic retaliation"
+	"☭ Tactical nuke deployed" -> "🗽 Conventional military response"
+	"☭ Tactical nuke deployed" -> "☭🗽 Nuclear holocaust"
+	"🗽 Economic retaliation" -> "☭ Start" 
+	"🗽 Economic retaliation" -> "☭🗽 End of war"
+	"🗽 Economic retaliation" -> "☭🗽 Nuclear holocaust"
+	"🗽 Conventional military response" -> "☭ Start" 
+	"🗽 Conventional military response" -> "☭🗽 Nuclear holocaust"
+	"🗽 Conventional military response" -> "☭🗽 End of war"
+
+	#start [shape=Mdiamond];
+	#end [shape=Msquare];
+}
+```
+
+The probability of Putin giving orders to employ a tactical nuke. 
+* A says """
+* B says """
+The common argument against Putin using a tactical nuke is that it won't help
+him reach his objectives and that he would use it against his own country. I
+don't think the second argument matters much, as Putin doesn't care about
+anyone, Russian or not. But the first argument depends on the probabilities
+Putin assign to the different responses from the allies.
+
+In the LessWrong thread """ states that 
+
+Thus 
+
+## Probability of tactical nuke being deployed
+NATO supposedly keeps track of the movement of tactical nukes on the ground and
+keeps in touch with its operators. The idea here is that 

@@ -1,0 +1,57 @@
+---
+title: "Why you should $E[E_{\theta}(B)/E_{\theta}(C)]$ for cost-benefits estimation, not $E(B/C)$."
+author: "Jonas Moss"
+format: html
+editor: visual
+cache: true
+date: "10/10/2022"
+draft: true
+freeze: auto  # re-render only when source changes
+date-format: "MMM D, YYYY"
+categories: [effective altruism]
+bibliography: uncertainty-for-cost-effectiveness.bib
+---
+
+*Epistemic status: Highly certain.*
+<script src="https://cdn.jsdelivr.net/gh/ncase/nutshell@1.0.2/nutshell.js"></script>
+
+Suppose you have the opportunity to invest in a project with highly repeatedable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio
+
+1.  Model the cost and benefits $E_\theta [C],E_\theta[C]$ using a vector parameter $\theta$ that specifies how the world works. Importantly, you don't have to model the joint distribution of $B$ and $C$!
+2.  Figure out the appropriate distribution of $\theta$. This distribution can be subjective, the result of Fermi estimates, it can be estimated using statistical methods, or a combination of these.
+3.  Report the expected value of $E_\theta[B]/E_\theta[C]$ along with uncertainty estimates such as credibility intervals or entire distributions.
+
+What you care about is the *epistemic uncertainty* in $E_\theta[B]/E_\theta[C]$; the *aleatoric uncertainty* involved in $B/C$ does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstratest that we should care about $E_\theta[B]/E_\theta[C]$.
+
+*Thanks to Lorenzo for a productive discussion.*
+
+As a canonical example we'll consider bed net distribution. Let $C$ be the random cost of distributing one bednet and $B$ the benefit obtained from that.
+
+Imagine that, in reality, the cost $C$ and $B$ are random and distributed according to some distribution $F$. Following this write-up, we may assume tha
+
+[Probability distributions of Cost-Effectiveness can be misleading - EA Forum (effectivealtruism.org)](https://forum.effectivealtruism.org/posts/SesLZfeYsqjRxM6gq/probability-distributions-of-cost-effectiveness-can-be)
+
+```{dot}
+digraph G {
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+
+	
+	"Cost" -> "☭ Tactical nuke ordered"
+	"Benefit" -> "☭ No tactical nuke ordered"
+
+	#start [shape=Mdiamond];
+	#end [shape=Msquare];
+}
+```
+
+The probability of Putin giving orders to employ a tactical nuke. \* A says """ \* B says """ The common argument against Putin using a tactical nuke is that it won't help him reach his objectives and that he would use it against his own country. I don't think the second argument matters much, as Putin doesn't care about anyone, Russian or not. But the first argument depends on the probabilities Putin assign to the different responses from the allies.
+
+In the LessWrong thread """ states that
+
+Thus
+
+## Probability of tactical nuke being deployed
+
+NATO supposedly keeps track of the movement of tactical nukes on the ground and keeps in touch with its operators. The idea here is that

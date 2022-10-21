@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonas Moss">
+
+<title>Jonas Moss’ blog - Deriving distributions from quantiles</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Jonas Moss’ blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonasMoss"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Deriving distributions from quantiles</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">effective altruism</div>
+                <div class="quarto-category">statistics</div>
+                <div class="quarto-category">fermi estimates</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jonas Moss </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Oct 20, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="cell" data-hash="quantiles_cache/html/unnamed-chunk-1_3c35eff1db661378bb3776dade3ef210">
+
+</div>
+<section id="summary" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="summary"><span class="header-section-number">1</span> Summary</h2>
+<ol type="1">
+<li>Good methods for eliciting densities from quantiles should satisfy six conditions.</li>
+<li>I propose a class of method for constructing densities for quantiles based on transformations and penalized monotone B-splines. It satisfies 3 or 4 of the conditions with appropriate tweaking.</li>
+<li>Some of the weaknesses of my proposed method may be ameliorated. I make some suggestions about how to do this.</li>
+<li>There are infinitely many ways to translate quantiles to densities. I sketch another one at the end.</li>
+</ol>
+</section>
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
+<p>While doing <a href="https://forum.effectivealtruism.org/posts/cpfgq84B8XHXPWLcM/introduction-to-fermi-estimates">Fermi estimation</a> (“guesstimation”) you often want to construct a distribution from quantile knowledge. Dealing with two quantiles is quite easy, as you have plenty of distribution families that are easy to fit. Location-scale families, such as the normal distribution, logistic distribution, Cauchy distribution, or the shifted exponential distribution are particularly easy to fit. Moreover, a monotonically transformed location-scale distribution is equally easy to work with, e.g.&nbsp;the log-normal and log-logistic distributions.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Some details on location-scale distributions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A variable <span class="math inline">\(Y\)</span> belongs to a location-scale family of distributions if it can be written on the form <span class="math inline">\(Y=\mu+\sigma X\)</span>. If <span class="math inline">\(F\)</span> is the distribution function <span class="math inline">\(X\)</span>, then <span class="math inline">\(F\left(\frac{y-\mu}{\sigma}\right)\)</span> is the distribution function of <span class="math inline">\(Y\)</span>, as <span class="math display">\[P(Y\leq y)    =   P(\mu+\sigma X\leq y)
+    =   P(X\leq(y-\mu)/\sigma)
+    =   F\left(\frac{y-\mu}{\sigma}\right).\]</span></p>
+<p>We also find that the quantile function of <span class="math inline">\(Y\)</span> equals <span class="math inline">\(Q_Y(p)=\mu+\sigma Q(p)\)</span>, where <span class="math inline">\(Q\)</span> is the quantile function of <span class="math inline">\(X\)</span>.</p>
+<p>We can derive <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> by matching quantiles: <span class="math display">\[\begin{eqnarray*}
+q_{1} &amp; = &amp; \mu+\sigma F^{-1}(p_{1}),\\
+q_{2} &amp; = &amp; \mu+\sigma F^{-1}(p_{2}).
+\end{eqnarray*}\]</span></p>
+<p>If <span class="math inline">\(g\)</span> is a strictly increasing transformation then <span class="math inline">\(Y=g(\mu + \sigma X)\)</span> is a transformed location-scale distribution. You can derive its quantiles in the same way as you would a location-scale distribution, just be sure to apply <span class="math inline">\(g^{-1}\)</span>. Usually <span class="math inline">\(g=\exp\)</span> and <span class="math inline">\(X\)</span> is normal, yielding the log-normal distribution.</p>
+</div>
+</div>
+</div>
+<p>But what do we do with more than two quantiles? We could fit a <span class="math inline">\(k\)</span>-parameter distribution, but there are few canonical densities to choose from with <span class="math inline">\(k&gt;2\)</span> parameters. And it’s hard to justify your choice in any case. For two (or one) parameters, the normal distribution can often be justified for data on <span class="math inline">\([-\infty, \infty]\)</span> based on the central limit theorem; likewise, the log-normal can be justified based on a product argument – and the exponential and half-normal with their own reasoning methods. Three or more though? There’s just no standard way to do it.</p>
+</section>
+<section id="what-would-we-like" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="what-would-we-like"><span class="header-section-number">3</span> What would we like?</h2>
+<p>How should we go about deciding on a class of distribution to fit quantiles to? Here are 6 conditions I like.</p>
+<ol type="1">
+<li><strong>Control of tail behavior.</strong> The exact shape of the distributions “in the middle” – where we are likely to have the strongest intuitions – often doesn’t matter too much. If we’re dealing with, say, insurance, having control of the tails is just as important as fine-grained control over how the curve looks in the center.</li>
+<li><strong>Good looks.</strong> This is a vague requirement, but can probably be replaced with the almost equally vague requirement of the densities being smooth. Smoothness is not just about aesthetics, as we expect the best predictive densities to be smooth, with continuous second derivatives at the very least. We would also like to avoid multimodality when possible. It’s easy to make densities with bad looks, and severe discontinuities, see e.g. <a href="#fig-piecewise">Figure&nbsp;2</a>. We don’t want those</li>
+<li><strong>Principled derivation.</strong> We do not want the densities to be ad-hoc but derived using sound principles such as <a href="https://en.wikipedia.org/wiki/Principle_of_maximum_entropy">maximum entropy</a>. It’s not trivial to combine this with the good-looks demand, <a href="https://mathoverflow.net/questions/253305/maximum-entropy-distribution-with-constrained-quantiles">as maximum entropy + quantile information yields discontinuous densities!</a></li>
+<li><strong>Bounded away from</strong> <span class="math inline">\(0\)</span>. We don’t want out densities to be <span class="math inline">\(0\)</span> at arbitrary places! See <a href="#fig-bad-density">Figure&nbsp;6</a> for an example of such bad behavior.</li>
+<li><strong>Easy to sample from.</strong> Especially relevant for <a href="https://www.squiggle-language.com/">Squiggle applications</a>.</li>
+<li><strong>Quick to calculate, cheap to store, etc.</strong> We always want convenience, but it’s hard to say as an outsider what is most important! Quick computation would matter for interfaces used by products such as <a href="https://www.metaculus.com/questions/">Metaculus</a>.</li>
+</ol>
+<p>How can you construct densities that match aribtrary quantiles? The most obvious starting points arew mixture distributions and quantile mixtures.</p>
+<p><a href="https://en.wikipedia.org/wiki/Mixture_distribution">Mixture distributions</a> can be written on the form <span class="math inline">\(G(x) = \sum_i^n \lambda_i F_i(x, \theta_i)\)</span> for a collection of parameterized basis distributions <span class="math inline">\(F_i(x;\theta_i)\)</span>. By making <span class="math inline">\(n\)</span> big enough and <span class="math inline">\(F_i(\theta_i)\)</span> sufficiently flexible, we can match any quantile to it. The most famous member of this family are normal mixtures. Mixture distributions have been studied a lot. There might be reasonably simple iterative methods to fit mixtures of location-scale distributions, but it seems hard, as the quantile function has no closed form. But different forms of “basis distributions” can be fitted quite easily, at least on <span class="math inline">\([0,1]\)</span>. Perhaps best known among these are the <a href="https://en.wikipedia.org/wiki/Bernstein_polynomial">Bernstein polynomials</a> (themselves special instances of the Beta distribution), which will fit any distribution arbitrarily well in the limit by the <a href="https://en.wikipedia.org/wiki/Stone%E2%80%93Weierstrass_theorem">Weierstrass approximation theorem</a>. Another good option is to use <a href="https://en.wikipedia.org/wiki/B-spline">splines</a>, which can be constrained to be positive and increasing without too much difficulty.</p>
+<p><a href="https://pubsonline.informs.org/doi/abs/10.1287/deca.1110.0213">Quantile-parameterized distributions</a> have their quantile distributions written on the form <span class="math inline">\(Q(x) = \sum_i^n \lambda_i q_i(x; \theta_i)\)</span> instead. This class of distributions purportedly includes the <a href="https://pubsonline.informs.org/doi/abs/10.1287/deca.2016.0338">metalog distribution</a> with its <a href="https://en.wikipedia.org/wiki/Metalog_distribution">bloated wikipedia page</a>, but in reality they require minor a conceptual modification to fit into the framework, as its component are not bona fide quantile functions. In principle, such “quantile mixtures” can be matched to any quantile using non-negative least squares, provided the basis quantiles are flexible enough. This is entirely feasible to do – provided the domain of the vaiables are bounded on <span class="math inline">\([0,1]\)</span>, using them same methods as we would use for fitting cumulative distribution functions. For quantile functions and distributions functions on <span class="math inline">\([0,1]\)</span> are the same thing - increasing and positive functions bounded by <span class="math inline">\([0,1]\)</span>, so we have freedom in choosing which to model.</p>
+<p>Since it is possible to fit easily fit quantiles on the unit interval the following strategy, as illustrated in <a href="#fig-simple">Figure&nbsp;1</a>, sounds promising:</p>
+<ol type="1">
+<li>Start out with a base distribution, such as the log-normal, with distribution function <span class="math inline">\(F\)</span>, and density function <span class="math inline">\(f\)</span>. Then transform the quantiles <span class="math inline">\(q=q_{1},q_{2},\ldots,q_{k}\)</span> to the unit interval using <span class="math inline">\(F\)</span>; call the transformed quantiles <span class="math inline">\(x\)</span> and the associated probabilities <span class="math inline">\(y\)</span>. We can then use these quantiles to construct a distribution <span class="math inline">\(S\)</span> (and associated density <span class="math inline">\(s\)</span>) on the unit interval with the desired quantiles.</li>
+<li>Fit the quantiles on the unit interval. We will look at the piecewise linear approximation, monotone interpolating splines, and penalized monotone B-splines. The penalized monotone B-splines is the only promising approach.</li>
+<li>Transform the fitted distribution back, using the quantile function. This yields the density <span class="math inline">\(g(x)=f(x)s(F(x))\)</span>, cumulativedistribution function <span class="math inline">\(G(x)=S(F(x))\)</span>, and quantile function <span class="math inline">\(G^{-1}(x)=F^{-1}(S^{-1}(x))\)</span>.</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-simple" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-1">flowchart TD
+  B([Quantiles]) --&gt; C
+  A([Base \n distribution])--&gt;C[Transformed \n quantiles]
+  D([Method to create\n distribution on\n unit interval]) --&gt; E[Distribution on\n unit interval]
+  C --&gt; E
+  A --&gt; F[Final distribution]
+  E --&gt; F[Final distribution]
+  
+</pre>
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure 1: Diagram of the proposed method. Boxes with rounded edges are input variables. Most of the complexity lies in the method used to create a distribution on the unit interval.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s take a look at the piecewise linear approach and the monotone interpolating splines to see why they are not promising.</p>
+<section id="piecewise-linear" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="piecewise-linear"><span class="header-section-number">3.1</span> Piecewise linear</h3>
+<p>Our base distribution is the log-normal.</p>
+<div class="cell" data-hash="quantiles_cache/html/unnamed-chunk-3_ac9dab4345d087662974ebb8f9050d2f">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> plnorm; d <span class="ot">&lt;-</span> dlnorm; q <span class="ot">&lt;-</span> qlnorm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The quantiles are semi-randomly chosen to be as follows</p>
+<div class="cell" data-hash="quantiles_cache/html/unnamed-chunk-4_073c06eaea6b7f7e737bb1f790a82377">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">q</span>(<span class="fl">0.1</span>), <span class="fu">q</span>(<span class="fl">0.85</span>), <span class="fu">q</span>(<span class="fl">0.9</span>), <span class="cn">Inf</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">p</span>(qq)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(qq, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00 0.28 2.82 3.60  Inf</code></pre>
+</div>
+</div>
+<p>I’ll use the log-normal base distribution and these quantiles throughout this post.</p>
+<p>The piecewise linear approximation and its associated histogram can be calculated using splines.</p>
+<div class="cell" data-hash="quantiles_cache/html/unnamed-chunk-5_6ebf25aa3d42a376ea6b7b75ff7dd60b">
+<details>
+<summary>Function to the piecewise linear approximation and its associated histogram. The implementation was fast to write, but there are more efficient implementations available.</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>piecewise <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  sf <span class="ot">&lt;-</span> \(y,...) splines2<span class="sc">::</span><span class="fu">iSpline</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    y, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">knots =</span> x[<span class="dv">2</span><span class="sc">:</span>(<span class="fu">length</span>(x) <span class="sc">-</span> <span class="dv">1</span>)],</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">degree =</span> <span class="dv">0</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Boundary.knots =</span> <span class="fu">c</span>(x[<span class="dv">1</span>], x[<span class="fu">length</span>(x)]),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ...)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  xmat <span class="ot">&lt;-</span> <span class="fu">sf</span>(x)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  coefs <span class="ot">&lt;-</span> nnls<span class="sc">::</span><span class="fu">nnls</span>(<span class="at">A =</span> xmat, <span class="at">b =</span> y)<span class="sc">$</span>x</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  pdf_untrans <span class="ot">=</span> \(w) <span class="fu">sf</span>(w, <span class="at">derivs =</span> <span class="dv">1</span>) <span class="sc">%*%</span> coefs</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  cdf_untrans <span class="ot">=</span> \(w) <span class="fu">sf</span>(w) <span class="sc">%*%</span> coefs</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> x,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">pdf =</span> \(w, <span class="at">d =</span> dunif, <span class="at">p =</span> punif) <span class="fu">d</span>(w) <span class="sc">*</span> <span class="fu">pdf_untrans</span>(<span class="fu">p</span>(w)),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> \(w, <span class="at">p =</span> punif) <span class="fu">cdf_untrans</span>(<span class="fu">p</span>(w))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The resulting distribution, density, and target density can be seen below.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-piecewise_698d4eb0db80bf1ba92bb16a24a6016e">
+<details>
+<summary>Code for plotting the piecewise linear CDF and PDF on the transformed scale and the PDF on the untransformed scale.</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>obj <span class="ot">&lt;-</span> <span class="fu">piecewise</span>(x, y)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, obj<span class="sc">$</span><span class="fu">cdf</span>(z), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Cumulative probability"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Transformed distribution function"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> y, <span class="at">v =</span> x, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, obj<span class="sc">$</span><span class="fu">pdf</span>(z), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Transformed density"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(w, obj<span class="sc">$</span><span class="fu">pdf</span>(w, d, p), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Target density"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">q</span>(x), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-piecewise" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-piecewise-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 2: Plot of a piecewise linear transformed CDF and piecewise densities.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The target density is discontinuous.</p>
+</section>
+<section id="monotone-interpolation-splines" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="monotone-interpolation-splines"><span class="header-section-number">3.2</span> Monotone interpolation splines</h3>
+<p>Monotone interpolation splines are used to interpolate a sequence of points with a monotone function. There are two variants implemented in <code>R</code>, the Hyman (1983) splines and the Fritsch–Carlson (1980) splines. Both yield functions with continuous first derivative. Since we’re fitting the cumulative distribution function, this guarantees that the density function is continuous.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-monotone_6a028601af84b45fadcd57e2675164e0">
+<details>
+<summary>Code for Hyman splines and Fritsch–Carlson splines</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">splinefun</span>(x, y, <span class="at">method =</span> <span class="st">"hyman"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">splinefun</span>(x, y, <span class="at">method =</span> <span class="st">"monoH.FC"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, <span class="fu">dlnorm</span>(z) <span class="sc">*</span> <span class="fu">f1</span>(<span class="fu">plnorm</span>(z), <span class="at">deriv =</span> <span class="dv">1</span>), <span class="at">type =</span> <span class="st">"l"</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Target density with Hyman (black) and Fritsch-Carlson (blue) splines"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(z, <span class="fu">dlnorm</span>(z) <span class="sc">*</span> <span class="fu">f2</span>(<span class="fu">plnorm</span>(z), <span class="at">deriv =</span> <span class="dv">1</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">q</span>(x), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-monotone" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-monotone-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 3: Plot of target densities with Hyman splines and Fritsch–Carlson splines.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Both methods yield ugly target densities, probably because the resulting interpolating splines only have continuous first derivatives, not continuous second derivatives (as most cubic splines have). Moreover, the Hyman method yields a density that fails to be bounded away from <span class="math inline">\(0\)</span>. Since there is no obvious way to fix these splines, I’m moving on to another method.</p>
+</section>
+</section>
+<section id="fitting-monotone-b-splines-with-penalties" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="fitting-monotone-b-splines-with-penalties"><span class="header-section-number">4</span> Fitting monotone B-splines with penalties</h2>
+<p>Recall that <span class="math inline">\(x_i\)</span> are the transformed quantiles. We need to find and <span class="math inline">\(F\)</span> that satisfies <span class="math inline">\(F(x_i) = y_i\)</span>. Since this isn’t enough to identify the <span class="math inline">\(F\)</span>, we can try minimize the squared distance between <span class="math inline">\(F\)</span> and the identity function <span class="math inline">\(\iota\)</span> defined by <span class="math inline">\(\iota(x) = x\)</span> for some function class <span class="math inline">\(\mathcal{F}\)</span> that is contained in the set of increasing functions. <span id="eq-minimizer"><span class="math display">\[\min_{F(x_{i})=y_{i},F\in\mathcal{F}}\|F-\iota \|^2 \tag{1}\]</span></span></p>
+<p>My choice of <span class="math inline">\(\mathcal{F}\)</span> is the set of monotone B-splines with <span class="math inline">\(m\)</span> uniformly spaced internal knots and boundary knots at <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. These splines are most likely guaranteed to interpolate your quantiles when <span class="math inline">\(m\)</span> is large enough, but I don’t know the details. The result is a quadratic program with linear constraints; see the code in <a href="#sec-fitter">Section&nbsp;4.1</a>. (I can add mathematical details upon request.)</p>
+<p>When using splines of degree <span class="math inline">\(3\)</span> and <span class="math inline">\(m = 40\)</span> on the quantiles <span class="math inline">\(x\)</span> introduced above, we get the following result.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-bad-density-1_58c9fd3323f03588b7303258072f7e91">
+<div class="cell-output-display">
+<div id="fig-bad-density-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-bad-density-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 4: Monotone B-sline density without penalization.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The second bump looks beautiful and smooth! But the first bump is to irregular, lacking smoothness at its end and going up and down too much. Moreover, the density is <span class="math inline">\(0\)</span> almost all the way from <span class="math inline">\(0\)</span> to <span class="math inline">\(3\)</span>, which we typically do not want.</p>
+<p>To fix the smoothness problems we add a penalty term for the integrated squared second derivative together with a parameter <span class="math inline">\(\lambda\)</span> regulating the influence of the penalty term. (Just like the <span class="math inline">\(\lambda\)</span> in ridge regression regression). To fix <span class="math inline">\(0\)</span> problem, we add a penalty term to the integrated squared first derivative, parameterized by <span class="math inline">\(\mu\)</span>. Both of these terms can be added to the quadratic implied by <a href="#eq-minimizer">Equation&nbsp;1</a>.</p>
+<section id="sec-fitter" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="sec-fitter"><span class="header-section-number">4.1</span> The <code>fitter</code> function</h3>
+<p>The <code>R</code> function below fits the splines using the arguments <span class="math inline">\(m\)</span> (number of knots), the degree of the B-splines (<code>degree</code>), <span class="math inline">\(\lambda\)</span> (the penalty for the second derivative), <span class="math inline">\(\mu\)</span> (the penalty for the first derivative).</p>
+<div class="cell" data-hash="quantiles_cache/html/unnamed-chunk-9_32d884ec5546c7036c42ddb554b92653">
+<details>
+<summary>The <code>fitter</code> functions and its helpers.</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Fits a density to quantiles.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' The method is based on monotone splines. We minimize the squared distance</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'    between the spline approximation and the identity function. Thus you</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'    minimize the distance between the CDF and the uniform CDF in a</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'    q-transformed space. The parameters `lambda` and `mu` are to tweak the</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#'    resulting density into the desired shape.</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' The function returns</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param x,y Vector of probabilities (`x`) and quantiles (`y`). The quantiles</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#'    must have been transformed to the unit interval using your desired `q`.</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param m Number of internal knots in the spline.</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param degree Degree of the spline function. Defaults to `3`, which</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#'   corresponds to cubic splines.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param lambda The penalty term for the squared second derivative.</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param mu The penalty term for the squared derivative.</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A list containing the fitted spline together with density functions,</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#'   and so on.</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>fitter <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">m =</span> <span class="dv">20</span>, <span class="at">degree =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="fl">0.5</span>, <span class="at">mu =</span> <span class="dv">0</span>) {</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  knots <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">:</span>m) <span class="sc">/</span> (m <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  boundary_knots <span class="ot">&lt;-</span> <span class="fu">c</span>(y[<span class="dv">1</span>], y[<span class="fu">length</span>(y)])</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  sf <span class="ot">&lt;-</span> \(x, <span class="at">derivs =</span> <span class="dv">0</span>) splines2<span class="sc">::</span><span class="fu">bSpline</span>(</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">knots =</span> knots,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">degree =</span> degree,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">Boundary.knots =</span> boundary_knots,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivs =</span> derivs</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  matrices <span class="ot">&lt;-</span> <span class="fu">get_penalties</span>(knots, boundary_knots, degree)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  x_mat <span class="ot">&lt;-</span> <span class="fu">sf</span>(x)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">Vectorize</span>(\(x, i) x <span class="sc">*</span> <span class="fu">sf</span>(x)[i])</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(x_mat)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  sx <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(k), \(i) <span class="fu">integrate</span>(f, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>, <span class="at">i =</span> i)<span class="sc">$</span>value)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  constraints <span class="ot">&lt;-</span> <span class="fu">increasing</span>(<span class="fu">ncol</span>(x_mat) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> quadprog<span class="sc">::</span><span class="fu">solve.QP</span>(</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">Dmat =</span> matrices<span class="sc">$</span>s2_mat <span class="sc">+</span> lambda <span class="sc">*</span> matrices<span class="sc">$</span>p_mat <span class="sc">+</span> mu <span class="sc">*</span> matrices<span class="sc">$</span>p1_mat,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">dvec =</span> sx,</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">Amat =</span> <span class="fu">t</span>(<span class="fu">rbind</span>(x_mat, constraints<span class="sc">$</span>amat)),</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">bvec =</span> <span class="fu">c</span>(y, constraints<span class="sc">$</span>bvec),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">meq =</span> <span class="fu">length</span>(y)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  coefs <span class="ot">&lt;-</span> fit<span class="sc">$</span>solution</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  pdf_untrans <span class="ot">=</span> \(w) <span class="fu">sf</span>(w, <span class="at">derivs =</span> <span class="dv">1</span>) <span class="sc">%*%</span> coefs</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  cdf_untrans <span class="ot">=</span> \(w) <span class="fu">sf</span>(w) <span class="sc">%*%</span> coefs</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> x,</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y,</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">m =</span> m,</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">degree =</span> degree,</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda =</span> lambda,</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> mu,</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">fit =</span> fit,</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">pdf =</span> \(w, <span class="at">d =</span> dunif, <span class="at">p =</span> punif) <span class="fu">d</span>(w) <span class="sc">*</span> <span class="fu">pdf_untrans</span>(<span class="fu">p</span>(w)),</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> \(w, <span class="at">p =</span> punif) <span class="fu">cdf_untrans</span>(<span class="fu">p</span>(w))</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co">#' Get penalty matrices for the fitter.</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param knots The internal knots.</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param boundary_knots The boundary knots.</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param degree Degree of the B-spline.</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return List of penalty matrices.</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>get_penalties <span class="ot">&lt;-</span> <span class="cf">function</span>(knots, boundary_knots, degree) {</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  basis_obj <span class="ot">&lt;-</span> fda<span class="sc">::</span><span class="fu">create.bspline.basis</span>(</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">rangeval =</span> boundary_knots,</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">norder =</span> degree <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(boundary_knots[<span class="dv">1</span>], knots, boundary_knots[<span class="dv">2</span>])</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  inds <span class="ot">&lt;-</span> <span class="fu">seq</span>(basis_obj<span class="sc">$</span>nbasis)</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">s2_mat =</span> fda<span class="sc">::</span><span class="fu">bsplinepen</span>(basis_obj, <span class="at">Lfdobj =</span> <span class="dv">0</span>)[inds, inds],</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_mat =</span> fda<span class="sc">::</span><span class="fu">bsplinepen</span>(basis_obj, <span class="at">Lfdobj =</span> <span class="dv">2</span>)[inds, inds],</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1_mat =</span> fda<span class="sc">::</span><span class="fu">bsplinepen</span>(basis_obj, <span class="at">Lfdobj =</span> <span class="dv">1</span>)[inds, inds]</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="co">#' Increasing constraints matrix and vector</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="co">#' @keywords internal</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param m The number of knots in the spline.</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param intercept If `TRUE`, the model includes an intercept.</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return The increasing constraint matrix.</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>increasing <span class="ot">&lt;-</span> <span class="cf">function</span>(m, <span class="at">intercept =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  amat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="fu">cbind</span>(<span class="fu">diag</span>(m <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">cbind</span>(<span class="dv">0</span>, <span class="fu">diag</span>(m <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  amat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">0</span>, amat)</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  amat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(amat, <span class="dv">0</span>)</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>  amat[m <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">c</span>(<span class="dv">1</span>, m <span class="sc">+</span> <span class="dv">1</span>)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>  amat[<span class="dv">1</span>, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>  amat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">0</span>, amat)</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>  amat[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>intercept) {</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>    amat <span class="ot">&lt;-</span> amat[<span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(amat), <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(amat)]</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>  bvec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(amat))</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>  bvec[<span class="fu">nrow</span>(amat)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">amat =</span> amat,</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="at">bvec =</span> bvec</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="fixing-the-density" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="fixing-the-density"><span class="header-section-number">4.2</span> Fixing the density</h3>
+<p>Using <span class="math inline">\(m = 40\)</span>, a degree of <span class="math inline">\(3\)</span>, <span class="math inline">\(\lambda = 0.01\)</span>, and <span class="math inline">\(\mu = 5\)</span> fixes <a href="#fig-bad-density-1">Figure&nbsp;4</a>.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-good-density_31b6b54acd2f6e6c2f2bce7b05d02cca">
+<details>
+<summary>Constructing and plotting a monotone B-spline with a good penalization.</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>obj <span class="ot">&lt;-</span> <span class="fu">fitter</span>(x, y, <span class="at">m =</span> <span class="dv">40</span>, <span class="at">degree =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="fl">0.01</span>, <span class="at">mu =</span> <span class="dv">5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(w, obj<span class="sc">$</span><span class="fu">pdf</span>(w, d, p), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Target density"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">q</span>(x), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-good-density" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-good-density-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 5: A good-looking density.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This example suggests that the penalized monotone B-spline method can be good-looking, avoid the 0 problem, control the tail behavior, and be at least reasonably quick to calculate (as quadratic programs of this small size are fast to solve). I’m not sure how easy they will be to sample from though, and I’m even less sure they have a principled derivation. But their biggest problem is parameter tuning.</p>
+<p>We can reintroduce the <span class="math inline">\(0\)</span> problem by modifying <span class="math inline">\(\lambda\)</span>. Setting <span class="math inline">\(\lambda = 0.03\)</span> instead of <span class="math inline">\(\lambda = 0.01\)</span> gives us the following. It appears that smoothing too much reintroduces the <span class="math inline">\(0\)</span> problem. I’m not sure why though.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-bad-density_050a3fb27c58f0c76b460f4345df070d">
+<details>
+<summary>Constructing and plotting a monotone B-spline with a bad penalization.</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>obj <span class="ot">&lt;-</span> <span class="fu">fitter</span>(x, y, <span class="at">m =</span> <span class="dv">30</span>, <span class="at">degree =</span> <span class="dv">4</span>, <span class="at">lambda =</span> <span class="fl">0.03</span>, <span class="at">mu =</span> <span class="dv">5</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, obj<span class="sc">$</span><span class="fu">cdf</span>(z), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Cumulative probability"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Transformed distribution function"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> y, <span class="at">v =</span> x, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, obj<span class="sc">$</span><span class="fu">pdf</span>(z), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Transformed density"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(w, obj<span class="sc">$</span><span class="fu">pdf</span>(w, d, p), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">xlab =</span> <span class="st">"x"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Target density"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">q</span>(x), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bad-density" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-bad-density-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 6: A bad density that’s equal to <span class="math inline">\(0\)</span> at places we don’t want it to when smoothing too much.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="changing-the-base-distributions" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="changing-the-base-distributions"><span class="header-section-number">4.3</span> Changing the base distributions</h3>
+<p>The choice of base distribution has a big effect on the target distribution. <a href="#fig-changing-base">Figure&nbsp;7</a> shows an example.</p>
+<div class="cell" data-hash="quantiles_cache/html/fig-changing-base_faf5af71f3a1bebb4e96f1713b9770fc">
+<details>
+<summary>Plotting many target densities.</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(d, p, q, main) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">p</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">Inf</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  obj <span class="ot">&lt;-</span> <span class="fu">fitter</span>(x, y, <span class="at">m =</span> <span class="dv">90</span>, <span class="at">degree =</span> <span class="dv">5</span>, <span class="at">lambda =</span> <span class="fl">0.1</span>, <span class="at">mu =</span> <span class="dv">5</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(w, obj<span class="sc">$</span><span class="fu">pdf</span>(w, d, p), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> main)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">q</span>(x), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">6</span>), <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(extraDistr<span class="sc">::</span>drayleigh, extraDistr<span class="sc">::</span>prayleigh, extraDistr<span class="sc">::</span>qrayleigh, <span class="at">main =</span> <span class="st">"Rayleigh"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(dexp, pexp, qexp, <span class="at">main =</span> <span class="st">"Exponential"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(dlnorm, plnorm, qlnorm, <span class="at">main =</span> <span class="st">"Log-normal"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(extraDistr<span class="sc">::</span>dhcauchy, extraDistr<span class="sc">::</span>phcauchy, extraDistr<span class="sc">::</span>qhcauchy, <span class="at">main =</span> <span class="st">"Half-Cauchy"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(extraDistr<span class="sc">::</span>dhnorm, extraDistr<span class="sc">::</span>phnorm, extraDistr<span class="sc">::</span>qhnorm, <span class="at">main =</span> <span class="st">"Half-Normal"</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plotter</span>(extraDistr<span class="sc">::</span>dfrechet, extraDistr<span class="sc">::</span>pfrechet, extraDistr<span class="sc">::</span>qfrechet, <span class="at">main =</span> <span class="st">"Fr\u{E9}chet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-changing-base" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="quantiles_files/figure-html/fig-changing-base-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 7: Target densities based on <span class="math inline">\(6\)</span> base distributions. The degree is <span class="math inline">\(5\)</span>, the number of internal knots is <span class="math inline">\(m = 90\)</span>, <span class="math inline">\(\lambda = 0.1\)</span>, and <span class="math inline">\(\mu = 5\)</span>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="potential-modifications" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="potential-modifications"><span class="header-section-number">4.4</span> Potential modifications</h3>
+<p>It could be worth it to attempt a modification of the penalties. As currently computed, the penalties, involving the squared integrals <span class="math inline">\(\int [f^{(p)}(x)]^2dx\)</span>, are calculated on the transformed level. They should ideally be calculated on the untransformed level instead, i.e., <span class="math inline">\(\int [g^{(p)}(x)]^2dx\)</span> in our notation. But this is unlikely to be feasible, at least in a production setting. (Numerical calculations could be possible, but are slow). Maybe it would work to use a finite difference approximations similar to the one used by <span class="math inline">\(P\)</span>-splines instead.</p>
+<p>Change the minimand in <a href="#eq-minimizer">Equation&nbsp;1</a> to the piecewise linear approximation <span class="math inline">\(F_l\)</span> instead of the identity function. It’s likely that this would remove the problem of the density being equal to <span class="math inline">\(0\)</span> of Figure 1. We could also try to change the minimand something wild, such as the least concave majorant or the greatest convex minorant. The least concave majorant corresponds to the best-fitting increasing density compatible with the supplied quantiles.</p>
+<p>We can guarantee identical tail behavior for the base distribution and the quantile-transformed distribution by forcing <span class="math inline">\(S\)</span> to be linear in when <span class="math inline">\(x\)</span> is sufficiently close to <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, e.g., <span class="math inline">\(\epsilon\)</span> away from the edges. That would involve modifying the input data and append lines to the edges of the output function</p>
+<p>It is possible to enforce shape constraints on the densities, such as being increasing, decreasing, or unimodal. This can be done by adding linear constraints to the quadratic program.</p>
+</section>
+<section id="what-remains-to-be-done" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="what-remains-to-be-done"><span class="header-section-number">4.5</span> What remains to be done</h3>
+<ol type="1">
+<li><p>We need to implement <em>automatic scaling</em>, i.e., we need to choose the appropriate parameters for the base distribution, probably by matching its parameters to the supplied quantiles. This is probably required for the methods to work in high generality (you can’t use the <code>fitter</code> function (<a href="#sec-fitter">Section&nbsp;4.1</a>) directly when the numbers are too large, e.g., choosing quantiles of several hundreds in <a href="#fig-changing-base">Figure&nbsp;7</a> won’t work).</p></li>
+<li><p>Automatic selection of the tuning parameters <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\mu\)</span>, the number of knots <span class="math inline">\(m\)</span>, and the degree of the splines.</p></li>
+<li><p>Invert the function <span class="math inline">\(S\)</span>. We need the quantile function to generate random samples.</p></li>
+<li><p>Investigate some of the proposals in the previous section.</p></li>
+</ol>
+</section>
+</section>
+<section id="fit-splines-without-transformations" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="fit-splines-without-transformations"><span class="header-section-number">5</span> Fit splines without transformations</h2>
+<p>You can fit splines without transformations too. This would involve choosing the form of the tails, then match the derivatives of the splines to the derivatives of the tails, on either side. This approach lets us enforce good looks on the right scale, and could work much better than the transform approach. But it should be somewhat harder to implement, as the derivative matching requires some manual work. The approach is also quite principled; it can be framed as an approximation to the maximum entropy solution to the elicitation problem when the tails are known with smoothness penalties.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
