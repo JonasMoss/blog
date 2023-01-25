@@ -1,0 +1,247 @@
+---
+title: "When is it rational to vote? A comment on Barnett (2020)"
+author: "Jonas Moss"
+format: html
+editor: visual
+draft: true
+cache: true
+date: "10/25/2022"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [effective altruism, political science, rationalism]
+bibliography: voting-barnett.bib
+---
+
+## Summary
+
+1.  @Barnett2020-gq argues it's rational to vote in a two-candidate run-off if the social benefit of the preferred candidate winning is more than twice the cost of voting.
+2.  Barnett's conclusion goes against the standard binomial model, but that is OK! For the binomial model assumes independent voters and does not incorporate parameter incorporate uncertainty
+3.  A modified variant of Barnett's conclusion holds in the *beta-binomial model*, a model that generalizes the binomial model but does not assume independent voters. Roughly speaking, the closer we are to a binomial with $0.5$ success probability, the higher our incentives to vote.
+4.  I suggest modifying @Barnett2020-gq from "vote if the social benefit is twice the cost of voting" to "vote if the social benefit is $1/5$th the cost of voting", in close races. The value of the constant is unlikely to matter much though.
+
+## Setup
+
+When is it rational to vote? You're participating in an election with two possible outcomes, a beneficial outcome (FDR, for instance) and a poor outcome (Mussolini!). The benefit of the beneficial outcome is $b$. The cost of participating in the election, be it walking to the election booth or signing up for a website, is $c$. The probability that your vote is decisive, i.e., the the election would have turned out differently had you decided not to vote, is $\nu$. These quantities are summarized in @tbl-letters.
+
+| Letter | Interpretation                                                                                                    |
+|--------|-------------------------------------------------------------------------------------------------------------------|
+| $b$    | The benefit or utility should the beneficial outcome occur, e.g., should your favored candidate be elected.       |
+| $c$    | The cost of casting a vote. Driving to the election booth, getting out of bed before the booth closes, and so on. |
+| $\nu$  | Probability that your vote is decisive. Also known as *voting power*.                                             |
+
+: Table explaining the meaning of $b$, $c$, $\nu$ {#tbl-letters}
+
+Ignoring second-order effects such as signalling, it can easily be shown that voting is rationally justified if and only if $b/c>\nu^{-1}$.
+
+::: {.callout-note icon="false" appearance="simple"}
+#### When is voting justified?
+
+Voting is justified if and only if the benefit-cost ratio $b/c$ is greater than the inverse of the voting power $$b/c>\nu^{-1}.$$ {#eq-condition}
+:::
+
+::: {.callout-note collapse="true"}
+#### Proof
+
+Define the potential outcome $$X_{\text{vote}}=\begin{cases}
+1, & \text{if your candidate wins,}\\
+0, & \text{otherwise.}
+\end{cases}$$ Define $X_{\text{don't}}$ in the same way. Let $b$ be the benefit when your candidate wins and $c$ be the cost of voting. The expected utility of voting is \begin{eqnarray*}
+EU_{\text{vote}} & = & P(X_{\text{vote}}=1)b-c,\\
+EU_{\text{don't}} & = & P(X_{\text{don't}}=0)b.
+\end{eqnarray*} Voting is justified if and only if the expected utility of voting is greater than the expected utility of not voting, i.e., \begin{eqnarray*}
+EU_{\text{vote}}-EU_{\text{don't}} & = & \left[P(X_{\text{vote}}=1)-P(X_{\text{don't}}=0)\right]b-c,\\
+ & \geq & 0.
+\end{eqnarray*} Now define the voting power as $$
+\nu=P(X_{\text{vote}}=1)-P(X_{\text{don't}}=0).$$ From these definitions it should be clear that voting is justified if and only if $b/c>\nu.$
+:::
+
+I'm assuming you're able to estimate $b/c$ yourself; I'm focussing on how to model $\nu$ in this post.
+
+### The binomial model
+
+If we know the success probability of the binomial model equals $1/2$, the probability $p$ is approximately equal to $\sqrt{2/\pi}n^{-1/2}$. When draws are decided by a coin-toss, the probability of your vote being decisive is $\nu = (2\pi)^{-1/2}n^{-1/2}$.
+
+::: {.callout-note collapse="true"}
+#### Proof that $\nu \approx (2\pi)^{-1/2}n^{-1/2}$
+
+Using $p=1/2$, your vote is decisive with probability \begin{eqnarray*}
+\frac{1}{2}\binom{n}{n/2}p^{n/2}(1-p)^{n/2} & = & \frac{1}{2}\binom{n}{n/2}2^{-n/2}2{}^{-n/2},\\
+ & = & \frac{1}{2}\binom{n}{n/2}2^{-n}.
+\end{eqnarray*} Using Stirling's approximation, \begin{eqnarray*}
+\binom{n}{n/2} & = & \frac{n!}{(n/2)!^{2}}\approx\frac{\sqrt{2\pi n}\left(\frac{n}{e}\right)^{n}}{\left(\sqrt{2\pi n/2}\left(\frac{n/2}{e}\right)^{n/2}\right)^{2}}=\frac{\sqrt{2\pi n}\left(\frac{n}{e}\right)^{n}}{\pi n\left(\frac{n/2}{e}\right)^{n}},\\
+ & = & \sqrt{\frac{2}{\pi n}}2^{n},\\
+ & = & \sqrt{2/\pi}n^{-1/2}2^{n}.
+\end{eqnarray*} It follows that \begin{eqnarray*}
+\frac{1}{2}\binom{n}{n/2}x^{n/2}(1-x)^{n/2} & = & \frac{1}{2}2^{-n}\sqrt{2/\pi}n^{-1/2}2^{n},\\
+ & = & (2\pi)^{-1/2}n^{-1/2}.
+\end{eqnarray*}
+:::
+
+It follows that you should vote if and only if $b/c \geq 2\pi n^{1/2}$.
+
+The binomial model has several problems though.
+
+1.  Empirical evidence doesn't support it [@Gelman2004-ea].
+2.  The qualitative conclusion above holds only when $p=1/2$.
+3.  It doesn't take uncertainty into account.
+
+### Barnett's argument
+
+## Compound binomial mdels
+
+### Beta-binomial model
+
+The beta-binomial model is a model of two parameters $\alpha>0$ and $\beta>0$, illustrated in @fig-picture. It has probability mass function
+
+$$
+f(x;\alpha, \beta) = \binom{n}{x}\frac{B(x+\alpha,n-x+\beta)}{B(\alpha,\beta)},
+$$
+
+where $B$ is the [beta function](https://en.wikipedia.org/wiki/Beta_function).
+
+![The beta-binomial model (source: [wikipedia](https://commons.wikimedia.org/wiki/File:Beta-binomial_distribution_pmf.png)).](images/600px-Beta-binomial_distribution_pmf.png){#fig-picture fig-align="center"}
+
+Its mean is $E(X) = n\alpha/(\alpha+\beta)$ and its variance $$\operatorname{Var}(X) =\frac{n\alpha\beta(\alpha+\beta-n)}{(\alpha+\beta)^{2}(\alpha+\beta-1)}.$$Defining $p=\alpha/(\alpha+\beta)$, we see that $E(X)=np$, just like a binomial distribution. But its variance is on the order $n^2$, in contrast to the binomial variance, which is on the order $n$.
+
+Two observations from the beta-binomial are not independent, as can be verified using the law of total covariance and the [formulation of the beta-binomial as a compound distribution](https://en.wikipedia.org/wiki/Beta-binomial_distribution#As_a_compound_distribution).
+
+Assuming the compound binomial model, @Chamberlain1981-jp showed that, provided $n$ is sufficiently large, $$
+\nu\approx\frac{1}{4}f\left(\frac{1}{2};\theta\right)n^{-1}.
+$$ We can easily make use of this result since the beta-binomial is a compound binomial distribution with $f(p;\alpha,\beta)$ equal to the beta density.
+
+::: {.callout-note icon="false" appearance="simple"}
+::: {#prp-line}
+When $n$ is sufficiently large, the probability of equal number of votes is approximately equal to $$p=4\frac{2^{-(\alpha+\beta)}}{B(\alpha,\beta)}n^{-1}.$$ {#eq-general} In particular, when $\alpha=\beta$, the probability is approximately equal to $$p=2\sqrt{\frac{\alpha}{\pi}}n^{-1}.$$ {#eq-special}
+:::
+:::
+
+Combining equation @eq-condition with @eq-special we find that it is rational to vote approximately when $$\frac{b}{c} > \sqrt{\frac{\pi}{\alpha}}n.$$ {#eq-simple-formula} When $\alpha\to\infty$, the beta-binomial converges to the binomial distribution. Loosely speaking, the approximation $\sqrt{2/\pi}n^{-1/2}$ will be better if the number of voters $n$ is small compared to your certainty about the success probability being close to $1/2$.
+
+#### Thinking about $\alpha$
+
+In the one-parameter model $\alpha$ specifies the prior for $p$, which is centered at $1/2$. To choose a reasonable $\alpha$, you might use e.g., quantile matching or the variance $\frac{1}{4(2\alpha+1)}$.
+
+Matching quantiles can be done using numerical optimization.
+
+```{r}
+#' Match quantiles in a symmetric beta distribution.
+#' @param p,q The probability (p) and associated quantiles (q).
+#' @return The `alpha` parameter of a symmetric beta distribution.
+match <- \(p, q) {
+  f <- \(alpha) (pbeta(q, alpha, alpha, log.p = TRUE) - log(p))^2
+  optimize(f, c(0, 10000))$minimum  
+}
+match(0.1, 0.05)
+```
+
+##### Using 538
+
+We could use e.g. 538 to approximate $\alpha$ using the Nevada Senate race. Suppose there are $n=1,000,000$ voters in Nevada. The uncertainty in the uncertainty is dominated by parameter uncetainty,
+
+#### Implications
+
+1.  There is a plausible model where the probability is proportional to $n^{-1}$ for any choice of parameters.
+2.  However, the proportionality constant shouldn't be ignored. If the parameters are unfavourable, their effect can dominate the effect of $n$. It looks like the error bars ($80\%$ credibility) are approximately $45\% - 55\%$.
+
+```{r}
+match(0.45, 0.1)
+```
+
+So let's say $\alpha = 81 = 9^2$ for simplicity. Then $\sqrt{\pi/9^2} = \sqrt{\pi} / 9\approx 1/5$. And you should vote if $b/c \geq 1/5 n \approx 200,000$. Is it likely that $b/c$ is this high? I don't want to think about it right now, but -- maybe. The cost of voting is often small, and the reduction in existential risk attained by stopping a republican take-over can easily be larger than $200,000$ times as large as this cost, even if the probability of an effect is really,really small. (Thinking about this stuff is not my forte.)
+
+### What $n\nu(\alpha)$ looks like.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Plot of alpha vs scaled voting power."
+options(scipen=5) 
+inv <- \(x) pi/x^2
+alpha = c(0.1, 1000)
+plot(alpha, sqrt(pi/alpha), ylab = "Rescaled voting power", log = "xy", type = "l")
+abline(h = c(0.10, 0.20, 0.5, 1, 2),
+       v = inv(c(0.10, 0.20, 0.5, 1, 2)), lty = 2, col = "grey")
+```
+
+Inverting $c = \sqrt{\pi/\alpha}$ we find that $\alpha=\pi/c^2$. The beta densities corresponding to the values of $c(\alpha)$ above are shown below.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Plotting beta densities"
+#| fig-align: center
+#| fig-cap: Plot of beta distributions corresponding to various normalized voting powers.
+x = seq(0, 1, by = 0.001)
+palette("Okabe-Ito")
+plot(x, dbeta(x, inv(0.1), inv(0.1)), type = "l", col = 1, lwd = 2,
+     xlab = "x", ylab = "Density")
+lines(x, dbeta(x, inv(0.2), inv(0.2)), type = "l", col = 2, lwd = 2)
+lines(x, dbeta(x, inv(0.5), inv(0.5)), type = "l", col = 3, lwd = 2)
+lines(x, dbeta(x, inv(1), inv(1)), type = "l", col = 4, lwd = 2)
+lines(x, dbeta(x, inv(2), inv(2)), type = "l", col = 5, lwd = 2)
+legend("topleft", col = 1:5, legend = c(0.10, 0.20, 0.5, 1, 2), lwd = 2, border = "n")
+
+```
+
+Eyeballing this, if you think the race is close, the black distribution looks reasonable to adopt as your prior on $p$. And then it's rational to vote if $10 b/c\geq n$.
+
+## Elections: Senate and presidential
+
+```{r}
+#| code-fold: true
+#| code-summary: "Loading and modifying senate and presidential election data."
+#| output: false
+president <- readr::read_csv("1976-2020-senate.csv")
+senate <- readr::read_csv("1976-2020-president.csv")
+
+trans <- \(dat) {
+  trans <- \(x) {
+    groups <- dplyr::group_by(x, year, state)
+    dplyr::filter(
+      groups, 
+      candidatevotes == max(candidatevotes)
+    )    
+  }
+
+  democrat <- trans(dplyr::filter(dat, party_simplified == "DEMOCRAT"))
+  republican <- trans(dplyr::filter(dat, party_simplified == "REPUBLICAN"))
+  
+  list(
+    ns = democrat$candidatevotes + republican$candidatevotes, 
+    votes = democrat$candidatevotes)
+}
+
+ns_pr <- trans(president)$ns
+votes_pr <- trans(president)$votes
+ps_pr <- votes_pr / ns_pr
+
+ns_sen <- trans(senate)$ns
+votes_sen <- trans(senate)$votes
+ps_sen <- votes_sen / ns_sen
+```
+
+```{r}
+#| echo: false
+plot(kdensity::kdensity(ps_sen, kernel = "gcopula", bw = 0.07),
+     main = "Density of p, Senate elections", lwd = 2, xlim = c(0,1))
+lines(univariateML::mlbeta(ps_sen), col = "blue", lwd = 2)
+lines(univariateML::mlbeta(c(ps_sen, 1-ps_sen)), col = "red", lwd = 2)
+legend("topright", legend = c("Jones-Henderson KDE", "Beta distribution", "Symmetric beta distribution"), lwd = c(2,2,2), col = c("black", "blue", "red"), bty = "n")
+```
+
+```{r}
+#| echo: false
+plot(kdensity::kdensity(ps_pr, kernel = "gcopula", bw = 0.2),
+     main = "Density of p, Presidential elections", lwd = 2, xlim = c(0,1))
+lines(univariateML::mlbeta(ps_pr), col = "blue", lwd = 2)
+lines(univariateML::mlbeta(c(ps_pr, 1-ps_pr)), col = "red", lwd = 2)
+legend("center", legend = c("Jones-Henderson KDE", "Beta distribution", "Symmetric beta distribution"), lwd = c(2,2,2), col = c("black", "blue", "red"), bty = "n")
+```
+
+## What could go wrong?
+
+1.  **Randomness in** $n$. We have treated $n$ as fixed. If $n$ is random *and* is strongly associated with $p$, our conclusions will not hold.
+
+2.  **The binomial model is false.** The binomial is the best approximation to reality when dealing with exchangeable raters. But if we loosen up this demand we can have models such as "$5000$ democrats, $5000$ republicans, and $1000$ undecided." Then $\nu$ won't be proportional to $n$, but proportional to the $1000$ undecided instead. I doubt using a model like this would make a practical difference though, as the uncertainty in $p$ would likely increase dramatically.
+
+3.  **Small** $n$. The asymptotics takes little time to kick, so I wouldn't worry unless dealing with an election with just a handful of voters.
+
+## Conclusion

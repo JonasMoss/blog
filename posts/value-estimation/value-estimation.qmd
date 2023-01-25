@@ -52,7 +52,7 @@ How can you estimate the value of research output? You could use pairwise compar
 
 I'm assuming you have read the 6 researchers post recently. I think this post will be hard to read if you haven't.
 
-***Note:*** *Also posted at the [EA Forum](https://forum.effectivealtruism.org/posts/mydChSMSM4JyEtx5C/estimating-value-from-pairwise-comparisons).* This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! *Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number.
+***Note:*** *Also posted at the [EA Forum](https://forum.effectivealtruism.org/posts/mydChSMSM4JyEtx5C/estimating-value-from-pairwise-comparisons).* This document is a compiled Quarto file with source functions outside of the main document. The functions can be found in the [source folder](https://github.com/JonasMoss/blog/blob/main/posts/value-estimation/) for this post. Also, thanks to Nuño Sempere for his comments on a draft of the post! *Update 6/10/2022.* Modified Gavin's confidence interval for *A Mathematical Theory* to show the correct number. *Update 4/11/2022.* Some spelling fixes.
 
 ### What's this about
 
@@ -375,10 +375,10 @@ Instead of rating the ratio $\eta_i/\eta_j$ with a number, you might want give a
 
 The formal reasoning behind this proposal goes as follows. If $\eta_i/\eta_j$ is log-normal with some log-mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$, its logarithm is normal with mean $\mu_{ij}$ and standard deviation $\sigma_{ij}$. This model implies that $$\frac{\eta_i}{\eta_j} = e^{\mu_{ij}}e^{\sigma_{ij}\cdot\epsilon_{ij}},$$ for some normally distributed $\epsilon_{ij}$. Taking logarithms on both sides, we obtain \$\$
 
-$$\beta_ - \beta_j = \mu_{ij} + \sigma_{ij}\epsilon_{ij}.$$ Since $\epsilon_{ij}$ is symmetric around $0$, we have $\mu_{ij} = \beta_i - \beta_j + \sigma_{ij}\epsilon_{ij}$. If we add the "safety measure constant" $\psi$, with $$\mu_{ij} = \beta_i - \beta_j \psi\sigma_{ij}\epsilon_{ij},$${#eq-modelsigma_ij} this is a [weighted least squares problem](https://en.wikipedia.org/wiki/Weighted_least_squares), with weights equal to $1/\sigma_{ij}$ and residual standard deviation $\psi$. It's not clear to me if distributions are worth it.
+$$\beta_ - \beta_j = \mu_{ij} + \sigma_{ij}\epsilon_{ij}.$$ Since $\epsilon_{ij}$ is symmetric around $0$, we have $\mu_{ij} = \beta_i - \beta_j + \sigma_{ij}\epsilon_{ij}$. If we add the "safety measure constant" $\psi$, with $$\mu_{ij} = \beta_i - \beta_j +\psi\sigma_{ij}\epsilon_{ij},$$ {#eq-modelsigma_ij} this is a [weighted least squares problem](https://en.wikipedia.org/wiki/Weighted_least_squares), with weights equal to $1/\sigma_{ij}$ and residual standard deviation $\psi$. It's not clear to me if distributions are worth it.
 
 In the summary I wrote that it's not clear to me that it's worth it to ask for distributions in pairwise comparisons, as your uncertainty level can be modeled implicitly by comparing different pairwise comparisons. What does this mean? Let's simplify the model in @eq-modelsigma_ij so it contains two error terms, $\sigma_i$ and $\sigma_j$, one belonging to each question.
 
-$$\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}.$${#eq-modelsigma_isigma_j}
+$$\mu_{ij} = \beta_i - \beta_j + \sigma_{i}\epsilon_{i}+\sigma_{j}\epsilon_{j}.$$ {#eq-modelsigma_isigma_j}
 
-This models allows you to have different uncertainties for different items, but doesn't allow for idiosyncratic errors depending on interactions between the $i$th and $j$th items. Estimation of the model in @eq-modelsigma_isigma_j easy to do efficiently, but I haven't looked at the details. An idea would be to use the equation $\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}$ and iteratively refit weighted least squares models.
+This models allows you to have different uncertainties for different items, but doesn't allow for idiosyncratic errors depending on interactions between the $i$th and $j$th items. Estimation of the model in @eq-modelsigma_isigma_j should be easy to do efficiently, but I haven't looked at the details. An idea would be to use the equation $\operatorname{Var}(\mu_{ij})=\sigma_{i}^{2}+\sigma_{j}^{2}$ and iteratively refit weighted least squares models.

@@ -13,21 +13,23 @@ bibliography: uncertainty-for-cost-effectiveness.bib
 ---
 
 *Epistemic status: Highly certain.*
+
+```{=html}
 <script src="https://cdn.jsdelivr.net/gh/ncase/nutshell@1.0.2/nutshell.js"></script>
+```
+Suppose you have the opportunity to invest in a project with highly repeateable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio
 
-Suppose you have the opportunity to invest in a project with highly repeatedable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio
-
-1.  Model the cost and benefits $E_\theta [C],E_\theta[C]$ using a vector parameter $\theta$ that specifies how the world works. Importantly, you don't have to model the joint distribution of $B$ and $C$!
+1.  Model the cost and benefits $E_\theta [B],E_\theta[C]$ using a vector parameter $\theta$ that specifies how the world works. Importantly, you don't have to model the joint distribution of $B$ and $C$!
 2.  Figure out the appropriate distribution of $\theta$. This distribution can be subjective, the result of Fermi estimates, it can be estimated using statistical methods, or a combination of these.
 3.  Report the expected value of $E_\theta[B]/E_\theta[C]$ along with uncertainty estimates such as credibility intervals or entire distributions.
 
-What you care about is the *epistemic uncertainty* in $E_\theta[B]/E_\theta[C]$; the *aleatoric uncertainty* involved in $B/C$ does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstratest that we should care about $E_\theta[B]/E_\theta[C]$.
+What you care about is the *epistemic uncertainty* in $E_\theta[B]/E_\theta[C]$; the *aleatoric uncertainty* involved in $B/C$ does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstrates that we should care about $E_\theta[B]/E_\theta[C]$.
 
 *Thanks to Lorenzo for a productive discussion.*
 
-As a canonical example we'll consider bed net distribution. Let $C$ be the random cost of distributing one bednet and $B$ the benefit obtained from that.
+As a canonical example we'll consider bed net distribution. Let $C$ be the random cost of distributing one bednet and $B$ the obtained benefit.
 
-Imagine that, in reality, the cost $C$ and $B$ are random and distributed according to some distribution $F$. Following this write-up, we may assume tha
+Imagine that, in reality, the cost $C$ and $B$ are random and distributed according to some joint distribution $F$ . Following this write-up, we may assume tha
 
 [Probability distributions of Cost-Effectiveness can be misleading - EA Forum (effectivealtruism.org)](https://forum.effectivealtruism.org/posts/SesLZfeYsqjRxM6gq/probability-distributions-of-cost-effectiveness-can-be)
 

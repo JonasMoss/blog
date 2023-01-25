@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.36">
+<meta name="generator" content="quarto-1.1.189">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 </style>
 
 
@@ -74,9 +79,11 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Jonas Moss’ blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -140,24 +147,24 @@ ul.task-list{list-style: none;}
 
 
 
-<em>Epistemic status: Highly certain.</em>
+<p><em>Epistemic status: Highly certain.</em></p>
 <script src="https://cdn.jsdelivr.net/gh/ncase/nutshell@1.0.2/nutshell.js"></script>
-<p>Suppose you have the opportunity to invest in a project with highly repeatedable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio</p>
+<p>Suppose you have the opportunity to invest in a project with highly repeateable interventions, such as malaria bednets. You wish to estimate the benefit-cost ratio</p>
 <ol type="1">
-<li>Model the cost and benefits <span class="math inline">\(E_\theta [C],E_\theta[C]\)</span> using a vector parameter <span class="math inline">\(\theta\)</span> that specifies how the world works. Importantly, you don’t have to model the joint distribution of <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>!</li>
+<li>Model the cost and benefits <span class="math inline">\(E_\theta [B],E_\theta[C]\)</span> using a vector parameter <span class="math inline">\(\theta\)</span> that specifies how the world works. Importantly, you don’t have to model the joint distribution of <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>!</li>
 <li>Figure out the appropriate distribution of <span class="math inline">\(\theta\)</span>. This distribution can be subjective, the result of Fermi estimates, it can be estimated using statistical methods, or a combination of these.</li>
 <li>Report the expected value of <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span> along with uncertainty estimates such as credibility intervals or entire distributions.</li>
 </ol>
-<p>What you care about is the <em>epistemic uncertainty</em> in <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>; the <em>aleatoric uncertainty</em> involved in <span class="math inline">\(B/C\)</span> does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstratest that we should care about <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>.</p>
+<p>What you care about is the <em>epistemic uncertainty</em> in <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>; the <em>aleatoric uncertainty</em> involved in <span class="math inline">\(B/C\)</span> does not matter. How do we know? Because setting up and formalizing the decision-theoretic problem clearly demonstrates that we should care about <span class="math inline">\(E_\theta[B]/E_\theta[C]\)</span>.</p>
 <p><em>Thanks to Lorenzo for a productive discussion.</em></p>
-<p>As a canonical example we’ll consider bed net distribution. Let <span class="math inline">\(C\)</span> be the random cost of distributing one bednet and <span class="math inline">\(B\)</span> the benefit obtained from that.</p>
-<p>Imagine that, in reality, the cost <span class="math inline">\(C\)</span> and <span class="math inline">\(B\)</span> are random and distributed according to some distribution <span class="math inline">\(F\)</span>. Following this write-up, we may assume tha</p>
+<p>As a canonical example we’ll consider bed net distribution. Let <span class="math inline">\(C\)</span> be the random cost of distributing one bednet and <span class="math inline">\(B\)</span> the obtained benefit.</p>
+<p>Imagine that, in reality, the cost <span class="math inline">\(C\)</span> and <span class="math inline">\(B\)</span> are random and distributed according to some joint distribution <span class="math inline">\(F\)</span> . Following this write-up, we may assume tha</p>
 <p><a href="https://forum.effectivealtruism.org/posts/SesLZfeYsqjRxM6gq/probability-distributions-of-cost-effectiveness-can-be">Probability distributions of Cost-Effectiveness can be misleading - EA Forum (effectivealtruism.org)</a></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <p>
-<svg width="468pt" height="116pt" viewbox="0.00 0.00 467.75 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<svg width="672" height="480" viewbox="0.00 0.00 467.75 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
 <title>
 G
@@ -274,6 +281,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       }
     }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
   }
   const isFileUrl = () => { 
     return window.location.protocol === 'file:';
@@ -375,7 +392,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

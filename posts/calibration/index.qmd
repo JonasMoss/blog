@@ -1,0 +1,32 @@
+---
+title: "What's your calibration?"
+author: "Jonas Moss"
+format: html
+editor: visual
+draft: true
+cache: true
+date: "a/b/2022"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [effective altruism]
+bibliography: bibliography.bib
+---
+
+### Summary
+
+1.  There's some demand for simple methods for visualizing calibration.
+2.  I explain why I believe simple logistic regression is well-suited for this, potentially together with regression histograms.
+3.  Using regression histograms requires you to chose the number of bins. I propose a simple way to do this.
+4.  The resulting scripts should hopefully be easy to use for non-programmers.
+
+### Plotting a calibration curve
+
+Off the top of my head I can think of four obvious ways to plot calibration curves. The first is a "regression histogram", as seen in @fig-metaculus, which presumably shows the mean prediction binned prediction accuracy with $95\%$ error bars.
+
+[![Calibration curve for Metaculus.](images/Skjermbilde%202022-10-28%20175838.png){#fig-metaculus fig-align="center"}](https://www.metaculus.com/questions/track-record/)
+
+I would not recommend these methods though; they just don't tend to perform well. In terms of the bias-variance trade-off, the bias tends to be high due to the binning (unless the bins are very small). But the variance is high too, as the bin selection is essentially arbitrary.
+
+Your calibration curve could be any function $f:[0,1]\to[0,1]$, but it's natural to impose that the constraint that $f$ is increasing. Then we have three methods left: Simple binary regression, isotonic regression, and monotone regression using B-splines. The latter two aren't well known, but I've written about B-splines in a [previous post](https://blog.jonasmoss.com/posts/quantiles/quantiles.html). And [isotonic regression](https://en.wikipedia.org/wiki/Isotonic_regression) is histogram regression with the constraint that the regression function is increasing.
+
+### Summarizing your calibration performance

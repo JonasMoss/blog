@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/some-tips-for-thesis/some-tips-for-the-thesis.html",
+      "/posts/two-lines/index.html",
       "/posts/quantiles/quantiles.html",
       "/posts/peek-pairwise/peek-pairwise.html",
       "/posts/attenuation-survey/attenuation-survey.html",
