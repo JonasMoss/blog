@@ -3,13 +3,11 @@ title: "Matching quantiles to the Kumaraswamy distribution"
 author: "Jonas Moss"
 format: html
 editor: visual
-draft: false
 cache: true
-date: "2/24/2022"
+date: "2/24/2023"
 freeze: auto
 date-format: "MMM D, YYYY"
-categories: [effective altruism, forecasting, statistics]
-bibliography: bibliography.bib
+categories: [effective altruism, fermi estimates, statistics, forecasting]
 ---
 
 ## Introduction

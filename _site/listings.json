@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/kumaraswamy/kumaraswamy.html",
       "/posts/some-tips-for-thesis/some-tips-for-the-thesis.html",
       "/posts/two-lines/index.html",
       "/posts/quantiles/quantiles.html",
@@ -9,8 +10,7 @@
       "/posts/attenuation-survey/attenuation-survey.html",
       "/posts/value-estimation/value-estimation.html",
       "/posts/monolithic-education/monolithic-education.html",
-      "/posts/alpha-and-omega/alpha-and-omega.html",
-      "/posts/kumaraswamy/index.html"
+      "/posts/alpha-and-omega/alpha-and-omega.html"
     ]
   }
 ]

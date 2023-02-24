@@ -177,8 +177,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <h1 class="title">Matching quantiles to the Kumaraswamy distribution</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">effective altruism</div>
-                <div class="quarto-category">forecasting</div>
+                <div class="quarto-category">fermi estimates</div>
                 <div class="quarto-category">statistics</div>
+                <div class="quarto-category">forecasting</div>
               </div>
                   </div>
   </div>
@@ -196,7 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">Feb 24, 2022</p>
+        <p class="date">Feb 24, 2023</p>
       </div>
     </div>
     
@@ -271,7 +272,7 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 <section id="code-for-matchkumar" class="level2">
 <h2 class="anchored" data-anchor-id="code-for-matchkumar">Code for <code>matchkumar</code></h2>
 <p>Below is <code>R</code> code for <code>matchkumar</code>. The function does not use any R-specific functionality, so it should be easily portable to any language of your choosing, such as JavaScript, Rust, or Crystal. The vectorization used in the functions <code>f</code> and <code>f_deriv</code> below is not strictly necessary, as they are only called using scalar arguments.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_575b9162d0a60c2feb2e09603cfa4a5d">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-1_08598f90fb6bba475dab74f2aa8d3135">
 <details>
 <summary>Code for <code>matchkumar</code></summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Match quantiles for the Kumaraswamy distributon.</span></span>
@@ -359,7 +360,7 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
 <p>Let’s see how the function performs on an example:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_d4c10162bfffc3a30317862c304e7aa5">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-2_ec6eef34ed7cd578e07864bb5eade419">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fl">0.55</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
@@ -369,7 +370,7 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_matched =</span> extraDistr<span class="sc">::</span><span class="fu">qkumar</span>(beta, matched[<span class="dv">1</span>], matched[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we see that the results are as intended:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_ecf51f8bbe3abdd8402878788cc5dc25">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-3_4642bb7e690185aced5a47a62152a473">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x_matched y_matched 
@@ -377,23 +378,23 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 </div>
 </div>
 <p>We typically do not need a large number of iterations; in this case it’s just 1!</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_4bc5a9b0ffde953409ad560d99470d86">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-4_dcbb9668b2b1b73b90b43bf340435f6e">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(matched, <span class="st">"iter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Here’s a plot of the resulting density.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_6932acc100a58d751fb1185a06cb55bc">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-5_ad2d0f814b6b0d2840888b538dcbe5fb">
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="kumaraswamy_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="performance" class="level2">
 <h2 class="anchored" data-anchor-id="performance">Performance</h2>
 <p>The example above is not sufficient to prove the method works. To verify a solution works, let’s check the squared distance between the implied quantiles and the desired quantiles.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_0de305d3a32eb06e2f33023e2f724c4e">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-6_74fbf855d5a1400b917e1f8c8ab78259">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>verify <span class="ot">&lt;-</span> \(args) {</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> args[<span class="dv">1</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> args[<span class="dv">2</span>]</span>
@@ -406,7 +407,7 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Generating a bunch of random values here.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_e64b5ba3fee4e604263ee4d430be8a60">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-7_8647330c52114193201b6a41c97f27e4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">313</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>args <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">replicate</span>(n, <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">runif</span>(<span class="dv">2</span>)), <span class="fu">sort</span>(<span class="fu">runif</span>(<span class="dv">2</span>)))),</span>
@@ -414,21 +415,21 @@ a\log x+\log\log\delta+\frac{1}{2}x^{a}(1-\log\delta)+O(x^{a})
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">apply</span>(args, <span class="dv">1</span>, verify)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">ylab =</span> <span class="st">"Error"</span>, <span class="at">xlab =</span> <span class="st">"Index"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="kumaraswamy_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="sources-of-problems" class="level3">
 <h3 class="anchored" data-anchor-id="sources-of-problems">Sources of problems</h3>
 <p>The function works very well for most randomly generated values, but not for absolutely all of them. Sadly, I don’t think it’s possible to solve this problem without using arbitrary precision numbers. For the problem lies not in the calculation of <span class="math inline">\(a\)</span> itself, which works very well, but in the calculation of <span class="math inline">\(b\)</span>. For some values of <span class="math inline">\(a\)</span> we are not able to calculate the value of <span class="math inline">\(b\)</span> sufficiently precisely using floating point arithmetic. Moreover, <code>extraDistr::qkumar</code> is not able to handle these extreme inputs. I strongly doubt this is would be a problem in practice, as the random values exhibiting these problems are quite unrealistic, and can be avoided altogether by scaling the Kumaraswamy distribution.</p>
 <p>Consider the following.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_134d6b312c4140624aa8e49f81223958">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-8_651aa985b649711a286936954cd00378">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">0.6503457</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">0.6656772</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.2139453</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fl">0.894129</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are very close, but <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> far apart, which forces a large amount of mass in a very small space. In these cases <span class="math inline">\(a\)</span> appears to be calculated to great accuracy.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_8e7e80ac349a4184a33188189c0d1dcc">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-9_a89c5093dcb2e3727fedd4b98c54aebc">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>matched <span class="ot">=</span> <span class="fu">matchkumar</span>(alpha, beta, x, y)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>matched </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -439,7 +440,7 @@ attr(,"iter")
 </div>
 </div>
 <p>But the exceedingly large <span class="math inline">\(a,b\)</span>s cannot be handled by the <code>extraDistr::qkumar</code>.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_2fe27d969f754932a4261e4404400dc2">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-10_325ccf90b4e27b79f67240ca9a80651c">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">x_matched =</span> extraDistr<span class="sc">::</span><span class="fu">qkumar</span>(alpha, matched[<span class="dv">1</span>], matched[<span class="dv">2</span>]),</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_matched =</span> extraDistr<span class="sc">::</span><span class="fu">qkumar</span>(beta, matched[<span class="dv">1</span>], matched[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -448,14 +449,14 @@ attr(,"iter")
 </div>
 </div>
 <p>Another sort of trouble-maker occurs when <span class="math inline">\(a\)</span> is too close to <span class="math inline">\(0\)</span>, i.e., closer than the machine epsilon.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_c13f04d151fe1725828349c51b7a0206">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-11_0a8508fb4b01c0571675b93d8b895ba8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">0.1383447</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">0.794063</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.9214318</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fl">0.9266641</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It’s not a surprise that these values are hard to fit, as the <span class="math inline">\(x,y\)</span> values are far apart but <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> very, very, close. In this case, <code>matchkumar</code> yields</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_de1fc1da7fdf1352c8793103d81db617">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-12_44e2b2284c979080c52759b3bb7945b3">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>matched <span class="ot">=</span> <span class="fu">matchkumar</span>(alpha,beta,x,y)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>matched</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -466,7 +467,7 @@ attr(,"iter")
 </div>
 </div>
 <p>But the matched quantiles are not as close as we would like.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-13_a40ef44733a09cfb5ac4ba9e9061da13">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-13_d476d3c61009f3cdcfbd250f8a3d805b">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">x_matched =</span> extraDistr<span class="sc">::</span><span class="fu">qkumar</span>(alpha, matched[<span class="dv">1</span>], matched[<span class="dv">2</span>]),</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_matched =</span> extraDistr<span class="sc">::</span><span class="fu">qkumar</span>(beta, matched[<span class="dv">1</span>], matched[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -479,9 +480,9 @@ attr(,"iter")
 <section id="number-of-iterations" class="level3">
 <h3 class="anchored" data-anchor-id="number-of-iterations">Number of iterations</h3>
 <p>Most of the time, the number of iterations (capped at <span class="math inline">\(100\)</span>) is small. However, the cap is sometimes reached. In most cases, this is not cause for alarm. This is because we evaluate the solutions using the distance from the desired quantiles, but they are evaluated using the relative error in the Newton–Raphson loop. And the first will often be small even if the second is “large”. Moreover, the large numbers of iterations happens when <span class="math inline">\(a\)</span> is very, very small, which is unlikely to happen in applications.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-14_08708d459cd8186cf9edbd23a75a3163">
+<div class="cell" data-hash="kumaraswamy_cache/html/unnamed-chunk-14_660d1c4e042314ecdc99f32240a9b8d2">
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="kumaraswamy_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
