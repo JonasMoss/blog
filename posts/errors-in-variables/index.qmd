@@ -1,0 +1,121 @@
+---
+title: "An errors-in-variables model"
+author: "Jonas Moss"
+format: html
+editor: visual
+cache: true
+date: "2/3/2023"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [statistics]
+bibliography: bibliography.bib
+footnotes-hover: true
+---
+
+## Problem and solution
+
+Suppose we wish to estimate the regression coefficient for
+
+$$
+Y_{0}\mid X_{0}=\alpha_{0}+\beta_{0}X_{0}+\sigma_{0}\epsilon_{0},\label{eq:original}
+$$
+where $E[\epsilon\mid X_{0}]=0$.
+
+However, we do not observe $Y_{0}$ and $X_{0}$. Instead, we observe
+$$
+Y_{1}=Y_{0}+S_{Y}\epsilon_{Y}
+$$
+for some $\delta$ with $E[\delta\mid Y_{0}]=0$ for some random variable
+$S$ and 
+$$
+X_{1}=X_{0}+S_{X}\epsilon_{X},
+$$
+for some $\eta$ with $E[\delta\mid Y_{0}]=0$.
+
+As is well known, the regression coefficient $\beta_{0}=\frac{\text{Cov}(X_{1},Y_{1})}{\text{Var} X_{1}}$.
+However, $\text{Cov}(Y_{1},X_{1})$ equals $\text{Cov}(Y_{0},X_{0})$. About $\text{Var} X_{1}$,
+we can employ the Law of Total Variance 
+$$
+\text{Var} X_{1}=E\text{Var}(X\mid S_{X})+\text{Var} E(X_{0}\mid S_{X}).
+$$
+The term $\text{Var} E(X_{0}\mid S_{X})$ vanishes, as $E(X_{0}\mid S_{X})$
+is constant. Moreover, 
+$$
+\text{Var} X_{1}=\text{Var} X_{0}+\text{Var} S_{X},
+$$
+hence 
+\begin{equation}
+\text{Var} X_{0}=\text{Var} X_{1}-\text{Var} S_{X}.\label{eq:adjusted variance}
+\end{equation}
+
+Define the regression model 
+$$
+Y_{1}=\alpha_{1}+\beta_{1}X_{1}+(S_{Y}\delta+\sigma_{0}\eta)
+$$
+
+It follows that
+$$
+\beta_{0}=\frac{\text{Cov}(Y_{1},X_{1})}{\text{Var} X_{1}-\text{Var} S_{X}}=\beta_{1}\frac{\text{Var} X_{1}}{\text{Var} X_{1}-\text{Var} S_{X}},
+$$
+Moreover, 
+\begin{eqnarray*}
+\alpha_{0} & = & EY_{0}-\beta_{0}EX_{0},\\
+ & = & EY_{1}-\beta_{1}\frac{\text{Var} X_{1}}{\text{Var} X_{1}-\text{Var} S_{X}}EX_{1}.
+\end{eqnarray*}
+If $EX_{1}$ has been normalized to $0$, then $\alpha_{0}=EY_{1}=\alpha_{1}$.
+
+Notice that $Y_{1}$ has known errors. This makes it -- perhaps --
+possible to estimate $\beta_{1}$ with additional precision, using
+something similar to weighted least squares. The weights would be
+$\sqrt{S_{Y}^{2}+\sigma^{2}}$. However, as $\sigma^{2}$ is unknown,
+the resulting regression would not truly be weighted least squares.
+
+## Verification
+
+Let's simulate a bunch of values from the model.
+```{r}
+n = 1000000
+s_x = sqrt(3)*rexp(n)
+s_y = 3*rexp(n)
+s_0 = 1
+
+x_0 = rnorm(n, 1, 2)
+x_1 = x_0 + s_x * rnorm(n)
+y_0 = 0.8 + 0.5 * x_0 + s_0*rnorm(n)
+y_1 = y_0 + s_y * rnorm(n)
+```
+
+The calculated coefficients are
+```{r}
+beta0_hat = cov(y_1, x_1)/(var(x_1) - 2*var(s_x))
+alpha0_hat = mean(y_1) - beta0_hat * mean(x_1)
+c(alpha0_hat, beta0_hat)
+```
+
+But the naive regression $Y_1 \sim \alpha_1 + \beta_1X_1$ yields
+
+```{r}
+lm(y_1 ~ x_1)
+```
+
+On the other hand, the correct (but unobserved) regression yields
+
+```{r}
+lm(y_0~x_0)
+```
+
+
+## Inference and literature
+To do inference on this method, use the delta method and large-sample theory
+(together with the studentized bootstrap), or perhaps the bias-corrected
+accelerated bootstrap [(BCa)](https://stats.stackexchange.com/questions/437477/calculate-accelerated-bootstrap-interval-in-r).
+The delta method should be fairly easy to derive using the formulation of the "covariance of the covariance" foundin e.g. Magnus and Neudecker's  Matrix differential calculus. 
+
+There is a sizable literature on error-in-variable models, and inference for this simple
+model has probably been worked out, but a very rudimentary search
+yielded nothing for me. I think it's uncommon to know the variances
+of the $X$ errors. Moreover, the problem can probably be cast in the language of structrual equation models. But I'm unsure if software (such as `lavaan`) will help, because you don't know the item variances in a typical application of structural equations models.
+
+A final option is to assume bivariate normality and use maximum likelihood. This is also likely to be possible using an `R` package, but I'm not sure the estimates would be consistent. Probably you'd have to use a sandwich matrix for correct standard errors. 
+
+To make things easy on yourself, if you're faced with a problem of this kind, I would suggest just going with the BCa + the equations above. The equations are trivial to compute and BCa will be fairly simple as well; it might be possible to calculate using packages such as `bootstrap`. Do something else only if the reviewers demand it.
