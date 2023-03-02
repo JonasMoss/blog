@@ -4,7 +4,7 @@ author: "Jonas Moss"
 format: html
 editor: visual
 cache: true
-date: "2/3/2023"
+date: "3/2/2023"
 freeze: auto
 date-format: "MMM D, YYYY"
 categories: [statistics]

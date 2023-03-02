@@ -2,8 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/kumaraswamy/kumaraswamy.html",
       "/posts/errors-in-variables/index.html",
+      "/posts/kumaraswamy/kumaraswamy.html",
       "/posts/some-tips-for-thesis/some-tips-for-the-thesis.html",
       "/posts/two-lines/index.html",
       "/posts/quantiles/quantiles.html",
