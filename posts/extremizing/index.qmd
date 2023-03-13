@@ -3,7 +3,6 @@ title: "Extremizing with the logistic model"
 author: "Jonas Moss"
 format: html
 editor: visual
-draft: true
 cache: true
 date: "3/13/2023"
 freeze: auto

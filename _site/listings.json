@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/extremizing/index.html",
       "/posts/errors-in-variables/index.html",
       "/posts/kumaraswamy/kumaraswamy.html",
       "/posts/some-tips-for-thesis/some-tips-for-the-thesis.html",
