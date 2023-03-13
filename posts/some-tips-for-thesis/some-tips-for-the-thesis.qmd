@@ -23,36 +23,36 @@ The examiners responsible for evaluating your thesis are not interested in readi
 -   **Quality of the basics:** Examiners will closely scrutinize the parts of your thesis they are most familiar with, such as sections on portfolio optimization, logistic regression, linear regression, and the interpretation of the $AUC$. Make sure these sections are perfect.
 -   **Reference list:** Many reviewers will look at the reference list first. If it appears sloppy, it may create a negative first impression that is difficult to reverse. Make sure the reference list looks professional, and try to include DOIs.
 -   **Length:** While shorter theses can be acceptable for difficult subjects, you should aim for a respectable length. But avoid padding your thesis with unnecessary, wordy sentences. Instead, include more definitions, explanations of key concepts, or a longer literature review. Make sure you have an adequate number of references, especially for models and terms that are not explained or defined in your thesis. You should be able to ask your thesis advisor for guidance on this.
--   **Repeat information.** Remember that your examiner will skim your thesis. For instance, when you write a proof, never refer to a complicated quantity defined 7 pages prior. Just write down the complicated quantity one more time. Keeping track of "equation (34)" and "definition 3" et cetera is mentally exhausting and destroys the flow of the reader when the flow is needed the most. 
+-   **Repeat information.** Remember that your examiner will skim your thesis. For instance, when you write a proof, never refer to a complicated quantity defined 7 pages prior. Just write down the complicated quantity one more time. Keeping track of "equation (34)" and "definition 3" et cetera is mentally exhausting and destroys the flow of the reader when the flow is needed the most.
 -   **Do *not* use abbreviations.** Your reader doesn't know your abbreviations and will not appreciate them. Use search and replace to remove all abbreviation before submitting your thesis. The only exception are universally used abbreviation, used across disciplines. Write *CV* instead of curriculum vitae. Write *DNA*, not deoxyribonucleic acid. Don't write *ML*; write *machine learning* instead; *don't* write *CV*, write cross-validation instead.
-- **Be sure to explain anything that isn't data science.** You're writing about the efficient market hypothesis? Don't assume your examiner knows it - probably he knows next to nothing about finance. Feel free to add asides and interesting digressions, but always provide appropriate context. 
+-   **Be sure to explain anything that isn't data science.** You're writing about the efficient market hypothesis? Don't assume your examiner knows it - probably he knows next to nothing about finance. Feel free to add asides and interesting digressions, but always provide appropriate context.
 
 It may be helpful to think of your audience as a fellow student for two reasons. First, examiners are neither omniscient nor omnipotent. Second, they will be looking for clear explanations of the basics to confirm that you understand the material.
 
 ## Read some grading guidelines
+
 Many examiners won't care about the grading guidelines, but some will. In any case, it's worth it to read some guidelines, as it gives you an indication about how examiners think. For instance, take a look at the [NTNU master thesis guidelines.](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjqn5Hq2rL8AhVDSvEDHaDAAGkQFnoECA4QAQ&url=https%3A%2F%2Fi.ntnu.no%2Fwiki%2F-%2Fwiki%2FEnglish%2FDescription%2Bof%2Bgrades%2Bfor%2Bmaster%2Bthesis&usg=AOvVaw2D_epEeBrrBspd29HKkw4q).
 
-
 ## Comments about citations
+
 Proper use of citations in a master thesis is slightly different from proper use of citations in a journal paper. This matters, as you shouldn't blindly following the conventions for citations in journal papers when you write your thesis. In a journal paper, the main reasons to cite papers are to please the reader, pay proper respect to the people who originally figured something out, and please the reviewer of the journal article.
 
 The reader of your paper care about your citations for reasons such as
 
-1. The want to verify a claim or understand a claim better;
+1.  The want to verify a claim or understand a claim better;
 
-2. They want to see if you have cited their favorite author's work;
+2.  They want to see if you have cited their favorite author's work;
 
-3. They want to get a good overview of a subfield. In that case, they need to know most of the classics and some recent papers.
+3.  They want to get a good overview of a subfield. In that case, they need to know most of the classics and some recent papers.
 
-4. Something you wrote caught their attention.
+4.  Something you wrote caught their attention.
 
-These points are not that important for you, as the sole reader of your master thesis is very unlikely to engage with your master thesis more than he absolutely needs to. Instead, your goal should be to make the examiner pleased. And you do that by adding references to every claim that isn't public knowledge. You do that by sprinkling citations about insights and related work throughout the document. 
+These points are not that important for you, as the sole reader of your master thesis is very unlikely to engage with your master thesis more than he absolutely needs to. Instead, your goal should be to make the examiner pleased. And you do that by adding references to every claim that isn't public knowledge. You do that by sprinkling citations about insights and related work throughout the document.
 
 There are some common sense rules about citations, in particular when it comes to what to cite as evidence of a claim.
 
-* **Cite the original source of a claim or fact.** Yes, this means you should cite 'Fisher, R. A. (1936). "The Use of Multiple Measurements in Taxonomic Problems" (PDF). Annals of Eugenics. 7 (2)" when you talk about discriminant analysis, despite it being published in a journal of eugenics. If the paper is old as hell, you'd probably want to add a modern reference too (e.g., Elements of Statistical Learning). Some people *will* subtract points when you don't cite the original source!
+-   **Cite the original source of a claim or fact.** Yes, this means you should cite 'Fisher, R. A. (1936). "The Use of Multiple Measurements in Taxonomic Problems" (PDF). Annals of Eugenics. 7 (2)" when you talk about discriminant analysis, despite it being published in a journal of eugenics. If the paper is old as hell, you'd probably want to add a modern reference too (e.g., Elements of Statistical Learning). Some people *will* subtract points when you don't cite the original source!
 
-* **Prefer journal articles to monographs and monograph to textbooks.** Try to avoid citing your textbooks, especially bachelor level textbooks, as it makes you look unprofessional. Exceptions include the universally cited textbooks, e.g., Elements of Statistical Learning and Lehmann's Testing Statistical Hypotheses. Check the number of citations of your textbook and find a more standard reference if the textbook is never cited.
+-   **Prefer journal articles to monographs and monograph to textbooks.** Try to avoid citing your textbooks, especially bachelor level textbooks, as it makes you look unprofessional. Exceptions include the universally cited textbooks, e.g., Elements of Statistical Learning and Lehmann's Testing Statistical Hypotheses. Check the number of citations of your textbook and find a more standard reference if the textbook is never cited.
 
-* **Avoid non-academic resources.** Sometimes it's very hard to find references for a claim in a scholarly resource. For instance, you might only be able to find something on the website of the SAS Institute. It is probably OK to have 1 - 2 of those in your thesis, but I strongly advice against littering your thesis with them. Again, the problem is that it makes your thesis look unprofessional.
-
+-   **Avoid non-academic resources.** Sometimes it's very hard to find references for a claim in a scholarly resource. For instance, you might only be able to find something on the website of the SAS Institute. It is probably OK to have 1 - 2 of those in your thesis, but I strongly advice against littering your thesis with them. Again, the problem is that it makes your thesis look unprofessional.

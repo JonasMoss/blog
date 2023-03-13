@@ -1,0 +1,47 @@
+---
+title: "Extremizing with the logistic model"
+author: "Jonas Moss"
+format: html
+editor: visual
+draft: true
+cache: true
+date: "3/13/2023"
+freeze: auto
+date-format: "MMM D, YYYY"
+categories: [forecasting, statistics]
+bibliography: bibliography.bib
+---
+
+This is a post forecast aggregation. Extremization in particular. If you're unfamiliar with forecast aggregation, see e.g. [this post](https://forum.effectivealtruism.org/posts/acREnv2Z5h4Fr5NWz/my-current-best-guess-on-how-to-aggregate-forecasts).
+
+Suppose we have $n$ equally skilled and knowledgeable forecasters with incomplete information, intending to forecast a binary event. The available information is completely encoded in $\mu\in\mathbb{R}$, and the probability of the event occurring is $p=F(\mu)$, where $F$ is the cumulative distribution of the logistic function. 
+
+The forecasters do not load completely on the available information. In other words, they are not aware of all the available information at one point in time -- or are not able to effectively compute what to do with it. The forecasters have, however, several sources of idiosyncratic and incorrect sources of information they load on. 
+
+Summing these idiosyncratic sources of information together with an error term, we can treat them as a single source of error, denoted $s$. 
+
+Let's model the situation using a logistic model.
+$$
+\begin{eqnarray*}
+z_{i} & \sim & \text{Logis}(\lambda\mu,s),\\
+z_{i} & = & \log\left(\frac{p_{i}}{1-p_{i}}\right).
+\end{eqnarray*}
+$$
+Here $\log(p/(1-p))$ is the quantile function of the logistic function, hence we assume that $p_{i}=F(z_{i}),$ where $F$ is the cumulative distribution function of the logistic distribution. I used the same transform to go from $\mu$ to $p$.
+
+Since the logistic function is symmetric, we have $EZ_{i}=\lambda\mu$. It follows that the available information equals $\mu=EZ_{i}/\lambda$. A natural estimator of $EZ_{i}$ is
+$$
+\frac{1}{n}\sum\log\left(\frac{p_{i}}{1-p_{i}}\right),
+$$
+and a natural estimator of $\mu$ is
+$$
+\hat{\mu}=\frac{1}{\lambda}\frac{1}{n}\sum\log\left(\frac{p_{i}}{1-p_{i}}\right).
+$$
+This is an extremizing estimator of the log-odds provided $0<\lambda<1$, which is very reasonable. Moreover, if $\lambda=1/\sqrt{3}\approx0.58,$ the estimator approximates the extremizing estimator derived by [Neyman and Roughgarden](https://arxiv.org/abs/2111.03153), discussed by Jamie Sevilla [here](https://forum.effectivealtruism.org/posts/biL94PKfeHmgHY6qe/principled-extremizing-of-aggregated-forecasts). My argument is similar to the one of [Satopää et al., 2014](https://www.sciencedirect.com/science/article/abs/pii/S0169207013001635).
+
+## Comments
+1. **Multiplicative bias.** I am assuming a multiplicative bias in $\mu\lambda$. The same kind of result does not occur if I assume the bias is additive. Moreover, doesn't people always assume there isn't bias of this kind when talking about the wisdom of the crowds and so on? Why should there the a multiplicative bias in this case? I believe the answer is simple: You can't expect anyone to know all the available information, or to know what to do with it. Of course, it *is* possible to overload on the information too, having $\lambda>1$, but it seems unlikely for the entire population of forecasters to have an average of $1$.
+2. **Extensions.** There are so many ways to extend this model. For instance, it doesn't allow for forecasters with different $\delta_i$s. Evidently, if we knew the $\lambda_i$s of all forecasters, we could modify the formula easily. Moreover, we don't use different $\sigma_i$s. Both these parameters can potentially be estimated for each forecaster, giving estimates of something like forecaster knowledge ($\lambda_i$) and forecaster skill (how good he is at applying his knowledge, or $\sigma_i$). 
+3. **Question-specific.** Consider the problem of estimating the [weight of a cow](https://www.npr.org/sections/money/2015/08/07/429720443/17-205-people-guessed-the-weight-of-a-cow-heres-how-they-did). In this experiment, the true weight was $1272$ lbs, and the mean forecasted weight was $1355$lbs, suggesting a $\delta$ of $1.06.$ The $\delta$ appears not to be a statistical artifact, as the standard deviation appears to be less than $1000$. A conservative $95\%$ confidence interval would be about $1272\pm 16$. 
+4. **Sensitivity.** The same kind of extremizing happens in every model of this kind (e.g., using a normal instead of a logistic), as the relationship between $E(Z_i)$ and $\mu\lambda$ still holds. The *formula* won't be the same, but the behavior will be similar.
+
